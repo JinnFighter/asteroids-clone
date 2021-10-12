@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Entity
+public class EcsEntity
 {
     private readonly Dictionary<Type, object> _components;
 
-    public Entity()
+    public EcsEntity()
     {
         _components = new Dictionary<Type, object>();
     }

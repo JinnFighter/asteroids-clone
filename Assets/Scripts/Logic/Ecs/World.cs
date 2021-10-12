@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 public class World
 {
-    private readonly List<Entity> _entities;
+    private readonly List<EcsEntity> _entities;
 
     public World()
     {
-        _entities = new List<Entity>();
+        _entities = new List<EcsEntity>();
     }
 
-    public Entity CreateEntity()
+    public EcsEntity CreateEntity()
     {
-        var entity = new Entity();
+        var entity = new EcsEntity();
         _entities.Add(entity);
         return entity;
     }

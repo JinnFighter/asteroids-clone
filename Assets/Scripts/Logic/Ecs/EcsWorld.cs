@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
-public class World
+public class EcsWorld
 {
     private readonly List<EcsEntity> _entities;
 
-    public World()
+    public EcsWorld()
     {
         _entities = new List<EcsEntity>();
     }

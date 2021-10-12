@@ -1,4 +1,4 @@
 public interface IEcsRunSystem
 {
-    void Run(World world);
+    void Run(EcsWorld ecsWorld);
 }

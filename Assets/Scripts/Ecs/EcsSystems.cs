@@ -25,7 +25,11 @@ public class EcsSystems
         return this;
     }
     
-    public void AddDataCollection(object obj) => _services[obj.GetType()] = obj;
+    public EcsSystems AddDataCollection(object obj)
+    {
+        _services[obj.GetType()] = obj;
+        return this;
+    }
 
     public T GetDataCollection<T>()
     {

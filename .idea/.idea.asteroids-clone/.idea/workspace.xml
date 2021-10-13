@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e31b13a-9b8b-437e-b0bf-3c3240248832" name="Changes" comment="">
+    <list default="true" id="1e31b13a-9b8b-437e-b0bf-3c3240248832" name="Changes" comment="fix: gitignore project name #3">
       <change afterPath="$PROJECT_DIR$/Assets/Scripts/Ecs/EcsFilter.cs" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Assets/Scripts/Ecs/EcsFilter.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.asteroids-clone/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.asteroids-clone/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

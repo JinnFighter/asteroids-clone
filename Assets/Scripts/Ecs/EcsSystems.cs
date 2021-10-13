@@ -37,5 +37,7 @@ public class EcsSystems
     {
         foreach (var system in _runSystems)
             system.Run(_world);
+        
+        _world.Cleanup();
     }
 }

@@ -68,4 +68,12 @@ public class EcsWorld
         entity.HasComponent<T3>() &&
         entity.HasComponent<T4>() &&
         entity.HasComponent<T5>()));
+
+    public void Cleanup()
+    {
+        var emptyEntities = _entities.Where(entity => entity.GetComponentsCount() == 0).ToList();
+
+        foreach (var emptyEntity in emptyEntities)
+            _entities.Remove(emptyEntity);
+    }
 }

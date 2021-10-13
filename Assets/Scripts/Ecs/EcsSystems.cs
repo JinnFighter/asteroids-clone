@@ -9,8 +9,6 @@ public class EcsSystems
     private readonly List<IEcsRunSystem> _runSystems;
     private readonly List<IEcsRunSystem> _removeOneFrameSystems;
     private readonly Dictionary<Type, object> _services;
-    
-    private readonly HashSet<Type> _oneFrameTypes;
 
     public EcsSystems(EcsWorld world)
     {
@@ -18,7 +16,6 @@ public class EcsSystems
         _runSystems = new List<IEcsRunSystem>();
         _removeOneFrameSystems = new List<IEcsRunSystem>();
         _services = new Dictionary<Type, object>();
-        _oneFrameTypes = new HashSet<Type>();
     }
 
     public EcsSystems AddSystem(IEcsRunSystem runSystem)

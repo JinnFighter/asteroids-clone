@@ -7,14 +7,16 @@ public class EcsSystems
     private readonly EcsWorld _world;
 
     private readonly List<IEcsRunSystem> _runSystems;
+    private readonly List<IEcsRunSystem> _removeOneFrameSystems;
     private readonly Dictionary<Type, object> _services;
-
+    
     private readonly HashSet<Type> _oneFrameTypes;
 
     public EcsSystems(EcsWorld world)
     {
         _world = world;
         _runSystems = new List<IEcsRunSystem>();
+        _removeOneFrameSystems = new List<IEcsRunSystem>();
         _services = new Dictionary<Type, object>();
         _oneFrameTypes = new HashSet<Type>();
     }
@@ -50,7 +52,7 @@ public class EcsSystems
 
     public EcsSystems OneFrame<T>() where T : struct
     {
-        _oneFrameTypes.Add(typeof(T));
+        _removeOneFrameSystems.Add(new RemoveOneFrameSystem<T>());
         return this;
     }
 }

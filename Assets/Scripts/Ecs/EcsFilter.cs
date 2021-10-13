@@ -19,6 +19,10 @@ namespace Ecs
             where T : struct
             where T1 : struct => new EcsFilter(_entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
 
+        public int GetEntitiesCount() => _entities.Count;
+
+        public bool IsEmpty() => _entities.Count == 0;
+
         public IEnumerator<EcsEntity> GetEnumerator() => new EcsFilterEnumerator(_entities);
 
         IEnumerator IEnumerable.GetEnumerator()

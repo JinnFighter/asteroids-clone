@@ -15,7 +15,7 @@ public class EcsFilter : IEnumerable<EcsEntity>
     
     public EcsFilter Exclude<T, T1>() => new EcsFilter(_entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
 
-    public IEnumerator<EcsEntity> GetEnumerator() => new FilterEnumerator(_entities);
+    public IEnumerator<EcsEntity> GetEnumerator() => new EcsFilterEnumerator(_entities);
 
     IEnumerator IEnumerable.GetEnumerator()
     {

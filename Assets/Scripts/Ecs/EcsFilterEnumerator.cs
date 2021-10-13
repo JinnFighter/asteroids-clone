@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class FilterEnumerator : IEnumerator<EcsEntity>
+public class EcsFilterEnumerator : IEnumerator<EcsEntity>
 {
     private readonly List<EcsEntity> _entities;
     private int _position;
 
-    public FilterEnumerator(IEnumerable<EcsEntity> entities)
+    public EcsFilterEnumerator(IEnumerable<EcsEntity> entities)
     {
         _entities = new List<EcsEntity>(entities);
         _position = -1;

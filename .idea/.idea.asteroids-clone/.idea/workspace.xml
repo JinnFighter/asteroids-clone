@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e31b13a-9b8b-437e-b0bf-3c3240248832" name="Changes" comment="chg: gitignore rules for JetBrains Rider files #2" />
+    <list default="true" id="1e31b13a-9b8b-437e-b0bf-3c3240248832" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Ecs/EcsFilter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Ecs/EcsFilter.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.asteroids-clone/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.asteroids-clone/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +16,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/../sim_life/Sim_life/Managers/GameBoardData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Ecs/EcsFilter.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1zQ8wSQEEZ4rr2pigRRkNhYz80F" />
   <component name="ProjectLevelVcsManager">
@@ -28,6 +33,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -62,6 +68,7 @@
       <updated>1634069197733</updated>
       <workItem from="1634069201437" duration="9000" />
       <workItem from="1634069419237" duration="1255000" />
+      <workItem from="1634117482191" duration="1338000" />
     </task>
     <task id="LOCAL-00001" summary="add World class">
       <created>1634069587441</created>
@@ -105,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634071778022</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add gitignore for Rider">
+      <created>1634072245865</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1634072245865</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -124,10 +138,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="add: World class #2" />
     <MESSAGE value="add: IEcsRunSystem interface #2" />
     <MESSAGE value="chg: renamed Entity to EcsEntity #2" />
@@ -135,6 +149,7 @@
     <MESSAGE value="add: EcsSystems #2" />
     <MESSAGE value="add: Entity class #2" />
     <MESSAGE value="chg: gitignore rules for JetBrains Rider files #2" />
-    <option name="LAST_COMMIT_MESSAGE" value="chg: gitignore rules for JetBrains Rider files #2" />
+    <MESSAGE value="add gitignore for Rider" />
+    <option name="LAST_COMMIT_MESSAGE" value="add gitignore for Rider" />
   </component>
 </project>

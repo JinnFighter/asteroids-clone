@@ -1,9 +1,14 @@
-internal class RemoveOneFrameSystem<T> : IEcsRunSystem where T : struct
+using Ecs.Interfaces;
+
+namespace Ecs.Systems
 {
-    public void Run(EcsWorld ecsWorld)
+    internal class RemoveOneFrameSystem<T> : IEcsRunSystem where T : struct
     {
-        var filter = ecsWorld.GetFilter<T>();
-        foreach (var entity in filter)
-            entity.RemoveComponent<T>();
+        public void Run(EcsWorld ecsWorld)
+        {
+            var filter = ecsWorld.GetFilter<T>();
+            foreach (var entity in filter)
+                entity.RemoveComponent<T>();
+        }
     }
 }

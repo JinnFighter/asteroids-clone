@@ -1,4 +1,7 @@
-public interface IEcsRunSystem
+namespace Ecs.Interfaces
 {
-    void Run(EcsWorld ecsWorld);
+    public interface IEcsRunSystem
+    {
+        void Run(EcsWorld ecsWorld);
+    }
 }

@@ -45,4 +45,6 @@ public class EcsEntity
         AddComponent(component);
         return component;
     }
+
+    public int GetComponentsCount() => _components.Values.Count;
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +23,7 @@ public class EcsEntity
     public bool HasComponent<T>() where T : struct
     {
         var type = typeof(T);
-        return _components.ContainsKey(type) && _components[type] != null || _components.Values.Any(val => val is T); ;
+        return _components.ContainsKey(type) && _components[type] != null || _components.Values.Any(val => val is T);
     }
 
 

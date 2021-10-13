@@ -9,11 +9,14 @@ public class EcsSystems
     private readonly List<IEcsRunSystem> _runSystems;
     private readonly Dictionary<Type, object> _services;
 
+    private readonly HashSet<Type> _oneFrameTypes;
+
     public EcsSystems(EcsWorld world)
     {
         _world = world;
         _runSystems = new List<IEcsRunSystem>();
         _services = new Dictionary<Type, object>();
+        _oneFrameTypes = new HashSet<Type>();
     }
 
     public EcsSystems AddSystem(IEcsRunSystem runSystem)
@@ -39,5 +42,11 @@ public class EcsSystems
             system.Run(_world);
         
         _world.Cleanup();
+    }
+
+    public EcsSystems OneFrame<T>() where T : struct
+    {
+        _oneFrameTypes.Add(typeof(T));
+        return this;
     }
 }

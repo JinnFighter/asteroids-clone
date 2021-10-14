@@ -40,6 +40,9 @@ namespace Physics
         
         public static Vector2 operator *(float d, Vector2 vector2) => new Vector2(vector2.X * d, vector2.Y * d);
         
+        public static Vector2 operator +(Vector2 left, Vector2 right) =>
+            new Vector2(left.X + right.X, left.Y + right.Y);
+        
         public static Vector2 Zero => new Vector2(0, 0);
         
         public static Vector2 One => new Vector2(1, 1);

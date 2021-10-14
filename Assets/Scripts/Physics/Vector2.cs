@@ -2,21 +2,27 @@ namespace Physics
 {
     public readonly struct Vector2
     {
-        public readonly int X;
-        public readonly int Y;
+        public readonly float X;
+        public readonly float Y;
+
+        public Vector2(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
 
         public override bool Equals(object obj) => obj is Vector2 vector2 && vector2.X == X && vector2.Y == Y;
 
         public bool Equals(Vector2 other)
         {
-            return X == other.X && Y == other.Y;
+            return X.Equals(other.X) && Y.Equals(other.Y);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (X * 397) ^ Y;
+                return (X.GetHashCode() * 397) ^ Y.GetHashCode();
             }
         }
 

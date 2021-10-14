@@ -4,21 +4,21 @@ namespace Physics
 {
     public class PhysicsWorld
     {
-        private readonly List<Rigidbody2D> _rigidbodies;
+        private readonly List<CustomRigidbody2D> _rigidbodies;
         private readonly Vector2 _gravity;
 
         public PhysicsWorld()
         {
-            _rigidbodies = new List<Rigidbody2D>();
+            _rigidbodies = new List<CustomRigidbody2D>();
             _gravity = new Vector2(0, -9.81f);
         }
 
-        public void AddRigidbody(Rigidbody2D rigidbody2D) => _rigidbodies.Add(rigidbody2D);
+        public void AddRigidbody(CustomRigidbody2D customRigidbody2D) => _rigidbodies.Add(customRigidbody2D);
 
-        public void RemoveRigidbody(Rigidbody2D rigidbody2D)
+        public void RemoveRigidbody(CustomRigidbody2D customRigidbody2D)
         {
-            if (_rigidbodies.Contains(rigidbody2D))
-                _rigidbodies.Remove(rigidbody2D);
+            if (_rigidbodies.Contains(customRigidbody2D))
+                _rigidbodies.Remove(customRigidbody2D);
         }
 
         public void Step(float dt)

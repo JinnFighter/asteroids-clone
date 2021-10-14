@@ -1,6 +1,6 @@
 namespace Physics
 {
-    public class Rigidbody2D
+    public class CustomRigidbody2D
     {
         public Vector2 Position;
         public Vector2 Velocity;
@@ -8,7 +8,7 @@ namespace Physics
         public float Mass;
         public bool UseGravity;
 
-        public Rigidbody2D()
+        public CustomRigidbody2D()
         {
             Position = Vector2.Zero;
             Velocity = Vector2.Zero;

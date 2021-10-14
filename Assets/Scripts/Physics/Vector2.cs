@@ -42,6 +42,6 @@ namespace Physics
         
         public static Vector2 Zero() => new Vector2(0, 0);
         
-        public static Vector2 One() => new Vector2(1, 1);
+        public static Vector2 One => new Vector2(1, 1);
     }
 }

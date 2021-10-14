@@ -1,24 +1,28 @@
-using Ecs;
+using Logic;
 using UnityEngine;
 
 namespace UnityScripts.Startups
 {
     public class Startup : MonoBehaviour
     {
-        private EcsWorld _world;
-        private EcsSystems _systems;
+        private RuntimeCore _runtimeCore;
         
         // Start is called before the first frame update
         void Start()
         {
-            _world = new EcsWorld();
-            _systems = new EcsSystems(_world);
+            _runtimeCore = new RuntimeCore();
+            _runtimeCore.Init();
         }
 
         // Update is called once per frame
         void Update()
         {
-            _systems?.Run();
+            _runtimeCore.Run();
+        }
+
+        private void OnDestroy()
+        {
+            _runtimeCore.Destroy();
         }
     }
 }

@@ -1,0 +1,16 @@
+{
+    "name": "UnityScripts.Startups",
+    "rootNamespace": "",
+    "references": [
+        "GUID:86dfecc963e133542b90392ffd71dcdb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

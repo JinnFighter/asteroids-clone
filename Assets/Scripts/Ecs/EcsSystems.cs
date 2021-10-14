@@ -28,13 +28,13 @@ namespace Ecs
             return this;
         }
     
-        public EcsSystems AddDataCollection(object obj)
+        public EcsSystems AddService(object obj)
         {
             _services[obj.GetType()] = obj;
             return this;
         }
 
-        public T GetDataCollection<T>()
+        public T GetService<T>()
         {
             var hasValue = _services.TryGetValue(typeof(T), out var res);
             if (hasValue)

@@ -6,6 +6,8 @@ namespace Physics
         public readonly float Y;
 
         private static readonly Vector2 _zero = new Vector2(0, 0);
+        
+        private static readonly Vector2 _one = new Vector2(1, 1);
 
         public Vector2(float x, float y)
         {
@@ -46,7 +48,7 @@ namespace Physics
             new Vector2(left.X + right.X, left.Y + right.Y);
 
         public static Vector2 Zero => _zero;
-        
-        public static Vector2 One => new Vector2(1, 1);
+
+        public static Vector2 One => _one;
     }
 }

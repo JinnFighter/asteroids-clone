@@ -51,6 +51,15 @@ namespace Ecs
             return (T) _services.Values.FirstOrDefault(val => val is T);
         }
 
+        public void Init()
+        {
+            while (_initSystems.Any())
+            {
+                var system = _initSystems.Dequeue();
+                system.Init(_world);
+            }
+        }
+
         public void Run()
         {
             foreach (var system in _runSystems)

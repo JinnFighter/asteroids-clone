@@ -10,17 +10,15 @@ namespace Logic
         public RuntimeCore()
         {
             _world = new EcsWorld();
-            _systems = new EcsSystems(_world);
+            _systems = new EcsSystems();
         }
-        
-        public void Init()
-        {
-            
-        }
+
+        public void Init() => _systems.Init(_world);
 
         public void Run()
         {
-            _systems?.Run();
+            _systems.Run(_world);
+            _world.RemoveEmptyEntities();
         }
 
         public void AddService(object service) => _systems.AddService(service);
@@ -29,7 +27,8 @@ namespace Logic
 
         public void Destroy()
         {
-            
+            _systems.Destroy(_world);
+            _world.Destroy();
         }
     }
 }

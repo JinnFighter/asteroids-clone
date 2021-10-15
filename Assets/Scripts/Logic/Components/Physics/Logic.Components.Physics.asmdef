@@ -1,7 +1,9 @@
 {
-    "name": "Logic.Components",
+    "name": "Logic.Components.Physics",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:1325b1ea927014649b289e48277d5ee6"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

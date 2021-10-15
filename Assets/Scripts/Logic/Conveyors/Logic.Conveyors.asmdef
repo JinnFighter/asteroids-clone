@@ -1,0 +1,16 @@
+{
+    "name": "Logic.Conveyors",
+    "rootNamespace": "",
+    "references": [
+        "GUID:de3377322b570d04e87f644ca662fd02"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

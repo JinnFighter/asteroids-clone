@@ -1,9 +1,7 @@
 {
     "name": "UnityScripts.Views",
     "rootNamespace": "",
-    "references": [
-        "GUID:1325b1ea927014649b289e48277d5ee6"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

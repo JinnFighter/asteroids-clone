@@ -1,9 +1,7 @@
-using Physics;
-
 namespace UnityScripts.Views
 {
     public interface IPhysicsBodyView
     {
-        void UpdatePosition(Vector2 position);
+        void UpdatePosition(float x, float y);
     }
 }

@@ -1,0 +1,16 @@
+{
+    "name": "UnityScripts.Views",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1325b1ea927014649b289e48277d5ee6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

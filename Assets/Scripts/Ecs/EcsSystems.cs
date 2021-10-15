@@ -29,6 +29,12 @@ namespace Ecs
             _runSystems.Add(runSystem);
             return this;
         }
+
+        public EcsSystems AddInitSystem(IEcsInitSystem initSystem)
+        {
+            _initSystems.Enqueue(initSystem);
+            return this;
+        }
     
         public EcsSystems AddService(object obj)
         {

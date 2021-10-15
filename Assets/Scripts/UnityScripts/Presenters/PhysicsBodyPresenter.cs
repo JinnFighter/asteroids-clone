@@ -1,5 +1,5 @@
 using Logic.Components.Physics;
-using Vector2 = Physics.Vector2;
+using Logic.OutboundEvents;
 
 namespace UnityScripts.Presenters
 {
@@ -13,7 +13,7 @@ namespace UnityScripts.Presenters
             _physicsBody.PositionChangedEvent += UpdatePosition;
         }
         
-        private void UpdatePosition(Vector2 position)
+        private void UpdatePosition(PositionChangedEvent position)
         {
         }
     }

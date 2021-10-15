@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7198773435553656850}
   - component: {fileID: 7198773435553656851}
+  - component: {fileID: 1914672802644516347}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -83,3 +84,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1914672802644516347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198773435553656848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a74a595d9030a419e8491fc8165fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

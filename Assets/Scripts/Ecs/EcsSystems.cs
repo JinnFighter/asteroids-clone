@@ -25,6 +25,12 @@ namespace Ecs
             _removeOneFrameSystems = new List<IEcsRunSystem>();
             _services = new Dictionary<Type, object>();
         }
+        
+        public EcsSystems AddInitSystem(IEcsInitSystem initSystem)
+        {
+            _initSystems.Enqueue(initSystem);
+            return this;
+        }
 
         public EcsSystems AddRunSystem(IEcsRunSystem runSystem)
         {
@@ -32,9 +38,9 @@ namespace Ecs
             return this;
         }
 
-        public EcsSystems AddInitSystem(IEcsInitSystem initSystem)
+        public EcsSystems AddOnDestroySystem(IEcsOnDestroySystem onDestroySystem)
         {
-            _initSystems.Enqueue(initSystem);
+            _onDestroySystems.Enqueue(onDestroySystem);
             return this;
         }
     

@@ -24,7 +24,7 @@ namespace Ecs
             _services = new Dictionary<Type, object>();
         }
 
-        public EcsSystems AddSystem(IEcsRunSystem runSystem)
+        public EcsSystems AddRunSystem(IEcsRunSystem runSystem)
         {
             _runSystems.Add(runSystem);
             return this;

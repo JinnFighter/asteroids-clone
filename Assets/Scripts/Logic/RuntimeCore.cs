@@ -27,7 +27,7 @@ namespace Logic
 
         public void Destroy()
         {
-            _systems.Destroy();
+            _systems.Destroy(_world);
             _world.Destroy();
         }
     }

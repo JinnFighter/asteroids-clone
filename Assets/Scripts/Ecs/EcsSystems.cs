@@ -83,12 +83,12 @@ namespace Ecs
             return this;
         }
 
-        public void Destroy()
+        public void Destroy(EcsWorld world)
         {
             while (_onDestroySystems.Any())
             {
                 var system = _onDestroySystems.Dequeue();
-                system.OnDestroy(_world);
+                system.OnDestroy(world);
                 
                 _runSystems.Clear();
                 _removeOneFrameSystems.Clear();

@@ -12,11 +12,8 @@ namespace Logic
             _world = new EcsWorld();
             _systems = new EcsSystems(_world);
         }
-        
-        public void Init()
-        {
-            
-        }
+
+        public void Init() => _systems.Init();
 
         public void Run()
         {

@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157e04815bb2423478a0891a511dd910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shipView: {fileID: 365813873}
 --- !u!4 &114308410
 Transform:
   m_ObjectHideFlags: 0
@@ -166,6 +167,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &365813873 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7198773435553656848, guid: 41a39b6a1da4a684aa2b76513f2f4bd2, type: 3}
+  m_PrefabInstance: {fileID: 7198773435768262753}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &419103786
 GameObject:
   m_ObjectHideFlags: 0

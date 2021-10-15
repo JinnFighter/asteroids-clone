@@ -68,13 +68,13 @@ namespace Ecs
             }
         }
 
-        public void Run()
+        public void Run(EcsWorld world)
         {
             foreach (var system in _runSystems)
-                system.Run(_world);
+                system.Run(world);
 
             foreach (var removeOneFrameSystem in _removeOneFrameSystems)
-                removeOneFrameSystem.Run(_world);
+                removeOneFrameSystem.Run(world);
         }
 
         public EcsSystems OneFrame<T>() where T : struct

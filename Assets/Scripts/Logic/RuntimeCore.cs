@@ -17,7 +17,7 @@ namespace Logic
 
         public void Run()
         {
-            _systems.Run();
+            _systems.Run(_world);
             _world.Cleanup();
         }
 

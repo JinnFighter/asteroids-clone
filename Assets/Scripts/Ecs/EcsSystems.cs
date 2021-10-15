@@ -76,5 +76,10 @@ namespace Ecs
             _removeOneFrameSystems.Add(new RemoveOneFrameSystem<T>());
             return this;
         }
+
+        public void Destroy()
+        {
+            
+        }
     }
 }

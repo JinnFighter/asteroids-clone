@@ -8,17 +8,15 @@ namespace Ecs
 {
     public class EcsSystems
     {
-        private readonly EcsWorld _world;
-
         private readonly Queue<IEcsInitSystem> _initSystems;
         private readonly List<IEcsRunSystem> _runSystems;
         private readonly Queue<IEcsOnDestroySystem> _onDestroySystems;
         private readonly List<IEcsRunSystem> _removeOneFrameSystems;
+        
         private readonly Dictionary<Type, object> _services;
 
-        public EcsSystems(EcsWorld world)
+        public EcsSystems()
         {
-            _world = world;
             _initSystems = new Queue<IEcsInitSystem>();
             _runSystems = new List<IEcsRunSystem>();
             _onDestroySystems = new Queue<IEcsOnDestroySystem>();

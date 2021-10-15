@@ -78,5 +78,7 @@ namespace Ecs
             foreach (var emptyEntity in emptyEntities)
                 _entities.Remove(emptyEntity);
         }
+
+        public void Destroy() => _entities.Clear();
     }
 }

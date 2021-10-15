@@ -1,0 +1,17 @@
+{
+    "name": "UnityScripts.Presenters",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1bc34111a80810b4dac6bfbc5939f997",
+        "GUID:1325b1ea927014649b289e48277d5ee6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

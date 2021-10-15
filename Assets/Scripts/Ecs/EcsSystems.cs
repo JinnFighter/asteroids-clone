@@ -10,6 +10,7 @@ namespace Ecs
     {
         private readonly EcsWorld _world;
 
+        private readonly Queue<IEcsInitSystem> _initSystems;
         private readonly List<IEcsRunSystem> _runSystems;
         private readonly List<IEcsRunSystem> _removeOneFrameSystems;
         private readonly Dictionary<Type, object> _services;
@@ -17,6 +18,7 @@ namespace Ecs
         public EcsSystems(EcsWorld world)
         {
             _world = world;
+            _initSystems = new Queue<IEcsInitSystem>();
             _runSystems = new List<IEcsRunSystem>();
             _removeOneFrameSystems = new List<IEcsRunSystem>();
             _services = new Dictionary<Type, object>();

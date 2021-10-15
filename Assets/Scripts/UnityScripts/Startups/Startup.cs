@@ -11,6 +11,7 @@ namespace UnityScripts.Startups
         void Start()
         {
             _runtimeCore = new RuntimeCore();
+            _runtimeCore.Setup();
             _runtimeCore.Init();
         }
 

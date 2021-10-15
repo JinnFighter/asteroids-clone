@@ -1,4 +1,6 @@
 using Ecs;
+using Logic.Conveyors;
+using Physics;
 
 namespace Logic
 {
@@ -15,7 +17,9 @@ namespace Logic
 
         public void Setup()
         {
-            
+            var physicsWorld = new PhysicsWorld();
+            _systems.AddService(physicsWorld);
+            _systems.AddService(new ShipConveyor(physicsWorld));
         }
 
         public void Init() => _systems.Init(_world);

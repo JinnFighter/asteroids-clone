@@ -71,7 +71,7 @@ namespace Ecs
             entity.HasComponent<T4>() &&
             entity.HasComponent<T5>()));
 
-        public void Cleanup()
+        public void RemoveEmptyEntities()
         {
             var emptyEntities = _entities.Where(entity => entity.GetComponentsCount() == 0).ToList();
 

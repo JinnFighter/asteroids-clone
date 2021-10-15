@@ -18,7 +18,7 @@ namespace Logic
         public void Run()
         {
             _systems.Run(_world);
-            _world.Cleanup();
+            _world.RemoveEmptyEntities();
         }
 
         public void AddService(object service) => _systems.AddService(service);

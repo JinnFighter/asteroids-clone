@@ -87,10 +87,10 @@ namespace Ecs
             {
                 var system = _onDestroySystems.Dequeue();
                 system.OnDestroy(world);
-                
-                _runSystems.Clear();
-                _removeOneFrameSystems.Clear();
             }
+            
+            _runSystems.Clear();
+            _removeOneFrameSystems.Clear();
         }
     }
 }

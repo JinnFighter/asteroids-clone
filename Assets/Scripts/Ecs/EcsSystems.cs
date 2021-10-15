@@ -75,8 +75,6 @@ namespace Ecs
 
             foreach (var removeOneFrameSystem in _removeOneFrameSystems)
                 removeOneFrameSystem.Run(_world);
-
-            _world.Cleanup();
         }
 
         public EcsSystems OneFrame<T>() where T : struct

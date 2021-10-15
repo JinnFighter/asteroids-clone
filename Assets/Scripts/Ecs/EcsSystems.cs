@@ -87,7 +87,14 @@ namespace Ecs
 
         public void Destroy()
         {
-            
+            while (_onDestroySystems.Any())
+            {
+                var system = _onDestroySystems.Dequeue();
+                system.OnDestroy(_world);
+                
+                _runSystems.Clear();
+                _removeOneFrameSystems.Clear();
+            }
         }
     }
 }

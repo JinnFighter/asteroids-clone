@@ -91,6 +91,8 @@ namespace Ecs
             
             _runSystems.Clear();
             _removeOneFrameSystems.Clear();
+            
+            _services.Clear();
         }
     }
 }

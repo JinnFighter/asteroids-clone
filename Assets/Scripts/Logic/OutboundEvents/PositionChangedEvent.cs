@@ -1,8 +1,8 @@
 namespace Logic.OutboundEvents
 {
-    public readonly struct PositionChangedEvent
+    public struct PositionChangedEvent
     {
-        public readonly float X;
-        public readonly float Y;
+        public float X;
+        public float Y;
     }
 }

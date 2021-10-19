@@ -1,6 +1,8 @@
 using Ecs;
 using Logic.Components.Physics;
 using Logic.Conveyors;
+using UnityEngine;
+using UnityScripts.Containers;
 using UnityScripts.Presenters;
 using UnityScripts.Views;
 
@@ -9,10 +11,11 @@ namespace UnityScripts.Conveyors
     public class ShipGameObjectConveyor : EntityConveyor
     {
         private readonly IPhysicsBodyView _physicsBodyView;
+        private readonly PrefabsContainer _prefabsContainer;
 
-        public ShipGameObjectConveyor(IPhysicsBodyView physicsBodyView)
+        public ShipGameObjectConveyor(PrefabsContainer prefabsContainer)
         {
-            _physicsBodyView = physicsBodyView;
+            _prefabsContainer = prefabsContainer;
         }
         
         protected override void UpdateItemInternal(EcsEntity item)
@@ -20,7 +23,8 @@ namespace UnityScripts.Conveyors
             if (item.HasComponent<PhysicsBody>())
             {
                 var physicsBody = item.GetComponent<PhysicsBody>();
-                var presenter = new PhysicsBodyPresenter(physicsBody, _physicsBodyView);
+                var shipGameObject = Object.Instantiate(_prefabsContainer.ShipPrefab);
+                var presenter = new PhysicsBodyPresenter(physicsBody, shipGameObject.GetComponent<PhysicsBodyView>());
             }
         }
     }

@@ -1,22 +1,21 @@
 using Ecs;
 using Logic.Components.Physics;
-using Physics;
+using Logic.Factories;
 
 namespace Logic.Conveyors
 {
     public class ShipConveyor : EntityConveyor
     {
-        private readonly PhysicsWorld _physicsWorld;
+        private readonly IPhysicsObjectFactory _physicsObjectFactory;
 
-        public ShipConveyor(PhysicsWorld physicsWorld)
+        public ShipConveyor(IPhysicsObjectFactory physicsObjectFactory)
         {
-            _physicsWorld = physicsWorld;
+            _physicsObjectFactory = physicsObjectFactory;
         }
         
         protected override void UpdateItemInternal(EcsEntity item)
         {
-            var rigidbody2D = new CustomRigidbody2D();
-            _physicsWorld.AddRigidbody(rigidbody2D);
+            var rigidbody2D = _physicsObjectFactory.CreateObject();
             var physicsComponent = new PhysicsBody { Rigidbody2D = rigidbody2D };
             item.AddComponent(physicsComponent);
         }

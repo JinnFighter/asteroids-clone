@@ -1,5 +1,6 @@
 using Ecs;
 using Logic.Conveyors;
+using Logic.Systems.Gameplay;
 using Physics;
 
 namespace Logic
@@ -22,7 +23,9 @@ namespace Logic
             _systems.AddService(new ShipConveyor(physicsWorld));
         }
 
-        public void Init() => _systems.Init(_world);
+        public void Init() => _systems
+            .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+            .Init(_world);
 
         public void Run()
         {

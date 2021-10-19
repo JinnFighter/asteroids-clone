@@ -2,7 +2,7 @@ using Physics;
 
 namespace Logic.Factories
 {
-    public interface IPhysicsObjectFactory
+    public interface IRigidbodyFactory
     {
         CustomRigidbody2D CreateObject();
     }

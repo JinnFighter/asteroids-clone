@@ -2,11 +2,11 @@ using Physics;
 
 namespace Logic.Factories
 {
-    public class PhysicsObjectFactory : IPhysicsObjectFactory
+    public class RigidbodyFactory : IRigidbodyFactory
     {
         private readonly PhysicsWorld _physicsWorld;
 
-        public PhysicsObjectFactory(PhysicsWorld physicsWorld)
+        public RigidbodyFactory(PhysicsWorld physicsWorld)
         {
             _physicsWorld = physicsWorld;
         }

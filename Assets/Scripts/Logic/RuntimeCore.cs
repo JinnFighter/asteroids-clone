@@ -20,7 +20,7 @@ namespace Logic
         public void Setup()
         {
             var physicsWorld = new PhysicsWorld();
-            var physicsObjectFactory = new PhysicsObjectFactory(physicsWorld);
+            var physicsObjectFactory = new RigidbodyFactory(physicsWorld);
             _systems.AddService(physicsObjectFactory);
             _systems.AddService(new ShipConveyor(physicsObjectFactory));
         }

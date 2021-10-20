@@ -1,5 +1,8 @@
 using Logic;
+using Logic.Conveyors;
 using UnityEngine;
+using UnityScripts.Containers;
+using UnityScripts.Conveyors;
 
 namespace UnityScripts.Startups
 {
@@ -7,10 +10,17 @@ namespace UnityScripts.Startups
     {
         private RuntimeCore _runtimeCore;
         
+        private PrefabsContainer _prefabsContainer;
+
         // Start is called before the first frame update
         void Start()
         {
+            _prefabsContainer = GetComponent<PrefabsContainer>();
             _runtimeCore = new RuntimeCore();
+            _runtimeCore.Setup();
+            
+            var shipConveyor = _runtimeCore.GetService<ShipConveyor>();
+            shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer));
             _runtimeCore.Init();
         }
 

@@ -1,4 +1,5 @@
 using Ecs;
+using Logic.Components.Input;
 using Logic.Conveyors;
 using Logic.Factories;
 using Logic.Systems.Gameplay;
@@ -27,6 +28,7 @@ namespace Logic
 
         public void Init() => _systems
             .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+            .OneFrame<InputAction>()
             .Init(_world);
 
         public void Run()

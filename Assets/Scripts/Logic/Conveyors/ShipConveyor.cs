@@ -1,14 +1,15 @@
 using Ecs;
 using Logic.Components.Physics;
 using Logic.Factories;
+using Physics;
 
 namespace Logic.Conveyors
 {
     public class ShipConveyor : EntityConveyor
     {
-        private readonly IRigidbodyFactory _rigidbodyFactory;
+        private readonly IFactory<CustomRigidbody2D> _rigidbodyFactory;
 
-        public ShipConveyor(IRigidbodyFactory rigidbodyFactory)
+        public ShipConveyor(IFactory<CustomRigidbody2D> rigidbodyFactory)
         {
             _rigidbodyFactory = rigidbodyFactory;
         }

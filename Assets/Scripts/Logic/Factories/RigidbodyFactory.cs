@@ -2,7 +2,7 @@ using Physics;
 
 namespace Logic.Factories
 {
-    public class RigidbodyFactory : IRigidbodyFactory, IFactory<CustomRigidbody2D>
+    public class RigidbodyFactory : IFactory<CustomRigidbody2D>
     {
         private readonly PhysicsWorld _physicsWorld;
 

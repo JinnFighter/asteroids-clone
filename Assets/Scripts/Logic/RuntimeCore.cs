@@ -38,6 +38,7 @@ namespace Logic
         public void Init() => _systems
             .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
             .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<PhysicsWorld>(), _systems.GetService<TimeContainer>()))
+            .AddRunSystem(new UpdatePhysicsBodiesPositionSystem())
             .OneFrame<InputAction>()
             .Init(_world);
 

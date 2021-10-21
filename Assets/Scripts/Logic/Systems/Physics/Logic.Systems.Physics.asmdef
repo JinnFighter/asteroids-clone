@@ -1,0 +1,18 @@
+{
+    "name": "Logic.Systems.Physics",
+    "rootNamespace": "",
+    "references": [
+        "GUID:de3377322b570d04e87f644ca662fd02",
+        "GUID:1325b1ea927014649b289e48277d5ee6",
+        "GUID:2817e85e750526c488eae6031e299070"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

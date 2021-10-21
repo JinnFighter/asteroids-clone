@@ -1,8 +1,11 @@
 using Logic;
 using Logic.Conveyors;
+using Logic.EventAttachers;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityScripts.Containers;
 using UnityScripts.Conveyors;
+using UnityScripts.EventEmitters;
 
 namespace UnityScripts.Startups
 {
@@ -11,6 +14,8 @@ namespace UnityScripts.Startups
         private RuntimeCore _runtimeCore;
         
         private PrefabsContainer _prefabsContainer;
+
+        public PlayerInput PlayerInput;
 
         // Start is called before the first frame update
         void Start()
@@ -21,6 +26,7 @@ namespace UnityScripts.Startups
             
             var shipConveyor = _runtimeCore.GetService<ShipConveyor>();
             shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer));
+            var inputEventEmitter = new InputEventEmitter(_runtimeCore.GetService<IEventAttacher>(), PlayerInput);
             _runtimeCore.Init();
         }
 

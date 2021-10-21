@@ -7,14 +7,12 @@ namespace UnityScripts.EventEmitters
     public class InputEventEmitter
     {
         private readonly IEventAttacher _eventAttacher;
-        private readonly PlayerInput _playerInput;
 
         public InputEventEmitter(IEventAttacher eventAttacher, PlayerInput playerInput)
         {
             _eventAttacher = eventAttacher;
-            _playerInput = playerInput;
 
-            foreach (var action in _playerInput.actions)
+            foreach (var action in playerInput.actions)
             {
                 action.performed += CreateInputEvent;
                 action.Enable();

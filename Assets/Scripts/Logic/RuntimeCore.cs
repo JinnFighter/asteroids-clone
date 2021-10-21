@@ -3,6 +3,7 @@ using Logic.Components.Input;
 using Logic.Conveyors;
 using Logic.EventAttachers;
 using Logic.Factories;
+using Logic.Services;
 using Logic.Systems.Gameplay;
 using Physics;
 
@@ -23,10 +24,12 @@ namespace Logic
         {
             var physicsWorld = new PhysicsWorld();
             var physicsObjectFactory = new RigidbodyFactory(physicsWorld);
+            var timeContainer = new TimeContainer();
             _systems
                 .AddService(physicsObjectFactory)
                 .AddService(new ShipConveyor(physicsObjectFactory))
-                .AddService(new DefaultEventAttacher(_world));
+                .AddService(new DefaultEventAttacher(_world))
+                .AddService(timeContainer);
         }
 
         public void Init() => _systems

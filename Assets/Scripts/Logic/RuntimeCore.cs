@@ -30,9 +30,9 @@ namespace Logic
                 .AddService(physicsWorld)
                 .AddService(physicsObjectFactory)
                 .AddService(new ShipConveyor(physicsObjectFactory))
-                .AddService(new DefaultEventAttacher(_world))
+                .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
-                .AddService(new DefaultDeltaTimeCounter());
+                .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter());
         }
 
         public void Init() => _systems
@@ -55,6 +55,8 @@ namespace Logic
         }
 
         public void AddService(object service) => _systems.AddService(service);
+        
+        public void AddService<T, T1>(T1 service) where T1 : T => _systems.AddService<T, T1>(service);
 
         public T GetService<T>() => _systems.GetService<T>();
 

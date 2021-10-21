@@ -40,8 +40,14 @@ namespace Logic
 
         public void Run()
         {
+            var timeContainer = _systems.GetService<TimeContainer>();
+            var deltaTimeCounter = _systems.GetService<IDeltaTimeCounter>();
+            deltaTimeCounter.Reset();
+            
             _systems.Run(_world);
             _world.RemoveEmptyEntities();
+            
+            timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
 
         public void AddService(object service) => _systems.AddService(service);

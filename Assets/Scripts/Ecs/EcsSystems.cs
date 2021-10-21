@@ -47,6 +47,12 @@ namespace Ecs
             _services[obj.GetType()] = obj;
             return this;
         }
+        
+        public EcsSystems AddService<T, T1>(T1 obj) where T1 : T
+        {
+            _services[typeof(T)] = obj;
+            return this;
+        }
 
         public T GetService<T>()
         {

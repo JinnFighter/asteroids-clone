@@ -5,6 +5,7 @@ using Logic.EventAttachers;
 using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.Gameplay;
+using Logic.Systems.Physics;
 using Physics;
 
 namespace Logic
@@ -26,6 +27,7 @@ namespace Logic
             var physicsObjectFactory = new RigidbodyFactory(physicsWorld);
             var timeContainer = new TimeContainer();
             _systems
+                .AddService(physicsWorld)
                 .AddService(physicsObjectFactory)
                 .AddService(new ShipConveyor(physicsObjectFactory))
                 .AddService(new DefaultEventAttacher(_world))
@@ -35,6 +37,7 @@ namespace Logic
 
         public void Init() => _systems
             .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+            .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<PhysicsWorld>(), _systems.GetService<TimeContainer>()))
             .OneFrame<InputAction>()
             .Init(_world);
 

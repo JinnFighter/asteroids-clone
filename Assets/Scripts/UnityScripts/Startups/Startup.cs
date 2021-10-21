@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityScripts.Containers;
 using UnityScripts.Conveyors;
 using UnityScripts.EventEmitters;
+using UnityScripts.Services;
 
 namespace UnityScripts.Startups
 {
@@ -27,6 +28,8 @@ namespace UnityScripts.Startups
             var shipConveyor = _runtimeCore.GetService<ShipConveyor>();
             shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer));
             var inputEventEmitter = new InputEventEmitter(_runtimeCore.GetService<IEventAttacher>(), PlayerInput);
+            _runtimeCore.AddService(new UnityDeltaTimeCounter());
+            
             _runtimeCore.Init();
         }
 

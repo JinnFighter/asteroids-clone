@@ -3,7 +3,9 @@ using Logic.Components.Input;
 using Logic.Conveyors;
 using Logic.EventAttachers;
 using Logic.Factories;
+using Logic.Services;
 using Logic.Systems.Gameplay;
+using Logic.Systems.Physics;
 using Physics;
 
 namespace Logic
@@ -23,21 +25,33 @@ namespace Logic
         {
             var physicsWorld = new PhysicsWorld();
             var physicsObjectFactory = new RigidbodyFactory(physicsWorld);
+            var timeContainer = new TimeContainer();
             _systems
+                .AddService(physicsWorld)
                 .AddService(physicsObjectFactory)
                 .AddService(new ShipConveyor(physicsObjectFactory))
-                .AddService(new DefaultEventAttacher(_world));
+                .AddService(new DefaultEventAttacher(_world))
+                .AddService(timeContainer)
+                .AddService(new DefaultDeltaTimeCounter());
         }
 
         public void Init() => _systems
             .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+            .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<PhysicsWorld>(), _systems.GetService<TimeContainer>()))
+            .AddRunSystem(new UpdatePhysicsBodiesPositionSystem())
             .OneFrame<InputAction>()
             .Init(_world);
 
         public void Run()
         {
+            var timeContainer = _systems.GetService<TimeContainer>();
+            var deltaTimeCounter = _systems.GetService<IDeltaTimeCounter>();
+            deltaTimeCounter.Reset();
+            
             _systems.Run(_world);
             _world.RemoveEmptyEntities();
+            
+            timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
 
         public void AddService(object service) => _systems.AddService(service);

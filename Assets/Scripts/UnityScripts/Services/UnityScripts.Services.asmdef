@@ -1,0 +1,16 @@
+{
+    "name": "UnityScripts.Services",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2817e85e750526c488eae6031e299070"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

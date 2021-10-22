@@ -31,9 +31,8 @@ namespace Ecs
             var type = typeof(T);
             return _components.ContainsKey(type) && _components[type] != null || _components.Values.Any(val => val is T);
         }
-
-
-        public void AddComponent(object component) => _components[component.GetType()] = component;
+        
+        public void AddComponent<T>(in T component) where T : struct => _components[component.GetType()] = component;
 
         public void RemoveComponent<T>() where T : struct
         {

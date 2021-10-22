@@ -7,13 +7,13 @@ namespace Ecs
     {
         private readonly List<EcsEntity> _entities;
         private readonly EcsComponentManager _componentManager;
-        private readonly List<Filter> _filters;
+        private readonly List<EcsFilter> _filters;
 
         public EcsWorld()
         {
             _entities = new List<EcsEntity>();
             _componentManager = new EcsComponentManager();
-            _filters = new List<Filter>();
+            _filters = new List<EcsFilter>();
         }
 
         public EcsEntity CreateEntity()
@@ -23,13 +23,13 @@ namespace Ecs
             return entity;
         }
         
-        public Filter<T> GetFilter<T>() where T: struct
+        public EcsFilter<T> GetFilter<T>() where T: struct
         {
-            var neededFilters = _filters.Where(filter => filter.GetType() == typeof(Filter<T>)).Cast<Filter<T>>().ToList();
+            var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T>)).Cast<EcsFilter<T>>().ToList();
             if (neededFilters.Any())
                 return neededFilters.First();
             
-            var res = new Filter<T>(_entities.Where(entity => entity.HasComponent<T>()));
+            var res = new EcsFilter<T>(_entities.Where(entity => entity.HasComponent<T>()));
             _filters.Add(res);
             return res;
         }

@@ -6,11 +6,13 @@ namespace Ecs
 {
     public class EcsEntity
     {
+        private readonly EcsWorld _sourceWorld;
         private readonly Dictionary<Type, object> _components;
 
-        public EcsEntity()
+        public EcsEntity(EcsWorld world)
         {
             _components = new Dictionary<Type, object>();
+            _sourceWorld = world;
         }
 
         public T GetComponent<T>() where T : struct

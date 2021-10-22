@@ -14,7 +14,7 @@ namespace Ecs
 
         public EcsEntity CreateEntity()
         {
-            var entity = new EcsEntity();
+            var entity = new EcsEntity(this);
             _entities.Add(entity);
             return entity;
         }

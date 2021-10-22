@@ -76,6 +76,16 @@ namespace Ecs
             AddComponent(component);
             return component;
         }
+        
+        public T TryGetComponento<T>(Func<T> defaultFunc) where T : struct
+        {
+            if (HasComponento<T>())
+                return GetComponento<T>();
+
+            var component = defaultFunc();
+            AddComponento(component);
+            return component;
+        }
 
         public int GetComponentsCount() => _components.Values.Count;
     }

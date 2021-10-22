@@ -8,10 +8,12 @@ namespace Ecs
     {
         private readonly EcsWorld _sourceWorld;
         private readonly Dictionary<Type, object> _components;
+        private readonly Dictionary<Type, int> _componentIndexes;
 
         public EcsEntity(EcsWorld world)
         {
             _components = new Dictionary<Type, object>();
+            _componentIndexes = new Dictionary<Type, int>();
             _sourceWorld = world;
         }
 

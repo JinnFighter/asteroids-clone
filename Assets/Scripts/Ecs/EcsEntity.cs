@@ -8,7 +8,7 @@ namespace Ecs
         private readonly EcsComponentManager _componentManager;
         private readonly Dictionary<Type, int> _componentIndexes;
 
-        public EcsEntity(EcsComponentManager componentManager)
+        internal EcsEntity(EcsComponentManager componentManager)
         {
             _componentManager = componentManager;
             _componentIndexes = new Dictionary<Type, int>();

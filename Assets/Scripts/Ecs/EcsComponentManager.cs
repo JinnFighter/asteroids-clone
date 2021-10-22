@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecs
 {
-    public class EcsComponentManager
+    internal class EcsComponentManager
     {
         private readonly Dictionary<Type, object> _componentContainers;
 

@@ -21,6 +21,20 @@ namespace Ecs
             return entity;
         }
 
+        public IEnumerable<EcsEntity> GetEntitiesForFilter<T>() where T : struct 
+            => _entities.Where(entity => entity.HasComponent<T>());
+        
+        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1>() 
+            where T : struct
+            where T1 : struct
+            => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>());
+        
+        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2>() 
+            where T : struct
+            where T1 : struct
+            where T2 : struct
+            => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>() && entity.HasComponent<T2>());
+
         public EcsFilter GetFilter<T>() where T: struct => new EcsFilter(_entities.Where(entity => entity.HasComponent<T>()));
     
         public EcsFilter GetFilter<T, T1>() 

@@ -7,11 +7,13 @@ namespace Ecs
     {
         private readonly List<EcsEntity> _entities;
         private readonly EcsComponentManager _componentManager;
+        private readonly List<EcsFilter> _filters;
 
         public EcsWorld()
         {
             _entities = new List<EcsEntity>();
             _componentManager = new EcsComponentManager();
+            _filters = new List<EcsFilter>();
         }
 
         public EcsEntity CreateEntity()
@@ -21,57 +23,36 @@ namespace Ecs
             return entity;
         }
 
-        public EcsFilter GetFilter<T>() where T: struct => new EcsFilter(_entities.Where(entity => entity.HasComponent<T>()));
-    
-        public EcsFilter GetFilter<T, T1>() 
-            where T : struct
-            where T1 : struct => new EcsFilter(_entities.Where(entity => 
-            entity.HasComponent<T>() && 
-            entity.HasComponent<T1>()));
-    
-        public EcsFilter GetFilter<T, T1, T2>()
-            where T : struct
-            where T1 : struct
-            where T2 : struct => new EcsFilter(_entities.Where(entity => 
-            entity.HasComponent<T>() && 
-            entity.HasComponent<T1>() &&
-            entity.HasComponent<T2>()));
-    
-        public EcsFilter GetFilter<T, T1, T2, T3>()
-            where T : struct
-            where T1 : struct
-            where T2 : struct
-            where T3 : struct => new EcsFilter(_entities.Where(entity => 
-            entity.HasComponent<T>() && 
-            entity.HasComponent<T1>() &&
-            entity.HasComponent<T2>() &&
-            entity.HasComponent<T3>()));
-    
-        public EcsFilter GetFilter<T, T1, T2, T3, T4>()
+        public void UpdateFilters()
+        {
+            foreach (var filter in _filters)
+                filter.UpdateFilter(this);
+        }
+        
+        public EcsFilter<T> GetFilter<T>() where T: struct
+        {
+            var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T>)).Cast<EcsFilter<T>>().ToList();
+            if (neededFilters.Any())
+                return neededFilters.First();
+            
+            var res = new EcsFilter<T>(_entities.Where(entity => entity.HasComponent<T>()));
+            _filters.Add(res);
+            return res;
+        }
+
+        public IEnumerable<EcsEntity> GetEntitiesForFilter<T>() where T : struct 
+            => _entities.Where(entity => entity.HasComponent<T>());
+        
+        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1>() 
             where T : struct
             where T1 : struct
-            where T2 : struct
-            where T3 : struct
-            where T4 : struct => new EcsFilter(_entities.Where(entity => 
-            entity.HasComponent<T>() && 
-            entity.HasComponent<T1>() &&
-            entity.HasComponent<T2>() &&
-            entity.HasComponent<T3>() &&
-            entity.HasComponent<T4>()));
-    
-        public EcsFilter GetFilter<T, T1, T2, T3, T4, T5>() 
+            => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>());
+        
+        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2>() 
             where T : struct
             where T1 : struct
             where T2 : struct
-            where T3 : struct
-            where T4 : struct
-            where T5 : struct => new EcsFilter(_entities.Where(entity => 
-            entity.HasComponent<T>() && 
-            entity.HasComponent<T1>() &&
-            entity.HasComponent<T2>() &&
-            entity.HasComponent<T3>() &&
-            entity.HasComponent<T4>() &&
-            entity.HasComponent<T5>()));
+            => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>() && entity.HasComponent<T2>());
 
         public void RemoveEmptyEntities()
         {

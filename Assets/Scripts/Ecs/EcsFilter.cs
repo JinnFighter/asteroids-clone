@@ -4,30 +4,112 @@ using System.Linq;
 
 namespace Ecs
 {
-    public class EcsFilter : IEnumerable<EcsEntity>
+    public abstract class EcsFilter : IEnumerable<EcsEntity>
     {
-        private readonly List<EcsEntity> _entities;
+        protected readonly List<EcsEntity> Entities;
 
-        public EcsFilter(IEnumerable<EcsEntity> entities)
+        protected EcsFilter(IEnumerable<EcsEntity> entities)
         {
-            _entities = new List<EcsEntity>(entities);
+            Entities = new List<EcsEntity>(entities);
         }
 
-        public EcsFilter Exclude<T>() where T : struct => new EcsFilter(_entities.Where(entity => !entity.HasComponent<T>()));
-    
-        public EcsFilter Exclude<T, T1>() 
-            where T : struct
-            where T1 : struct => new EcsFilter(_entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
+        public void UpdateFilter(EcsWorld world)
+        {
+            RemoveEntitiesWithoutComponents();
+            var newEntities = GetNewEntities(world).Except(Entities).ToList();
+            foreach (var newEntity in newEntities)
+                Entities.Add(newEntity);
+        }
 
-        public int GetEntitiesCount() => _entities.Count;
-
-        public bool IsEmpty() => _entities.Count == 0;
-
-        public IEnumerator<EcsEntity> GetEnumerator() => new EcsFilterEnumerator(_entities);
+        protected abstract void RemoveEntitiesWithoutComponents();
+        protected abstract IEnumerable<EcsEntity> GetNewEntities(EcsWorld world);
+        
+        public IEnumerator<EcsEntity> GetEnumerator() => new EcsFilterEnumerator(Entities);
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
+        
+        public int GetEntitiesCount() => Entities.Count;
+
+        public bool IsEmpty() => Entities.Count == 0;
+    }
+    
+    public class EcsFilter<C> : EcsFilter where C : struct
+    {
+        public EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
+        {
+        }
+
+        protected override void RemoveEntitiesWithoutComponents()
+        {
+            var entitiesToRemove = Entities.Where(entity => !entity.HasComponent<C>()).ToList();
+            foreach (var entity in entitiesToRemove)
+                Entities.Remove(entity);
+        }
+
+        protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C>();
+
+        public EcsFilter<C> Exclude<T>() where T : struct =>
+            new EcsFilter<C>(Entities.Where(entity => !entity.HasComponent<T>()));
+        
+        public EcsFilter<C> Exclude<T1, T2>() 
+            where T1 : struct 
+            where T2 : struct
+            => new EcsFilter<C>(Entities.Where(entity => !(entity.HasComponent<T1>() || entity.HasComponent<T2>())));
+    }
+    
+    public class EcsFilter<C, C1> : EcsFilter 
+        where C : struct
+        where C1 : struct
+    {
+        public EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
+        {
+        }
+
+        protected override void RemoveEntitiesWithoutComponents()
+        {
+            var entitiesToRemove = Entities.Where(entity => !(entity.HasComponent<C>() || entity.HasComponent<C1>())).ToList();
+            foreach (var entity in entitiesToRemove)
+                Entities.Remove(entity);
+        }
+
+        protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1>();
+
+        public EcsFilter<C, C1> Exclude<T>() where T : struct =>
+            new EcsFilter<C, C1>(Entities.Where(entity => !entity.HasComponent<T>()));
+        
+        public EcsFilter<C, C1> Exclude<T, T1>() 
+            where T : struct 
+            where T1 : struct
+            => new EcsFilter<C, C1>(Entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
+    }
+    
+    public class EcsFilter<C, C1, C2> : EcsFilter 
+        where C : struct
+        where C1 : struct
+        where C2 : struct
+    {
+        public EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
+        {
+        }
+
+        protected override void RemoveEntitiesWithoutComponents()
+        {
+            var entitiesToRemove = Entities.Where(entity => !(entity.HasComponent<C>() || entity.HasComponent<C1>())).ToList();
+            foreach (var entity in entitiesToRemove)
+                Entities.Remove(entity);
+        }
+
+        protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1, C2>();
+
+        public EcsFilter<C, C1, C2> Exclude<T>() where T : struct =>
+            new EcsFilter<C, C1, C2>(Entities.Where(entity => !entity.HasComponent<T>()));
+        
+        public EcsFilter<C, C1, C2> Exclude<T, T1>() 
+            where T : struct 
+            where T1 : struct
+            => new EcsFilter<C, C1, C2>(Entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
     }
 }

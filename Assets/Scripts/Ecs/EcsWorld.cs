@@ -22,6 +22,12 @@ namespace Ecs
             _entities.Add(entity);
             return entity;
         }
+
+        public void UpdateFilters()
+        {
+            foreach (var filter in _filters)
+                filter.UpdateFilter(this);
+        }
         
         public EcsFilter<T> GetFilter<T>() where T: struct
         {

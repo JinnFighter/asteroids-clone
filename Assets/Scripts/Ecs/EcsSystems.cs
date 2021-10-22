@@ -75,10 +75,14 @@ namespace Ecs
         public void Run(EcsWorld world)
         {
             foreach (var system in _runSystems)
+            {
                 system.Run(world);
+                world.UpdateFilters();
+            }
 
             foreach (var removeOneFrameSystem in _removeOneFrameSystems)
                 removeOneFrameSystem.Run(world);
+            world.UpdateFilters();
         }
 
         public EcsSystems OneFrame<T>() where T : struct

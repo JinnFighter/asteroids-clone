@@ -6,15 +6,17 @@ namespace Ecs
     public class EcsWorld
     {
         private readonly List<EcsEntity> _entities;
+        private readonly EcsComponentManager _componentManager;
 
         public EcsWorld()
         {
             _entities = new List<EcsEntity>();
+            _componentManager = new EcsComponentManager();
         }
 
         public EcsEntity CreateEntity()
         {
-            var entity = new EcsEntity();
+            var entity = new EcsEntity(_componentManager);
             _entities.Add(entity);
             return entity;
         }

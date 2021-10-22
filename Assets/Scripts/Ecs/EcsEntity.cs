@@ -1,40 +1,44 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ecs
 {
     public class EcsEntity
     {
-        private readonly Dictionary<Type, object> _components;
+        private readonly EcsComponentManager _componentManager;
+        private readonly Dictionary<Type, int> _componentIndexes;
 
-        public EcsEntity()
+        internal EcsEntity(EcsComponentManager componentManager)
         {
-            _components = new Dictionary<Type, object>();
+            _componentManager = componentManager;
+            _componentIndexes = new Dictionary<Type, int>();
         }
 
-        public T GetComponent<T>() where T : struct
-        {
-            var hasValue = _components.TryGetValue(typeof(T), out var res);
-            if (hasValue)
-                return (T)res;
-
-            return (T)_components.Values.FirstOrDefault(val => val is T);
-        }
-
+        public ref T GetComponent<T>() where T : struct => ref _componentManager.GetComponent<T>(_componentIndexes[typeof(T)]);
+        
         public bool HasComponent<T>() where T : struct
         {
             var type = typeof(T);
-            return _components.ContainsKey(type) && _components[type] != null || _components.Values.Any(val => val is T);
+            return _componentIndexes.ContainsKey(type) && _componentManager.HasComponent<T>(_componentIndexes[type]);
         }
 
-
-        public void AddComponent(object component) => _components[component.GetType()] = component;
+        public void AddComponent<T>(in T component) where T : struct
+        {
+            var type = typeof(T);
+            if (_componentIndexes.ContainsKey(type))
+                _componentManager.ReplaceComponent(component, _componentIndexes[type]);
+            else
+                _componentIndexes[type] = _componentManager.AddComponent(component);
+        }
 
         public void RemoveComponent<T>() where T : struct
         {
             if (HasComponent<T>())
-                _components.Remove(typeof(T));
+            {
+                var type = typeof(T);
+                _componentManager.RemoveComponent<T>(_componentIndexes[type]);
+                _componentIndexes.Remove(type);
+            }
         }
 
         public T TryGetComponent<T>(Func<T> defaultFunc) where T : struct
@@ -47,6 +51,6 @@ namespace Ecs
             return component;
         }
 
-        public int GetComponentsCount() => _components.Values.Count;
+        public int GetComponentsCount() => _componentIndexes.Count;
     }
 }

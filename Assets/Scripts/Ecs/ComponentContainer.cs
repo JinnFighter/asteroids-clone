@@ -43,6 +43,8 @@ namespace Ecs
                 throw new IndexOutOfRangeException("Index out of range");
         }
 
+        public void ReplaceItem(T item, int index) => _components[index] = item;
+
         public int GetComponentsCount() => _components.Length - _freeIds.Count;
 
         public bool IsAvailable(int index) => index >= 0 && index < _components.Length && !_freeIds.Contains(index);

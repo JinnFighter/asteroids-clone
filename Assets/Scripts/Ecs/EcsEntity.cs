@@ -40,6 +40,15 @@ namespace Ecs
         
         public void AddComponent<T>(in T component) where T : struct => _components[component.GetType()] = component;
 
+        public void AddComponento<T>(in T component) where T : struct
+        {
+            var type = typeof(T);
+            if (_componentIndexes.ContainsKey(type))
+                _sourceWorld.ReplaceComponent(component, _componentIndexes[type]);
+            else
+                _componentIndexes[typeof(T)] = _sourceWorld.AddComponent(component);
+        }
+
         public void RemoveComponent<T>() where T : struct
         {
             if (HasComponent<T>())

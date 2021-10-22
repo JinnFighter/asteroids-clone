@@ -6,7 +6,7 @@ namespace Ecs
 {
     internal class ComponentContainer<T> where T : struct
     {
-        private readonly T[] _components;
+        private T[] _components;
 
         private readonly Queue<int> _freeIds;
 
@@ -20,15 +20,15 @@ namespace Ecs
         {
             int id;
             if (_freeIds.Any())
-            {
                 id = _freeIds.Dequeue();
-                _components[id] = item;
-            }
             else
             {
-                _components.Append(item);
-                id = _components.Length - 1;
+                var oldLength = _components.Length;
+                Array.Resize(ref _components, oldLength + 1);
+                id = oldLength;
             }
+            
+            _components[id] = item;
 
             return id;
         }

@@ -56,6 +56,14 @@ namespace Ecs
 
             componentContainer.ReplaceItem(component, index);
         }
+        
+        public void RemoveComponent<T>(int index) where T : struct
+        {
+            var type = typeof(T);
+            var componentContainer = (ComponentContainer<T>)_componentContainers[type];
+
+            componentContainer.RemoveItem(index);
+        }
 
         public EcsFilter GetFilter<T>() where T: struct => new EcsFilter(_entities.Where(entity => entity.HasComponent<T>()));
     

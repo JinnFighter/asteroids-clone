@@ -54,6 +54,16 @@ namespace Ecs
             if (HasComponent<T>())
                 _components.Remove(typeof(T));
         }
+        
+        public void RemoveComponento<T>() where T : struct
+        {
+            if (HasComponento<T>())
+            {
+                var type = typeof(T);
+                _sourceWorld.RemoveComponent<T>(_componentIndexes[type]);
+                _componentIndexes.Remove(type);
+            }
+        }
 
         public T TryGetComponent<T>(Func<T> defaultFunc) where T : struct
         {

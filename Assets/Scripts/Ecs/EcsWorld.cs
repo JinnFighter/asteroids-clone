@@ -34,6 +34,21 @@ namespace Ecs
             return false;
         }
 
+        public int AddComponent<T>(in T component) where T : struct
+        {
+            var type = typeof(T);
+            ComponentContainer<T> componentContainer;
+            if (_componentContainers.ContainsKey(type))
+                componentContainer = (ComponentContainer<T>)_componentContainers[type];
+            else
+            {
+                componentContainer = new ComponentContainer<T>();
+                _componentContainers[type] = componentContainer;
+            }
+
+            return componentContainer.AddItem(component);
+        }
+
         public EcsFilter GetFilter<T>() where T: struct => new EcsFilter(_entities.Where(entity => entity.HasComponent<T>()));
     
         public EcsFilter GetFilter<T, T1>() 

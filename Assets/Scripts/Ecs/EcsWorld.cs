@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,10 +7,12 @@ namespace Ecs
     public class EcsWorld
     {
         private readonly List<EcsEntity> _entities;
+        private readonly Dictionary<Type, object> _componentContainers;
 
         public EcsWorld()
         {
             _entities = new List<EcsEntity>();
+            _componentContainers = new Dictionary<Type, object>();
         }
 
         public EcsEntity CreateEntity()

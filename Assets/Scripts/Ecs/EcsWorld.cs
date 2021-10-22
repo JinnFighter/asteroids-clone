@@ -23,7 +23,7 @@ namespace Ecs
             return entity;
         }
         
-        public Filter<T> AcquireFilter<T>() where T: struct
+        public Filter<T> GetFilter<T>() where T: struct
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(Filter<T>)).Cast<Filter<T>>().ToList();
             if (neededFilters.Any())
@@ -47,8 +47,6 @@ namespace Ecs
             where T1 : struct
             where T2 : struct
             => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>() && entity.HasComponent<T2>());
-
-        public EcsFilter GetFilter<T>() where T: struct => new EcsFilter(_entities.Where(entity => entity.HasComponent<T>()));
 
         public void RemoveEmptyEntities()
         {

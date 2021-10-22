@@ -57,6 +57,13 @@ namespace Ecs
             componentContainer.ReplaceItem(component, index);
         }
         
+        public T GetComponent<T>(int index) where T : struct
+        {
+            var type = typeof(T);
+            var componentContainer = (ComponentContainer<T>)_componentContainers[type];
+            return componentContainer.GetItem(index);
+        }
+        
         public void RemoveComponent<T>(int index) where T : struct
         {
             var type = typeof(T);

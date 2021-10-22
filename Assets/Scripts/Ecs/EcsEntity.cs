@@ -25,6 +25,8 @@ namespace Ecs
 
             return (T)_components.Values.FirstOrDefault(val => val is T);
         }
+        
+        public T GetComponento<T>() where T : struct => _sourceWorld.GetComponent<T>(_componentIndexes[typeof(T)]);
 
         public bool HasComponent<T>() where T : struct
         {

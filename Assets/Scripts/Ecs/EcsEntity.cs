@@ -32,6 +32,12 @@ namespace Ecs
             return _components.ContainsKey(type) && _components[type] != null || _components.Values.Any(val => val is T);
         }
         
+        public bool HasComponento<T>() where T : struct
+        {
+            var type = typeof(T);
+            return _components.ContainsKey(type) && _sourceWorld.HasComponent<T>(_componentIndexes[type]);
+        }
+        
         public void AddComponent<T>(in T component) where T : struct => _components[component.GetType()] = component;
 
         public void RemoveComponent<T>() where T : struct

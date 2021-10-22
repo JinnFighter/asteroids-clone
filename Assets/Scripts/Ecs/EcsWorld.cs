@@ -22,6 +22,18 @@ namespace Ecs
             return entity;
         }
 
+        public bool HasComponent<T>(int index) where T : struct
+        {
+            var hasValue = _componentContainers.TryGetValue(typeof(T), out var obj);
+            if (hasValue)
+            {
+                var container = (ComponentContainer<T>)obj;
+                return container.IsAvailable(index);
+            }
+
+            return false;
+        }
+
         public EcsFilter GetFilter<T>() where T: struct => new EcsFilter(_entities.Where(entity => entity.HasComponent<T>()));
     
         public EcsFilter GetFilter<T, T1>() 

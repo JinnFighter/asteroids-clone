@@ -26,7 +26,12 @@ namespace Logic.Systems.Physics
                 physicsBody.Force += nextForce;
 
                 physicsBody.Velocity += physicsBody.Force / physicsBody.Mass * deltaTime;
+
+                var oldPosition = physicsBody.Position;
                 physicsBody.Position += physicsBody.Velocity * deltaTime;
+                
+                if(!oldPosition.Equals(physicsBody.Position))
+                    physicsBody.InvokePositionChangedEvent();
                 
                 physicsBody.Force = Vector2.Zero;
             }

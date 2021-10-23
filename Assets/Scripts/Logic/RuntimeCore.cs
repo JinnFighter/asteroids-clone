@@ -38,6 +38,7 @@ namespace Logic
                 _systems.GetService<PhysicsConfiguration>()))
             .OneFrame<InputAction>()
             .OneFrame<MovementInputAction>()
+            .OneFrame<LookInputAction>()
             .Init(_world);
 
         public void Run()

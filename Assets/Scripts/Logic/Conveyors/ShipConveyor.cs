@@ -17,7 +17,13 @@ namespace Logic.Conveyors
         protected override void UpdateItemInternal(EcsEntity item)
         {
             var rigidbody2D = _rigidbodyFactory.CreateObject();
-            var physicsComponent = new PhysicsBody { Rigidbody2D = rigidbody2D };
+            var physicsComponent = new PhysicsBody 
+                { Rigidbody2D = rigidbody2D, 
+                    Position = Vector2.Zero, 
+                    Velocity = Vector2.Zero, 
+                    Force = Vector2.Zero,
+                    Mass = 1f,
+                    UseGravity = false};
             item.AddComponent(physicsComponent);
         }
     }

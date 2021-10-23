@@ -19,8 +19,8 @@ namespace Logic.Systems.Gameplay
         {
             var entity = world.CreateEntity();
             _shipConveyor.UpdateItem(entity);
-            var physicsBody = entity.GetComponent<PhysicsBody>();
-            physicsBody.Rigidbody2D.Position = Vector2.Zero;
+            ref var physicsBody = ref entity.GetComponent<PhysicsBody>();
+            physicsBody.Position = Vector2.Zero;
             physicsBody.InvokePositionChangedEvent();
         }
     }

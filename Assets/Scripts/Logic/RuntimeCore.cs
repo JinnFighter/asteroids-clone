@@ -29,7 +29,7 @@ namespace Logic
             _systems
                 .AddService(physicsWorld)
                 .AddService(physicsObjectFactory)
-                .AddService(new ShipConveyor(physicsObjectFactory))
+                .AddService(new ShipConveyor())
                 .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter());

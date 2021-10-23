@@ -1,19 +1,16 @@
 using Logic.Components.Input;
-using Logic.EventAttachers;
 using UnityEngine;
 using InputAction = UnityEngine.InputSystem.InputAction;
 
 namespace UnityScripts.InputActions
 {
-    public class MovementInputActionConverter : IInputActionConverter<MovementInputAction>
+    public class MovementInputActionConverter : IInputActionConverter
     {
-        public void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher) =>
-            eventAttacher.AttachEvent(CreateComponent(inputAction));
-
-        public MovementInputAction CreateComponent(InputAction inputAction)
+        public void AcceptConverter(InputActionConverter converter, InputAction inputAction)
         {
             var direction = inputAction.ReadValue<Vector2>();
-            return new MovementInputAction { Direction = new Physics.Vector2(direction.x, direction.y) };
+            var res = new MovementInputAction { Direction = new Physics.Vector2(direction.x, direction.y) };
+            converter.AttachEvent(res);
         }
     }
 }

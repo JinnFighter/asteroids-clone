@@ -1,11 +1,9 @@
-using Logic.EventAttachers;
 using UnityEngine.InputSystem;
 
 namespace UnityScripts.InputActions
 {
-    public interface IInputActionConverter<out T> where T : struct
+    public interface IInputActionConverter
     {
-        void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher);
-        T CreateComponent(InputAction inputAction);
+        void AcceptConverter(InputActionConverter converter, InputAction inputAction);
     }
 }

@@ -37,6 +37,7 @@ namespace Logic
             .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<TimeContainer>(), 
                 _systems.GetService<PhysicsConfiguration>()))
             .OneFrame<InputAction>()
+            .OneFrame<MovementInputAction>()
             .Init(_world);
 
         public void Run()

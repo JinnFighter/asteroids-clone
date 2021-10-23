@@ -7,12 +7,8 @@ namespace UnityScripts.InputActions
 {
     public class MovementInputActionConverter : IInputActionConverter<MovementInputAction>
     {
-        public void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher)
-        {
-            var direction = inputAction.ReadValue<Vector2>();
-            var component = new MovementInputAction { Direction = new Physics.Vector2(direction.x, direction.y) };
-            eventAttacher.AttachEvent(component);
-        }
+        public void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher) =>
+            eventAttacher.AttachEvent(CreateComponent(inputAction));
 
         public MovementInputAction CreateComponent(InputAction inputAction)
         {

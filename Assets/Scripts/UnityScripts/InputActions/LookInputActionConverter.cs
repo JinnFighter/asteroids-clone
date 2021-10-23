@@ -7,12 +7,8 @@ namespace UnityScripts.InputActions
 {
     public class LookInputActionConverter : IInputActionConverter<LookInputAction>
     {
-        public void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher)
-        {
-            var point = inputAction.ReadValue<Vector2>();
-            var component = new LookInputAction { LookAtPoint = new Physics.Vector2(point.x, point.y) };
-            eventAttacher.AttachEvent(component);
-        }
+        public void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher) =>
+            eventAttacher.AttachEvent(CreateComponent(inputAction));
 
         public LookInputAction CreateComponent(InputAction inputAction)
         {

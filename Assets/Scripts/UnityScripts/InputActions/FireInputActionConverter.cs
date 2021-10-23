@@ -6,11 +6,8 @@ namespace UnityScripts.InputActions
 {
     public class FireInputActionConverter : IInputActionConverter<FireInputAction>
     {
-        public void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher)
-        {
-            var component = new FireInputAction();
-            eventAttacher.AttachEvent(component);
-        }
+        public void ConvertInputAction(InputAction inputAction, IEventAttacher eventAttacher) =>
+            eventAttacher.AttachEvent(CreateComponent(inputAction));
 
         public FireInputAction CreateComponent(InputAction inputAction) => new FireInputAction();
     }

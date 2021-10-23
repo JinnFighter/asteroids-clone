@@ -7,10 +7,13 @@ namespace UnityScripts.EventEmitters
     public class InputEventEmitter
     {
         private readonly IEventAttacher _eventAttacher;
+        private readonly AsteroidsCloneInputActionAsset _inputActionAsset;
 
         public InputEventEmitter(IEventAttacher eventAttacher, PlayerInput playerInput)
         {
             _eventAttacher = eventAttacher;
+
+            _inputActionAsset = new AsteroidsCloneInputActionAsset();
 
             foreach (var action in playerInput.actions)
             {

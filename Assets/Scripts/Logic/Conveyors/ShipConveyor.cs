@@ -1,4 +1,5 @@
 using Ecs;
+using Logic.Components.Gameplay;
 using Logic.Components.Physics;
 using Physics;
 
@@ -8,6 +9,7 @@ namespace Logic.Conveyors
     {
         protected override void UpdateItemInternal(EcsEntity item)
         {
+            item.AddComponent(new Ship());
             var physicsComponent = new PhysicsBody
             {
                 Position = Vector2.Zero,

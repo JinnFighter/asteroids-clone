@@ -2,11 +2,9 @@ using Ecs;
 using Logic.Components.Input;
 using Logic.Conveyors;
 using Logic.EventAttachers;
-using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
-using Physics;
 
 namespace Logic
 {
@@ -23,10 +21,8 @@ namespace Logic
 
         public void Setup()
         {
-            var physicsWorld = new PhysicsWorld();
             var timeContainer = new TimeContainer();
             _systems
-                .AddService(physicsWorld)
                 .AddService(new ShipConveyor())
                 .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)

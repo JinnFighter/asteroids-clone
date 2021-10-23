@@ -39,6 +39,7 @@ namespace Logic
             .OneFrame<InputAction>()
             .OneFrame<MovementInputAction>()
             .OneFrame<LookInputAction>()
+            .OneFrame<FireInputAction>()
             .Init(_world);
 
         public void Run()

@@ -9,10 +9,12 @@ namespace Logic.Systems.Physics
     public class UpdatePhysicsBodiesSystem : IEcsRunSystem
     {
         private readonly TimeContainer _timeContainer;
+        private readonly PhysicsConfiguration _physicsConfiguration;
         
-        public UpdatePhysicsBodiesSystem(TimeContainer timeContainer)
+        public UpdatePhysicsBodiesSystem(TimeContainer timeContainer, PhysicsConfiguration physicsConfiguration)
         {
             _timeContainer = timeContainer;
+            _physicsConfiguration = physicsConfiguration;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -22,7 +24,7 @@ namespace Logic.Systems.Physics
             foreach (var entity in filter)
             {
                 ref var physicsBody = ref entity.GetComponent<PhysicsBody>();
-                var nextForce = Vector2.Zero * physicsBody.Mass;
+                var nextForce = (physicsBody.UseGravity ? _physicsConfiguration.Gravity : Vector2.Zero) * physicsBody.Mass;
                 physicsBody.Force += nextForce;
 
                 physicsBody.Velocity += physicsBody.Force / physicsBody.Mass * deltaTime;

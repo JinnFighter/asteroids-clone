@@ -24,11 +24,9 @@ namespace Logic
         public void Setup()
         {
             var physicsWorld = new PhysicsWorld();
-            var physicsObjectFactory = new RigidbodyFactory(physicsWorld);
             var timeContainer = new TimeContainer();
             _systems
                 .AddService(physicsWorld)
-                .AddService(physicsObjectFactory)
                 .AddService(new ShipConveyor())
                 .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)

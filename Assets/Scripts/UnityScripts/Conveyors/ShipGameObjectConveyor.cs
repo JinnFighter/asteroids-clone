@@ -22,9 +22,9 @@ namespace UnityScripts.Conveyors
         {
             if (item.HasComponent<PhysicsBody>())
             {
-                var physicsBody = item.GetComponent<PhysicsBody>();
+                ref var physicsBody = ref item.GetComponent<PhysicsBody>();
                 var shipGameObject = Object.Instantiate(_prefabsContainer.ShipPrefab);
-                var presenter = new PhysicsBodyPresenter(physicsBody, shipGameObject.GetComponent<PhysicsBodyView>());
+                var presenter = new PhysicsBodyPresenter(ref physicsBody, shipGameObject.GetComponent<PhysicsBodyView>());
             }
         }
     }

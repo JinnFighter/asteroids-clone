@@ -2,7 +2,6 @@ using Ecs;
 using Logic.Components.Input;
 using Logic.Conveyors;
 using Logic.EventAttachers;
-using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
@@ -23,13 +22,11 @@ namespace Logic
 
         public void Setup()
         {
-            var physicsWorld = new PhysicsWorld();
-            var physicsObjectFactory = new RigidbodyFactory(physicsWorld);
             var timeContainer = new TimeContainer();
+            var physicsConfiguration = new PhysicsConfiguration();
             _systems
-                .AddService(physicsWorld)
-                .AddService(physicsObjectFactory)
-                .AddService(new ShipConveyor(physicsObjectFactory))
+                .AddService(physicsConfiguration)
+                .AddService(new ShipConveyor())
                 .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter());
@@ -37,8 +34,8 @@ namespace Logic
 
         public void Init() => _systems
             .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
-            .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<PhysicsWorld>(), _systems.GetService<TimeContainer>()))
-            .AddRunSystem(new UpdatePhysicsBodiesPositionSystem())
+            .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<TimeContainer>(), 
+                _systems.GetService<PhysicsConfiguration>()))
             .OneFrame<InputAction>()
             .Init(_world);
 

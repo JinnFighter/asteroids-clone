@@ -8,7 +8,7 @@ namespace UnityScripts.Presenters
     {
         private readonly IPhysicsBodyView _physicsBodyView;
         
-        public PhysicsBodyPresenter(PhysicsBody body, IPhysicsBodyView physicsBodyView)
+        public PhysicsBodyPresenter(ref PhysicsBody body, IPhysicsBodyView physicsBodyView)
         {
             body.PositionChangedEvent += UpdatePosition;
 

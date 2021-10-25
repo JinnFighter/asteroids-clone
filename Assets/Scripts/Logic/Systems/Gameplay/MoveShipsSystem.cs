@@ -14,9 +14,10 @@ namespace Logic.Systems.Gameplay
 
             foreach (var entity in filter)
             {
+                var ship = entity.GetComponent<Ship>();
                 var movementAction = entity.GetComponent<MovementInputAction>();
                 ref var physicsBody = ref entity.GetComponent<PhysicsBody>();
-                physicsBody.Velocity = movementAction.Direction;
+                physicsBody.Velocity = movementAction.Direction * ship.Speed;
             }
         }
     }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Logic.EventAttachers;
+using Logic.InputCommands;
+using Logic.Services;
 using UnityEngine.InputSystem;
 using UnityScripts.InputActions;
 using InputAction = Logic.Components.Input.InputAction;
@@ -9,14 +11,15 @@ namespace UnityScripts.EventEmitters
 {
     public class InputEventEmitter
     {
-        private readonly IEventAttacher _eventAttacher;
         private readonly AsteroidsCloneInputActionAsset _inputActionAsset;
         private readonly Dictionary<Guid, IInputActionConverter> _inputActionConverters;
         private readonly InputActionVisitor _inputActionVisitor;
 
-        public InputEventEmitter(IEventAttacher eventAttacher)
+        private readonly InputCommandQueue _inputCommandQueue;
+
+        public InputEventEmitter(IEventAttacher eventAttacher, InputCommandQueue inputCommandQueue)
         {
-            _eventAttacher = eventAttacher;
+            _inputCommandQueue = inputCommandQueue;
 
             _inputActionVisitor = new InputActionVisitor(eventAttacher);
 
@@ -35,8 +38,10 @@ namespace UnityScripts.EventEmitters
             if(_inputActionConverters.TryGetValue(action.id, out var inputActionConverter))
                 inputActionConverter.AcceptConverter(_inputActionVisitor, action);
             else
-                _eventAttacher.AttachEvent
-                    (action.actionMap,new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name });
+            {
+                var inputAction = new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name };
+                _inputCommandQueue.Enqueue(new AttachEventToNewEntityCommand<InputAction>(ref inputAction));
+            }
         }
 
         public void ListenToInputEvents(InputActionMap actionMap)

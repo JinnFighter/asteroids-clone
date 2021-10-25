@@ -25,7 +25,8 @@ namespace UnityScripts.Startups
             _runtimeCore.Setup();
 
             var playerEntitiesContainer = new PlayerEntitiesDataContainer();
-            var inputEventEmitter = new InputEventEmitter(new PlayerInputEventAttacher(_runtimeCore.GetService<IEventAttacher>(), playerEntitiesContainer));
+            var inputEventEmitter = new InputEventEmitter(new PlayerInputEventAttacher(_runtimeCore.GetService<IEventAttacher>(), playerEntitiesContainer), 
+                _runtimeCore.GetService<InputCommandQueue>());
             var shipConveyor = _runtimeCore.GetService<ShipConveyor>();
             shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer, playerEntitiesContainer, inputEventEmitter));
             

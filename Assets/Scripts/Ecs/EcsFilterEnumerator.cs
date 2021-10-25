@@ -1,45 +1,33 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Ecs
 {
-    public class EcsFilterEnumerator : IEnumerator<EcsEntity>
+    public class EcsFilterEnumerator : IEnumerator<int>
     {
-        private readonly List<EcsEntity> _entities;
+        private readonly int _count;
         private int _position;
 
-        public EcsFilterEnumerator(IEnumerable<EcsEntity> entities)
+        public EcsFilterEnumerator(int count)
         {
-            _entities = new List<EcsEntity>(entities);
+            _count = count;
+            
             _position = -1;
         }
 
         public bool MoveNext()
         {
             _position++;
-            return _position < _entities.Count;
+            return _position < _count;
         }
 
         public void Reset() => _position = -1;
 
-        public EcsEntity Current
-        {
-            get
-            {
-                try
-                {
-                    return _entities[_position];
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    throw new InvalidOperationException("Index out of range");
-                }
-            }
-        }
-
+        public int Current => _position;
         object IEnumerator.Current => Current;
 
-        public void Dispose() => _entities.Clear();
+        public void Dispose()
+        {
+        }
     }
 }

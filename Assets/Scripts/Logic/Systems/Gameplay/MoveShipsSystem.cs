@@ -12,11 +12,11 @@ namespace Logic.Systems.Gameplay
         {
             var filter = ecsWorld.GetFilter<Ship, PhysicsBody, MovementInputAction>();
 
-            foreach (var entity in filter)
+            foreach (var index in filter)
             {
-                var ship = entity.GetComponent<Ship>();
-                var movementAction = entity.GetComponent<MovementInputAction>();
-                ref var physicsBody = ref entity.GetComponent<PhysicsBody>();
+                var ship = filter.Get1(index);
+                ref var physicsBody = ref filter.Get2(index);
+                var movementAction = filter.Get3(index);
                 physicsBody.Velocity = movementAction.Direction * ship.Speed;
             }
         }

@@ -2,11 +2,11 @@ using Logic.EventAttachers;
 
 namespace UnityScripts.InputActions
 {
-    public class InputActionConverter
+    public class InputActionVisitor
     {
         private readonly IEventAttacher _eventAttacher;
 
-        public InputActionConverter(IEventAttacher eventAttacher)
+        public InputActionVisitor(IEventAttacher eventAttacher)
         {
             _eventAttacher = eventAttacher;
         }

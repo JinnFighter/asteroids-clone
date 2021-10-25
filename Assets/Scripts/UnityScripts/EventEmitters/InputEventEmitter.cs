@@ -11,13 +11,13 @@ namespace UnityScripts.EventEmitters
         private readonly IEventAttacher _eventAttacher;
         private readonly AsteroidsCloneInputActionAsset _inputActionAsset;
         private readonly Dictionary<string, IInputActionConverter> _inputActionConverters;
-        private readonly InputActionConverter _inputActionConverter;
+        private readonly InputActionVisitor _inputActionVisitor;
 
         public InputEventEmitter(IEventAttacher eventAttacher, PlayerInput playerInput)
         {
             _eventAttacher = eventAttacher;
 
-            _inputActionConverter = new InputActionConverter(eventAttacher);
+            _inputActionVisitor = new InputActionVisitor(eventAttacher);
 
             _inputActionAsset = new AsteroidsCloneInputActionAsset();
 
@@ -38,7 +38,7 @@ namespace UnityScripts.EventEmitters
         {
             var action = context.action;
             if(_inputActionConverters.TryGetValue(action.name, out var inputActionConverter))
-                inputActionConverter.AcceptConverter(_inputActionConverter, action);
+                inputActionConverter.AcceptConverter(_inputActionVisitor, action);
             else
                 _eventAttacher.AttachEvent
                     (new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name });

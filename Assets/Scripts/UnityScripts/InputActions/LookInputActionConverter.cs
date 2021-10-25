@@ -6,11 +6,11 @@ namespace UnityScripts.InputActions
 {
     public class LookInputActionConverter : IInputActionConverter
     {
-        public void AcceptConverter(InputActionConverter converter, InputAction inputAction)
+        public void AcceptConverter(InputActionVisitor visitor, InputAction inputAction)
         {
             var point = inputAction.ReadValue<Vector2>();
             var res = new LookInputAction { LookAtPoint = new Physics.Vector2(point.x, point.y) };
-            converter.AttachEvent(res);
+            visitor.AttachEvent(res);
         }
     }
 }

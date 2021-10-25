@@ -4,6 +4,6 @@ namespace UnityScripts.InputActions
 {
     public interface IInputActionConverter
     {
-        void AcceptConverter(InputActionConverter converter, InputAction inputAction);
+        void AcceptConverter(InputActionVisitor visitor, InputAction inputAction);
     }
 }

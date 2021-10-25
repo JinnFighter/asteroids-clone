@@ -5,7 +5,7 @@ namespace UnityScripts.InputActions
 {
     public class FireInputActionConverter : IInputActionConverter
     {
-        public void AcceptConverter(InputActionConverter converter, InputAction inputAction) =>
-            converter.AttachEvent(new FireInputAction());
+        public void AcceptConverter(InputActionVisitor visitor, InputAction inputAction) =>
+            visitor.AttachEvent(new FireInputAction());
     }
 }

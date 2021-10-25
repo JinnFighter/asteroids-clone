@@ -13,7 +13,7 @@ namespace UnityScripts.EventEmitters
         private readonly Dictionary<string, IInputActionConverter> _inputActionConverters;
         private readonly InputActionVisitor _inputActionVisitor;
 
-        public InputEventEmitter(IEventAttacher eventAttacher, PlayerInput playerInput)
+        public InputEventEmitter(IEventAttacher eventAttacher)
         {
             _eventAttacher = eventAttacher;
 
@@ -26,12 +26,6 @@ namespace UnityScripts.EventEmitters
             _inputActionConverters.Add(playerActions.Look.name, new LookInputActionConverter());
             _inputActionConverters.Add(playerActions.Move.name, new MovementInputActionConverter());
             _inputActionConverters.Add(playerActions.Fire.name, new FireInputActionConverter());
-
-            foreach (var action in playerInput.actions)
-            {
-                action.performed += CreateInputEvent;
-                action.Enable();
-            }
         }
 
         private void CreateInputEvent(UnityEngine.InputSystem.InputAction.CallbackContext context)

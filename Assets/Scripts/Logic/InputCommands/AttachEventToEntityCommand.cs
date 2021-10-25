@@ -4,11 +4,11 @@ namespace Logic.InputCommands
 {
     public abstract class AttachEventToEntityCommand<T> : IInputCommand where T : struct
     {
-        protected readonly T Component;
-
-        public AttachEventToEntityCommand(ref T component)
+        private readonly T _component;
+        
+        protected AttachEventToEntityCommand(ref T component)
         {
-            Component = component;
+            _component = component;
         }
 
         protected abstract EcsEntity GetEntity(EcsWorld world);
@@ -16,7 +16,7 @@ namespace Logic.InputCommands
         public void Execute(EcsWorld world)
         {
             var entity = GetEntity(world);
-            entity.AddComponent(Component);
+            entity.AddComponent(_component);
         }
     }
 }

@@ -2,19 +2,14 @@ using Ecs;
 
 namespace Logic.InputCommands
 {
-    public class AttachEventToNewEntityCommand<T> : IInputCommand where T : struct
+    public class AttachEventToNewEntityCommand<T> : AttachEventToEntityCommand<T> where T : struct
     {
         private readonly T _component;
-
-        public AttachEventToNewEntityCommand(ref T component)
-        {
-            _component = component;
-        }
         
-        public void Execute(EcsWorld world)
+        public AttachEventToNewEntityCommand(ref T component) : base(ref component)
         {
-            var entity = world.CreateEntity();
-            entity.AddComponent(_component);
         }
+
+        protected override EcsEntity GetEntity(EcsWorld world) => world.CreateEntity();
     }
 }

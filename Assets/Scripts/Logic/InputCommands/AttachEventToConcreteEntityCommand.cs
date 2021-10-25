@@ -7,8 +7,9 @@ namespace Logic.InputCommands
         private readonly T _component;
         private readonly EcsEntity _entity;
 
-        public AttachEventToConcreteEntityCommand(ref T component) : base(ref component)
+        public AttachEventToConcreteEntityCommand(T component, EcsEntity entity) : base(component)
         {
+            _entity = entity;
         }
 
         protected override EcsEntity GetEntity(EcsWorld world) => _entity;

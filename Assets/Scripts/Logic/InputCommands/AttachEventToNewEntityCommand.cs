@@ -6,7 +6,7 @@ namespace Logic.InputCommands
     {
         private readonly T _component;
         
-        public AttachEventToNewEntityCommand(ref T component) : base(ref component)
+        public AttachEventToNewEntityCommand(T component) : base(component)
         {
         }
 

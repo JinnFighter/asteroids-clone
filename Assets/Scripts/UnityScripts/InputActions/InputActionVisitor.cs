@@ -1,20 +1,28 @@
-using Logic.EventAttachers;
 using Logic.InputCommands;
+using Logic.Services;
+using UnityScripts.Containers;
 
 namespace UnityScripts.InputActions
 {
     public class InputActionVisitor
     {
-        private readonly IEventAttacher _eventAttacher;
+        private readonly PlayerEntitiesDataContainer _playerEntitiesContainer;
+        private readonly InputCommandQueue _inputCommandQueue;
 
-        public InputActionVisitor(IEventAttacher eventAttacher)
+        public InputActionVisitor(PlayerEntitiesDataContainer container,
+            InputCommandQueue inputCommandQueue)
         {
-            _eventAttacher = eventAttacher;
+            _playerEntitiesContainer = container;
+            _inputCommandQueue = inputCommandQueue;
         }
-        
-        public void AttachEvent<T>(object sender, in T obj) where T : struct =>
-            _eventAttacher.AttachEvent(sender, obj);
 
-        public IInputCommand CreateCommand<T>(object sender, in T obj) where T : struct => null;
+        public void AttachEvent<T>(object sender, in T obj) where T : struct
+        {
+            var command = _playerEntitiesContainer.TryGetValue(sender, out var entity)
+                ? (IInputCommand)new AttachEventToConcreteEntityCommand<T>(obj, entity)
+                : new AttachEventToNewEntityCommand<T>(obj);
+
+            _inputCommandQueue.Enqueue(command);
+        }
     }
 }

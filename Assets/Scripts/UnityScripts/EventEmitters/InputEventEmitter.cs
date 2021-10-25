@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Logic.EventAttachers;
 using Logic.InputCommands;
 using Logic.Services;
 using UnityEngine.InputSystem;
+using UnityScripts.Containers;
 using UnityScripts.InputActions;
 using InputAction = Logic.Components.Input.InputAction;
 
@@ -17,11 +17,11 @@ namespace UnityScripts.EventEmitters
 
         private readonly InputCommandQueue _inputCommandQueue;
 
-        public InputEventEmitter(IEventAttacher eventAttacher, InputCommandQueue inputCommandQueue)
+        public InputEventEmitter(PlayerEntitiesDataContainer container, InputCommandQueue inputCommandQueue)
         {
             _inputCommandQueue = inputCommandQueue;
 
-            _inputActionVisitor = new InputActionVisitor(eventAttacher);
+            _inputActionVisitor = new InputActionVisitor(container, inputCommandQueue);
 
             _inputActionAsset = new AsteroidsCloneInputActionAsset();
 
@@ -38,10 +38,8 @@ namespace UnityScripts.EventEmitters
             if(_inputActionConverters.TryGetValue(action.id, out var inputActionConverter))
                 inputActionConverter.AcceptConverter(_inputActionVisitor, action);
             else
-            {
-                var inputAction = new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name };
-                _inputCommandQueue.Enqueue(new AttachEventToNewEntityCommand<InputAction>(ref inputAction));
-            }
+                _inputCommandQueue.Enqueue(new AttachEventToNewEntityCommand<InputAction>(
+                    new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name }));
         }
 
         public void ListenToInputEvents(InputActionMap actionMap)

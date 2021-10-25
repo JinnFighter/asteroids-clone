@@ -51,6 +51,8 @@ namespace Ecs
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C>();
 
+        public C Get1(int index) => Entities[index].GetComponent<C>();
+
         public EcsFilter<C> Exclude<T>() where T : struct =>
             new EcsFilter<C>(Entities.Where(entity => !entity.HasComponent<T>()));
         
@@ -76,6 +78,9 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1>();
+        
+        public C Get1(int index) => Entities[index].GetComponent<C>();
+        public C1 Get2(int index) => Entities[index].GetComponent<C1>();
 
         public EcsFilter<C, C1> Exclude<T>() where T : struct =>
             new EcsFilter<C, C1>(Entities.Where(entity => !entity.HasComponent<T>()));
@@ -103,6 +108,10 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1, C2>();
+        
+        public C Get1(int index) => Entities[index].GetComponent<C>();
+        public C1 Get2(int index) => Entities[index].GetComponent<C1>();
+        public C2 Get3(int index) => Entities[index].GetComponent<C2>();
 
         public EcsFilter<C, C1, C2> Exclude<T>() where T : struct =>
             new EcsFilter<C, C1, C2>(Entities.Where(entity => !entity.HasComponent<T>()));

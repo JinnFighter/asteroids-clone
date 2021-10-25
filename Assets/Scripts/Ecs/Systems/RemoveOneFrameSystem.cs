@@ -7,8 +7,12 @@ namespace Ecs.Systems
         public void Run(EcsWorld ecsWorld)
         {
             var filter = ecsWorld.GetFilter<T>();
-            foreach (var entity in filter)
+            
+            foreach (var index in filter)
+            {
+                var entity = filter.GetEntity(index);
                 entity.RemoveComponent<T>();
+            }
         }
     }
 }

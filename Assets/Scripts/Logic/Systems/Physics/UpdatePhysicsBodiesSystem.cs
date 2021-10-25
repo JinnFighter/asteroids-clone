@@ -21,9 +21,10 @@ namespace Logic.Systems.Physics
         {
             var deltaTime = _timeContainer.DeltaTime;
             var filter = ecsWorld.GetFilter<PhysicsBody>();
-            foreach (var entity in filter)
+            foreach (var index in filter)
             {
-                ref var physicsBody = ref entity.GetComponent<PhysicsBody>();
+                ref var physicsBody = ref filter.Get1(index);
+                
                 var nextForce = (physicsBody.UseGravity ? _physicsConfiguration.Gravity : Vector2.Zero) * physicsBody.Mass;
                 physicsBody.Force += nextForce;
 

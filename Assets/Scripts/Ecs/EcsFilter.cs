@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Ecs
 {
-    public abstract class EcsFilter : IEnumerable<EcsEntity>
+    public abstract class EcsFilter : IEnumerable<int>
     {
         protected readonly List<EcsEntity> Entities;
 
@@ -16,15 +16,14 @@ namespace Ecs
         public void UpdateFilter(EcsWorld world)
         {
             RemoveEntitiesWithoutComponents();
-            var newEntities = GetNewEntities(world).Except(Entities).ToList();
-            foreach (var newEntity in newEntities)
+            foreach (var newEntity in GetNewEntities(world).Except(Entities))
                 Entities.Add(newEntity);
         }
 
         protected abstract void RemoveEntitiesWithoutComponents();
         protected abstract IEnumerable<EcsEntity> GetNewEntities(EcsWorld world);
         
-        public IEnumerator<EcsEntity> GetEnumerator() => new EcsFilterEnumerator(Entities);
+        public IEnumerator<int> GetEnumerator() => new EcsFilterEnumerator(Entities.Count);
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -34,6 +33,8 @@ namespace Ecs
         public int GetEntitiesCount() => Entities.Count;
 
         public bool IsEmpty() => Entities.Count == 0;
+
+        public EcsEntity GetEntity(int index) => Entities[index];
     }
     
     public class EcsFilter<C> : EcsFilter where C : struct
@@ -50,6 +51,8 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C>();
+
+        public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
 
         public EcsFilter<C> Exclude<T>() where T : struct =>
             new EcsFilter<C>(Entities.Where(entity => !entity.HasComponent<T>()));
@@ -76,6 +79,9 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1>();
+        
+        public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
+        public ref C1 Get2(int index) => ref Entities[index].GetComponent<C1>();
 
         public EcsFilter<C, C1> Exclude<T>() where T : struct =>
             new EcsFilter<C, C1>(Entities.Where(entity => !entity.HasComponent<T>()));
@@ -103,6 +109,10 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1, C2>();
+        
+        public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
+        public ref C1 Get2(int index) => ref Entities[index].GetComponent<C1>();
+        public ref C2 Get3(int index) => ref Entities[index].GetComponent<C2>();
 
         public EcsFilter<C, C1, C2> Exclude<T>() where T : struct =>
             new EcsFilter<C, C1, C2>(Entities.Where(entity => !entity.HasComponent<T>()));

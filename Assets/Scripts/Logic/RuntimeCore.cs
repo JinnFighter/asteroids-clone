@@ -29,7 +29,8 @@ namespace Logic
                 .AddService(new ShipConveyor())
                 .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
-                .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter());
+                .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter())
+                .AddService(new InputCommandQueue());
         }
 
         public void Init() => _systems

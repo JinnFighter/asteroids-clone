@@ -21,7 +21,6 @@ namespace Logic.Systems.Gameplay
             _shipConveyor.UpdateItem(entity);
             ref var physicsBody = ref entity.GetComponent<PhysicsBody>();
             physicsBody.Position = Vector2.Zero;
-            physicsBody.InvokePositionChangedEvent();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Logic.EventAttachers
             _ecsWorld = world;
         }
 
-        public void AttachEvent<T>(T eventObject) where T : struct
+        public void AttachEvent<T>(object sender, T eventObject) where T : struct
         {
             var entity = _ecsWorld.CreateEntity();
             entity.AddComponent(eventObject);

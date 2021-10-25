@@ -97,7 +97,7 @@ namespace Ecs
 
         protected override void RemoveEntitiesWithoutComponents()
         {
-            var entitiesToRemove = Entities.Where(entity => !(entity.HasComponent<C>() || entity.HasComponent<C1>())).ToList();
+            var entitiesToRemove = Entities.Where(entity => !(entity.HasComponent<C>() && entity.HasComponent<C1>() && entity.HasComponent<C2>())).ToList();
             foreach (var entity in entitiesToRemove)
                 Entities.Remove(entity);
         }

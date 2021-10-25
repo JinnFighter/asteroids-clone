@@ -41,14 +41,12 @@ namespace Ecs
             _onDestroySystems.Enqueue(onDestroySystem);
             return this;
         }
-    
-        public EcsSystems AddService(object obj)
-        {
-            _services[obj.GetType()] = obj;
-            return this;
-        }
-        
-        public EcsSystems AddService<T, T1>(T1 obj) where T1 : T
+
+        public EcsSystems AddService<T>(in T obj) => UpdateServicesContainer(obj);
+
+        public EcsSystems AddService<T, T1>(T1 obj) where T1 : T => UpdateServicesContainer(obj);
+
+        private EcsSystems UpdateServicesContainer<T>(in T obj)
         {
             _services[typeof(T)] = obj;
             return this;

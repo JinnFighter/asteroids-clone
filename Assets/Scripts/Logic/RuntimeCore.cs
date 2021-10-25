@@ -29,14 +29,20 @@ namespace Logic
                 .AddService(new ShipConveyor())
                 .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
-                .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter());
+                .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter())
+                .AddService(new InputCommandQueue());
         }
 
         public void Init() => _systems
             .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+            .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
+            .AddRunSystem(new MoveShipsSystem())
             .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<TimeContainer>(), 
                 _systems.GetService<PhysicsConfiguration>()))
             .OneFrame<InputAction>()
+            .OneFrame<MovementInputAction>()
+            .OneFrame<LookInputAction>()
+            .OneFrame<FireInputAction>()
             .Init(_world);
 
         public void Run()
@@ -51,9 +57,9 @@ namespace Logic
             timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
 
-        public void AddService(object service) => _systems.AddService(service);
+        public void AddService<T>(in T service) => _systems.AddService(service);
         
-        public void AddService<T, T1>(T1 service) where T1 : T => _systems.AddService<T, T1>(service);
+        public void AddService<T, T1>(in T1 service) where T1 : T => _systems.AddService<T, T1>(service);
 
         public T GetService<T>() => _systems.GetService<T>();
 

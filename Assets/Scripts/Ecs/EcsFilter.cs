@@ -34,6 +34,8 @@ namespace Ecs
         public int GetEntitiesCount() => Entities.Count;
 
         public bool IsEmpty() => Entities.Count == 0;
+
+        public EcsEntity GetEntity(int index) => Entities[index];
     }
     
     public class EcsFilter<C> : EcsFilter where C : struct

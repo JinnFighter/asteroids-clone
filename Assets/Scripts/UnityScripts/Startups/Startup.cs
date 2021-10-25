@@ -27,9 +27,10 @@ namespace UnityScripts.Startups
             _runtimeCore.Setup();
 
             var playerEntitiesContainer = new PlayerEntitiesDataContainer();
-            var shipConveyor = _runtimeCore.GetService<ShipConveyor>();
-            shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer, playerEntitiesContainer));
             var inputEventEmitter = new InputEventEmitter(_runtimeCore.GetService<IEventAttacher>(), PlayerInput);
+            var shipConveyor = _runtimeCore.GetService<ShipConveyor>();
+            shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer, playerEntitiesContainer, inputEventEmitter));
+            
             _runtimeCore.AddService<IDeltaTimeCounter, UnityDeltaTimeCounter>(new UnityDeltaTimeCounter());
             
             _runtimeCore.Init();

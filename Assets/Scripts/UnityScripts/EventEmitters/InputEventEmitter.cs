@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Logic.EventAttachers;
 using UnityEngine.InputSystem;
@@ -10,7 +11,7 @@ namespace UnityScripts.EventEmitters
     {
         private readonly IEventAttacher _eventAttacher;
         private readonly AsteroidsCloneInputActionAsset _inputActionAsset;
-        private readonly Dictionary<string, IInputActionConverter> _inputActionConverters;
+        private readonly Dictionary<Guid, IInputActionConverter> _inputActionConverters;
         private readonly InputActionVisitor _inputActionVisitor;
 
         public InputEventEmitter(IEventAttacher eventAttacher)
@@ -21,17 +22,17 @@ namespace UnityScripts.EventEmitters
 
             _inputActionAsset = new AsteroidsCloneInputActionAsset();
 
-            _inputActionConverters = new Dictionary<string, IInputActionConverter>();
+            _inputActionConverters = new Dictionary<Guid, IInputActionConverter>();
             var playerActions = _inputActionAsset.Player;
-            _inputActionConverters.Add(playerActions.Look.name, new LookInputActionConverter());
-            _inputActionConverters.Add(playerActions.Move.name, new MovementInputActionConverter());
-            _inputActionConverters.Add(playerActions.Fire.name, new FireInputActionConverter());
+            _inputActionConverters.Add(playerActions.Look.id, new LookInputActionConverter());
+            _inputActionConverters.Add(playerActions.Move.id, new MovementInputActionConverter());
+            _inputActionConverters.Add(playerActions.Fire.id, new FireInputActionConverter());
         }
 
         private void CreateInputEvent(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
             var action = context.action;
-            if(_inputActionConverters.TryGetValue(action.name, out var inputActionConverter))
+            if(_inputActionConverters.TryGetValue(action.id, out var inputActionConverter))
                 inputActionConverter.AcceptConverter(_inputActionVisitor, action);
             else
                 _eventAttacher.AttachEvent

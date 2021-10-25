@@ -5,7 +5,19 @@ namespace Logic.Components.Physics
 {
     public struct PhysicsBody
     {
-        public Vector2 Position;
+        private Vector2 _position;
+        public Vector2 Position
+        {
+            get => _position;
+            set
+            {
+                var oldPosition = _position;
+                _position = value;
+                if(!_position.Equals(oldPosition))
+                    PositionChangedEvent?.Invoke(new PositionChangedEvent {X = _position.X, Y = _position.Y });
+            }
+        }
+        
         public Vector2 Velocity;
         public Vector2 Force;
         public float Mass;
@@ -13,7 +25,5 @@ namespace Logic.Components.Physics
         
         public delegate void PositionChanged(PositionChangedEvent positionChangedEvent);
         public event PositionChanged PositionChangedEvent;
-        
-        public void InvokePositionChangedEvent() => PositionChangedEvent?.Invoke(new PositionChangedEvent {X = Position.X, Y = Position.Y });
     }
 }

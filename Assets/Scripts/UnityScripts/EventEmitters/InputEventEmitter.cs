@@ -43,5 +43,14 @@ namespace UnityScripts.EventEmitters
                 _eventAttacher.AttachEvent
                     (new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name });
         }
+
+        public void ListenToInputEvents(InputActionMap actionMap)
+        {
+            foreach (var action in actionMap)
+            {
+                action.performed += CreateInputEvent;
+                action.Enable();
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace UnityScripts.InputActions
         {
             var point = inputAction.ReadValue<Vector2>();
             var res = new LookInputAction { LookAtPoint = new Physics.Vector2(point.x, point.y) };
-            visitor.AttachEvent(res);
+            visitor.AttachEvent(inputAction.actionMap, res);
         }
     }
 }

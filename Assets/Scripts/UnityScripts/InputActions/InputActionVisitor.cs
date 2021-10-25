@@ -11,7 +11,7 @@ namespace UnityScripts.InputActions
             _eventAttacher = eventAttacher;
         }
         
-        public void AttachEvent<T>(in T obj) where T : struct =>
-            _eventAttacher.AttachEvent(obj);
+        public void AttachEvent<T>(object sender, in T obj) where T : struct =>
+            _eventAttacher.AttachEvent(sender, obj);
     }
 }

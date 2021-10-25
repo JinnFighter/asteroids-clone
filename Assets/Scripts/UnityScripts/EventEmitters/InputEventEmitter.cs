@@ -36,7 +36,7 @@ namespace UnityScripts.EventEmitters
                 inputActionConverter.AcceptConverter(_inputActionVisitor, action);
             else
                 _eventAttacher.AttachEvent
-                    (new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name });
+                    (action.actionMap,new InputAction { ActionName = action.name, ActionMapName = action.actionMap.name });
         }
 
         public void ListenToInputEvents(InputActionMap actionMap)

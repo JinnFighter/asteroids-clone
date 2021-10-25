@@ -10,7 +10,7 @@ namespace UnityScripts.InputActions
         {
             var direction = inputAction.ReadValue<Vector2>();
             var res = new MovementInputAction { Direction = new Physics.Vector2(direction.x, direction.y) };
-            visitor.AttachEvent(res);
+            visitor.AttachEvent(inputAction.actionMap, res);
         }
     }
 }

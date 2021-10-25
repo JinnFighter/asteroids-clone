@@ -16,8 +16,7 @@ namespace Ecs
         public void UpdateFilter(EcsWorld world)
         {
             RemoveEntitiesWithoutComponents();
-            var newEntities = GetNewEntities(world).Except(Entities).ToList();
-            foreach (var newEntity in newEntities)
+            foreach (var newEntity in GetNewEntities(world).Except(Entities))
                 Entities.Add(newEntity);
         }
 

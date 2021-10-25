@@ -35,7 +35,34 @@ namespace Ecs
             if (neededFilters.Any())
                 return neededFilters.First();
             
-            var res = new EcsFilter<T>(_entities.Where(entity => entity.HasComponent<T>()));
+            var res = new EcsFilter<T>(GetEntitiesForFilter<T>());
+            _filters.Add(res);
+            return res;
+        }
+        
+        public EcsFilter<T, T1> GetFilter<T, T1>() 
+            where T: struct 
+            where T1 : struct
+        {
+            var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1>)).Cast<EcsFilter<T, T1>>().ToList();
+            if (neededFilters.Any())
+                return neededFilters.First();
+            
+            var res = new EcsFilter<T, T1>(GetEntitiesForFilter<T, T1>());
+            _filters.Add(res);
+            return res;
+        }
+
+        public EcsFilter<T, T1, T2> GetFilter<T, T1, T2>()
+            where T : struct
+            where T1 : struct
+            where T2 : struct
+        {
+            var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1, T2>)).Cast<EcsFilter<T, T1, T2>>().ToList();
+            if (neededFilters.Any())
+                return neededFilters.First();
+            
+            var res = new EcsFilter<T, T1, T2>(GetEntitiesForFilter<T, T1, T2>());
             _filters.Add(res);
             return res;
         }

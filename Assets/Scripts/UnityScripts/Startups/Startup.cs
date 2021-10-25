@@ -5,6 +5,7 @@ using Logic.Services;
 using UnityEngine;
 using UnityScripts.Containers;
 using UnityScripts.Conveyors;
+using UnityScripts.EventAttachers;
 using UnityScripts.EventEmitters;
 using UnityScripts.Services;
 
@@ -24,7 +25,7 @@ namespace UnityScripts.Startups
             _runtimeCore.Setup();
 
             var playerEntitiesContainer = new PlayerEntitiesDataContainer();
-            var inputEventEmitter = new InputEventEmitter(_runtimeCore.GetService<IEventAttacher>());
+            var inputEventEmitter = new InputEventEmitter(new PlayerInputEventAttacher(_runtimeCore.GetService<IEventAttacher>(), playerEntitiesContainer));
             var shipConveyor = _runtimeCore.GetService<ShipConveyor>();
             shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer, playerEntitiesContainer, inputEventEmitter));
             

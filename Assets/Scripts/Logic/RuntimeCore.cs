@@ -1,10 +1,12 @@
 using Ecs;
 using Logic.Components.Input;
+using Logic.Components.Time;
 using Logic.Conveyors;
 using Logic.EventAttachers;
 using Logic.Services;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
+using Logic.Systems.Time;
 using Physics;
 
 namespace Logic
@@ -33,17 +35,24 @@ namespace Logic
                 .AddService(new InputCommandQueue());
         }
 
-        public void Init() => _systems
-            .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
-            .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
-            .AddRunSystem(new MoveShipsSystem())
-            .AddRunSystem(new UpdatePhysicsBodiesSystem(_systems.GetService<TimeContainer>(), 
-                _systems.GetService<PhysicsConfiguration>()))
-            .OneFrame<InputAction>()
-            .OneFrame<MovementInputAction>()
-            .OneFrame<LookInputAction>()
-            .OneFrame<FireInputAction>()
-            .Init(_world);
+        public void Init()
+        {
+            var timeContainer = _systems.GetService<TimeContainer>();
+            
+            _systems
+                .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+                .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
+                .AddRunSystem(new MoveShipsSystem())
+                .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
+                    _systems.GetService<PhysicsConfiguration>()))
+                .AddRunSystem(new UpdateTimersSystem(timeContainer))
+                .OneFrame<InputAction>()
+                .OneFrame<MovementInputAction>()
+                .OneFrame<LookInputAction>()
+                .OneFrame<FireInputAction>()
+                .OneFrame<TimerEndEvent>()
+                .Init(_world);
+        }
 
         public void Run()
         {

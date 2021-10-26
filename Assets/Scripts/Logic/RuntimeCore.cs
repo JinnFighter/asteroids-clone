@@ -1,5 +1,6 @@
 using Ecs;
 using Logic.Components.Input;
+using Logic.Components.Time;
 using Logic.Conveyors;
 using Logic.EventAttachers;
 using Logic.Services;
@@ -43,6 +44,7 @@ namespace Logic
             .OneFrame<MovementInputAction>()
             .OneFrame<LookInputAction>()
             .OneFrame<FireInputAction>()
+            .OneFrame<TimerEndEvent>()
             .Init(_world);
 
         public void Run()

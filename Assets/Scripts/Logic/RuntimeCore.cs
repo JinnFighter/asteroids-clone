@@ -47,6 +47,7 @@ namespace Logic
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
+                .AddRunSystem(new CreateAsteroidSystem())
                 .OneFrame<InputAction>()
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()

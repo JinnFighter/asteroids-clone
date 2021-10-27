@@ -54,7 +54,6 @@ namespace Logic
                 .OneFrame<FireInputAction>()
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateAsteroidEvent>()
-                .OneFrame<DestroyEvent>()
                 .Init(_world);
         }
 

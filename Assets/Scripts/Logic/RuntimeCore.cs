@@ -52,6 +52,7 @@ namespace Logic
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
                 .OneFrame<TimerEndEvent>()
+                .OneFrame<CreateAsteroidEvent>()
                 .OneFrame<DestroyEvent>()
                 .Init(_world);
         }

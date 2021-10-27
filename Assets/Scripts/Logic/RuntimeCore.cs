@@ -1,4 +1,5 @@
 using Ecs;
+using Logic.Components.Gameplay;
 using Logic.Components.Input;
 using Logic.Components.Time;
 using Logic.Conveyors;
@@ -51,6 +52,7 @@ namespace Logic
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
                 .OneFrame<TimerEndEvent>()
+                .OneFrame<DestroyEvent>()
                 .Init(_world);
         }
 

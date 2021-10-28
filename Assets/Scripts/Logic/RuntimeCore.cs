@@ -76,7 +76,7 @@ namespace Logic
 
         public void AddService<T>(in T service) => _systems.AddService(service);
         
-        public void AddService<T, T1>(in T1 service) where T1 : T => _systems.AddService<T, T1>(service);
+        public void AddService<T, T1>(in T1 service) where T1 : T => _systems.AddService<T>(service);
 
         public T GetService<T>() => _systems.GetService<T>();
 

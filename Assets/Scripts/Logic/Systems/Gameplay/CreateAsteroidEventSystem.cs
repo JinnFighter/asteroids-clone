@@ -23,10 +23,10 @@ namespace Logic.Systems.Gameplay
 
             foreach (var index in filter)
             {
+                var asteroidCreatorConfig = filter.Get1(index);
                 var random = new Random();
                 var entity = filter.GetEntity(index);
                 var stage = random.Next(1, 4);
-                var mass = 10f;
 
                 var topLeft = _gameFieldConfig.TopLeft;
                 var downRight = _gameFieldConfig.DownRight;
@@ -47,10 +47,10 @@ namespace Logic.Systems.Gameplay
 
                 var position = new Vector2(x, y);
 
-                var direction = new Vector2(-position.X + 2, -position.Y - 1).Normalized  * (mass - 3 * stage);
+                var direction = new Vector2(-position.X + 2, -position.Y - 1).Normalized  * (asteroidCreatorConfig.DefaultMass - 3 * stage);
 
                 entity.AddComponent(new CreateAsteroidEvent
-                    { Direction = direction, Mass = mass, Position = position, Stage = stage });
+                    { Direction = direction, Mass = asteroidCreatorConfig.DefaultMass, Position = position, Stage = stage });
 
                 ref var asteroidConfig = ref filter.Get1(index);
                 ref var timer = ref filter.Get2(index);

@@ -9,7 +9,7 @@ namespace Logic.Conveyors
     {
         protected override void UpdateItemInternal(EcsEntity item)
         {
-            var ship = new Ship { Speed = 50f };
+            var ship = new Ship { Speed = 1f };
             item.AddComponent(ship);
             var physicsComponent = new PhysicsBody
             {

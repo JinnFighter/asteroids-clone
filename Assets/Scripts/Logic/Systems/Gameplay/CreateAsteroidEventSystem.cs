@@ -28,11 +28,24 @@ namespace Logic.Systems.Gameplay
                 var stage = random.Next(1, 4);
                 var mass = 10f;
 
-                var position = random.Next(0, 2) == 0
-                    ? new Vector2(_gameFieldConfig.TopLeft.X,
-                        random.Next((int)_gameFieldConfig.TopLeft.Y, (int)_gameFieldConfig.DownRight.Y))
-                    : new Vector2(_gameFieldConfig.TopLeft.Y,
-                        random.Next((int)_gameFieldConfig.TopLeft.X, (int)_gameFieldConfig.DownRight.X));
+                var topLeft = _gameFieldConfig.TopLeft;
+                var downRight = _gameFieldConfig.DownRight;
+
+                float x = random.Next((int)topLeft.X, (int)downRight.X);
+                float y = random.Next((int)topLeft.Y, (int)downRight.Y);
+                
+                if (random.Next(0, 2) == 0)
+                {
+                    x = Math.Abs(x - topLeft.X) <
+                        Math.Abs(x - downRight.X) ? topLeft.X : downRight.X;
+                }
+                else
+                {
+                    y = Math.Abs(y - topLeft.Y) <
+                        Math.Abs(y - downRight.Y) ? topLeft.Y : downRight.Y;
+                }
+
+                var position = new Vector2(x, y);
 
                 var direction = new Vector2(-position.X, -position.Y).Normalized  * (mass - 3 * stage);
 

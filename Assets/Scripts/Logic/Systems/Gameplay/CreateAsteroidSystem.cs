@@ -16,7 +16,8 @@ namespace Logic.Systems.Gameplay
             {
                 var createAsteroidEvent = filter.Get1(index);
                 var entity = ecsWorld.CreateEntity();
-                entity.AddComponent(new Asteroid());
+                var asteroid = new Asteroid { Stage = createAsteroidEvent.Stage };
+                entity.AddComponent(asteroid);
                 var physicsBody = new PhysicsBody { Position = createAsteroidEvent.Position, Force = Vector2.Zero, 
                     Velocity = createAsteroidEvent.Direction, Mass = createAsteroidEvent.Mass, UseGravity = false };
                 entity.AddComponent(physicsBody);

@@ -47,7 +47,7 @@ namespace Logic.Systems.Gameplay
 
                 var position = new Vector2(x, y);
 
-                var direction = new Vector2(-position.X, -position.Y).Normalized  * (mass - 3 * stage);
+                var direction = new Vector2(-position.X + 2, -position.Y - 1).Normalized  * (mass - 3 * stage);
 
                 entity.AddComponent(new CreateAsteroidEvent
                     { Direction = direction, Mass = mass, Position = position, Stage = stage });

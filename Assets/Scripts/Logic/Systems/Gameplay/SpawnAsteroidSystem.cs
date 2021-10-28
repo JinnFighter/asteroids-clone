@@ -7,11 +7,11 @@ using Physics;
 
 namespace Logic.Systems.Gameplay
 {
-    public class CreateAsteroidSystem : IEcsRunSystem
+    public class SpawnAsteroidSystem : IEcsRunSystem
     {
         private readonly AsteroidCreatorConveyor _asteroidCreatorConveyor;
 
-        public CreateAsteroidSystem(AsteroidCreatorConveyor conveyor)
+        public SpawnAsteroidSystem(AsteroidCreatorConveyor conveyor)
         {
             _asteroidCreatorConveyor = conveyor;
         }

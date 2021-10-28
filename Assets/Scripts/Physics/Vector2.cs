@@ -1,3 +1,5 @@
+using System;
+
 namespace Physics
 {
     public readonly struct Vector2
@@ -50,5 +52,9 @@ namespace Physics
         public static Vector2 Zero => _zero;
 
         public static Vector2 One => _one;
+
+        public float Length => (float)Math.Sqrt(X * X + Y * Y);
+        
+        public Vector2 Normalized => new Vector2(X / Length, Y / Length);
     }
 }

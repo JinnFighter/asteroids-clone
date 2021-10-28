@@ -33,9 +33,11 @@ namespace Logic.Systems.Gameplay
                         random.Next((int)_gameFieldConfig.TopLeft.Y, (int)_gameFieldConfig.DownRight.Y))
                     : new Vector2(_gameFieldConfig.TopLeft.Y,
                         random.Next((int)_gameFieldConfig.TopLeft.X, (int)_gameFieldConfig.DownRight.X));
-                
+
+                var direction = new Vector2(-position.X, -position.Y).Normalized  * (mass - 3 * stage);
+
                 entity.AddComponent(new CreateAsteroidEvent
-                    { Direction = new Vector2(-position.X, -position.Y) * (mass - 3 * stage), Mass = mass, Position = position, Stage = stage });
+                    { Direction = direction, Mass = mass, Position = position, Stage = stage });
 
                 ref var asteroidConfig = ref filter.Get1(index);
                 ref var timer = ref filter.Get2(index);

@@ -15,13 +15,14 @@ namespace Logic.Systems.Gameplay
 
             foreach (var index in filter)
             {
+                var random = new Random();
                 var entity = filter.GetEntity(index);
                 entity.AddComponent(new CreateAsteroidEvent
-                    { Direction = new Vector2(0, 1), Mass = 10f, Position = Vector2.Zero, Stage = 3 });
+                    { Direction = new Vector2(0, 1), Mass = 10f, Position = Vector2.Zero, Stage = random.Next(1, 4) });
 
                 ref var asteroidConfig = ref filter.Get1(index);
                 ref var timer = ref filter.Get2(index);
-                var random = new Random();
+                
                 timer.CurrentTime = random.Next(asteroidConfig.MinTime, asteroidConfig.MaxTime);
                 entity.AddComponent(new Counting());
             }

@@ -2,6 +2,7 @@ using Ecs;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
 using Logic.Components.Time;
+using Logic.Config;
 using Logic.Conveyors;
 using Logic.EventAttachers;
 using Logic.Services;
@@ -30,6 +31,7 @@ namespace Logic
             var asteroidConveyor = new AsteroidConveyor();
             asteroidConveyor.AddNextConveyor(new AsteroidPhysicsBodyConveyor());
             _systems
+                .AddService(new GameFieldConfig(1080, 520))
                 .AddService(physicsConfiguration)
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)

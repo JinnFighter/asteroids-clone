@@ -2,25 +2,29 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Conveyors;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class CreateAsteroidSystem : IEcsRunSystem
     {
+        private readonly AsteroidCreatorConveyor _asteroidCreatorConveyor;
+
+        public CreateAsteroidSystem(AsteroidCreatorConveyor conveyor)
+        {
+            _asteroidCreatorConveyor = conveyor;
+        }
+        
         public void Run(EcsWorld ecsWorld)
         {
             var filter = ecsWorld.GetFilter<CreateAsteroidEvent>();
 
             foreach (var index in filter)
             {
-                var createAsteroidEvent = filter.Get1(index);
+                ref var createAsteroidEvent = ref filter.Get1(index);
                 var entity = ecsWorld.CreateEntity();
-                var asteroid = new Asteroid { Stage = createAsteroidEvent.Stage };
-                entity.AddComponent(asteroid);
-                var physicsBody = new PhysicsBody { Position = createAsteroidEvent.Position, Force = Vector2.Zero, 
-                    Velocity = createAsteroidEvent.Direction, Mass = createAsteroidEvent.Mass, UseGravity = false };
-                entity.AddComponent(physicsBody);
+                _asteroidCreatorConveyor.UpdateItem(entity, createAsteroidEvent);
             }
         }
     }

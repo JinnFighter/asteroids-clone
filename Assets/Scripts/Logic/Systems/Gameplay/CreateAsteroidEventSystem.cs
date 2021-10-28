@@ -1,3 +1,4 @@
+using System;
 using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
@@ -17,6 +18,12 @@ namespace Logic.Systems.Gameplay
                 var entity = filter.GetEntity(index);
                 entity.AddComponent(new CreateAsteroidEvent
                     { Direction = new Vector2(0, 1), Mass = 10f, Position = Vector2.Zero, Stage = 3 });
+
+                ref var asteroidConfig = ref filter.Get1(index);
+                ref var timer = ref filter.Get2(index);
+                var random = new Random();
+                timer.CurrentTime = random.Next(asteroidConfig.MinTime, asteroidConfig.MaxTime);
+                entity.AddComponent(new Counting());
             }
         }
     }

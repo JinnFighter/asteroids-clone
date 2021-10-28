@@ -180,6 +180,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipPrefab: {fileID: 7198773435553656848, guid: 41a39b6a1da4a684aa2b76513f2f4bd2, type: 3}
+  BigAsteroidPrefab: {fileID: 5209058113071072385, guid: 19c2f243f3e9dbb42b370f0e6d15f643, type: 3}
+  MediumAsteroidsPrefabs:
+  - {fileID: 8463467870775141527, guid: cd1b90a02b8821a4cba2684d73e55135, type: 3}
+  - {fileID: 2932468951150079694, guid: 2dcfd28d8f2a0c643ac36bda65af800d, type: 3}
+  - {fileID: 4707339369621394302, guid: c493512e844f1564e99015785b41e935, type: 3}
+  - {fileID: 6779477922637479848, guid: 004c26a740c8c474d8d0edd56f3a587c, type: 3}
+  SmallAsteroidsPrefabs:
+  - {fileID: 4848678286475517779, guid: 650d7692778e1b14192d12a3e35f8673, type: 3}
+  - {fileID: 4139062968670352948, guid: fc2098b734b91904eabf996eae330e2e, type: 3}
+  - {fileID: 8331448637192160725, guid: 3496f8eea3b5ce54086a91219673e5d8, type: 3}
+  - {fileID: 6104130393657859919, guid: 40cfbc12af32151409c3b87baf921493, type: 3}
 --- !u!1 &419103786
 GameObject:
   m_ObjectHideFlags: 0

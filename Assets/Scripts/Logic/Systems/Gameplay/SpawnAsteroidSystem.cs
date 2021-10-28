@@ -1,9 +1,7 @@
 using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
-using Logic.Components.Physics;
 using Logic.Conveyors;
-using Physics;
 
 namespace Logic.Systems.Gameplay
 {

@@ -17,6 +17,8 @@ namespace Logic.Conveyors
             _nextConveyor = nextConveyor;
             return nextConveyor;
         }
+
+        public IConveyor<T> GetLast() => _nextConveyor == null ? this : _nextConveyor.GetLast();
     }
     
     public abstract class Conveyor<T, T1> : IConveyor<T, T1>
@@ -36,5 +38,7 @@ namespace Logic.Conveyors
             _nextConveyor = nextConveyor;
             return nextConveyor;
         }
+
+        public IConveyor<T, T1> GetLast() => _nextConveyor == null ? this : _nextConveyor.GetLast();
     }
 }

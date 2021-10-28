@@ -27,9 +27,12 @@ namespace Logic
         {
             var timeContainer = new TimeContainer();
             var physicsConfiguration = new PhysicsConfiguration();
+            var asteroidConveyor = new AsteroidConveyor();
+            asteroidConveyor.AddNextConveyor(new AsteroidPhysicsBodyConveyor());
             _systems
                 .AddService(physicsConfiguration)
                 .AddService(new ShipConveyor())
+                .AddService(asteroidConveyor)
                 .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter())

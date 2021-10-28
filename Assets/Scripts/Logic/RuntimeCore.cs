@@ -45,6 +45,7 @@ namespace Logic
             
             _systems
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+                .AddInitSystem(new CreateAsteroidCreatorSystem())
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,

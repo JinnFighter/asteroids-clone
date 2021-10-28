@@ -31,7 +31,7 @@ namespace Logic
             var asteroidConveyor = new AsteroidConveyor();
             asteroidConveyor.AddNextConveyor(new AsteroidPhysicsBodyConveyor());
             _systems
-                .AddService(new GameFieldConfig(1080, 520))
+                .AddService(new GameFieldConfig(18, 18))
                 .AddService(physicsConfiguration)
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
@@ -44,7 +44,7 @@ namespace Logic
         public void Init()
         {
             var timeContainer = _systems.GetService<TimeContainer>();
-            
+            var gameFieldConfig = _systems.GetService<GameFieldConfig>();
             _systems
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
                 .AddInitSystem(new CreateAsteroidCreatorSystem())
@@ -53,7 +53,7 @@ namespace Logic
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
-                .AddRunSystem(new CreateAsteroidEventSystem())
+                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .OneFrame<InputAction>()
                 .OneFrame<MovementInputAction>()

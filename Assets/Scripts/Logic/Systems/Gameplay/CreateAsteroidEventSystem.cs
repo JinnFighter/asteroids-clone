@@ -3,12 +3,20 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Time;
+using Logic.Config;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class CreateAsteroidEventSystem : IEcsRunSystem
     {
+        private readonly GameFieldConfig _gameFieldConfig;
+
+        public CreateAsteroidEventSystem(GameFieldConfig gameFieldConfig)
+        {
+            _gameFieldConfig = gameFieldConfig;
+        }
+        
         public void Run(EcsWorld ecsWorld)
         {
             var filter = ecsWorld.GetFilter<AsteroidCreatorConfig, Timer, TimerEndEvent>();
@@ -19,8 +27,15 @@ namespace Logic.Systems.Gameplay
                 var entity = filter.GetEntity(index);
                 var stage = random.Next(1, 4);
                 var mass = 10f;
+
+                var position = random.Next(0, 2) == 0
+                    ? new Vector2(_gameFieldConfig.TopLeft.X,
+                        random.Next((int)_gameFieldConfig.TopLeft.Y, (int)_gameFieldConfig.DownRight.Y))
+                    : new Vector2(_gameFieldConfig.TopLeft.Y,
+                        random.Next((int)_gameFieldConfig.TopLeft.X, (int)_gameFieldConfig.DownRight.X));
+                
                 entity.AddComponent(new CreateAsteroidEvent
-                    { Direction = new Vector2(0, 1) * (mass - 3 * stage), Mass = mass, Position = Vector2.Zero, Stage = stage });
+                    { Direction = new Vector2(-position.X, -position.Y) * (mass - 3 * stage), Mass = mass, Position = position, Stage = stage });
 
                 ref var asteroidConfig = ref filter.Get1(index);
                 ref var timer = ref filter.Get2(index);

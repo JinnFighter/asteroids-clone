@@ -5,8 +5,8 @@ using Logic.Components.Physics;
 using Logic.Conveyors;
 using UnityEngine;
 using UnityScripts.Containers;
-using UnityScripts.Presenters;
-using UnityScripts.Views;
+using UnityScripts.Presentation.Presenters;
+using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.Conveyors
 {

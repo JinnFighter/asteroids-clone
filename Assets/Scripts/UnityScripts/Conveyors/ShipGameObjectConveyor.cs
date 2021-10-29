@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityScripts.Containers;
 using UnityScripts.EventEmitters;
-using UnityScripts.Presenters;
-using UnityScripts.Views;
+using UnityScripts.Presentation.Presenters;
+using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.Conveyors
 {

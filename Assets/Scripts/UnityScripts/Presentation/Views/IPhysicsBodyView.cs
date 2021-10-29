@@ -1,4 +1,4 @@
-namespace UnityScripts.Views
+namespace UnityScripts.Presentation.Views
 {
     public interface IPhysicsBodyView
     {

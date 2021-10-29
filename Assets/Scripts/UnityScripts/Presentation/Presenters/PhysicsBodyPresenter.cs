@@ -1,8 +1,8 @@
 using Logic.Components.Physics;
 using Logic.OutboundEvents;
-using UnityScripts.Views;
+using UnityScripts.Presentation.Views;
 
-namespace UnityScripts.Presenters
+namespace UnityScripts.Presentation.Presenters
 {
     public class PhysicsBodyPresenter
     {

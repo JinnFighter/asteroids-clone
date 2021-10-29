@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityScripts.Views
+namespace UnityScripts.Presentation.Views
 {
     public class PhysicsBodyView : MonoBehaviour, IPhysicsBodyView
     {

@@ -1,6 +1,7 @@
 using Ecs;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
+using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
 using Logic.Conveyors;
@@ -55,6 +56,7 @@ namespace Logic
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
+                .OneFrame<RotateEvent>()
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateAsteroidEvent>()
                 .Init(_world);

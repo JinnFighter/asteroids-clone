@@ -1,5 +1,4 @@
 using Logic.Components.Physics;
-using Logic.OutboundEvents;
 using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.Presentation.Presenters
@@ -15,7 +14,7 @@ namespace UnityScripts.Presentation.Presenters
             _physicsBodyView = physicsBodyView;
         }
 
-        private void UpdatePosition(PositionChangedEvent position) =>
-            _physicsBodyView.UpdatePosition(position.X, position.Y);
+        private void UpdatePosition(float x, float y) =>
+            _physicsBodyView.UpdatePosition(x, y);
     }
 }

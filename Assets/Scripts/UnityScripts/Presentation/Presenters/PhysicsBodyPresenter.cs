@@ -1,15 +1,17 @@
-using Logic.Components.Physics;
+using UnityScripts.Presentation.Models;
 using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.Presentation.Presenters
 {
     public class PhysicsBodyPresenter
     {
+        private readonly PhysicsBodyModel _physicsBodyModel;
         private readonly IPhysicsBodyView _physicsBodyView;
-        
-        public PhysicsBodyPresenter(ref PhysicsBody body, IPhysicsBodyView physicsBodyView)
+
+        public PhysicsBodyPresenter(PhysicsBodyModel physicsBodyModel, IPhysicsBodyView physicsBodyView)
         {
-            body.PositionChangedEvent += UpdatePosition;
+            _physicsBodyModel = physicsBodyModel;
+            _physicsBodyModel.PositionChangedEvent += UpdatePosition;
 
             _physicsBodyView = physicsBodyView;
         }

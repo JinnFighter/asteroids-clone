@@ -16,6 +16,7 @@ namespace Logic.Conveyors
                 Position = Vector2.Zero,
                 Velocity = Vector2.Zero,
                 Force = Vector2.Zero,
+                Direction = new Vector2(0, 1),
                 Mass = 1f,
                 UseGravity = false
             };

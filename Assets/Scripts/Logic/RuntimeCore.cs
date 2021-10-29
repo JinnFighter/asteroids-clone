@@ -48,6 +48,7 @@ namespace Logic
                 .AddInitSystem(new CreateAsteroidCreatorSystem())
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
                 .AddRunSystem(new MoveShipsSystem())
+                .AddRunSystem(new RotatePlayerShipSystem())
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new RotatePhysicsBodiesSystem())

@@ -4,7 +4,6 @@ using Logic.Components.Input;
 using Logic.Components.Time;
 using Logic.Config;
 using Logic.Conveyors;
-using Logic.EventAttachers;
 using Logic.Services;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
@@ -34,7 +33,6 @@ namespace Logic
                 .AddService(physicsConfiguration)
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
-                .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter())
                 .AddService(new InputCommandQueue());

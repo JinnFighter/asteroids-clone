@@ -1,4 +1,3 @@
-using Logic.OutboundEvents;
 using Physics;
 
 namespace Logic.Components.Physics
@@ -14,7 +13,7 @@ namespace Logic.Components.Physics
                 var oldPosition = _position;
                 _position = value;
                 if(!_position.Equals(oldPosition))
-                    PositionChangedEvent?.Invoke(new PositionChangedEvent {X = _position.X, Y = _position.Y });
+                    PositionChangedEvent?.Invoke(_position.X, _position.Y);
             }
         }
         
@@ -23,7 +22,7 @@ namespace Logic.Components.Physics
         public float Mass;
         public bool UseGravity;
         
-        public delegate void PositionChanged(PositionChangedEvent positionChangedEvent);
+        public delegate void PositionChanged(float x, float y);
         public event PositionChanged PositionChangedEvent;
     }
 }

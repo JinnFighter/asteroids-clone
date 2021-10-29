@@ -1,6 +1,7 @@
 using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Physics;
+using Logic.Config;
 using Logic.Services;
 using Physics;
 

@@ -1,4 +1,6 @@
-namespace Physics
+using Physics;
+
+namespace Logic.Config
 {
     public class PhysicsConfiguration
     {

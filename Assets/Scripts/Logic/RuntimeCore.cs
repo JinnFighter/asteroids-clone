@@ -4,12 +4,10 @@ using Logic.Components.Input;
 using Logic.Components.Time;
 using Logic.Config;
 using Logic.Conveyors;
-using Logic.EventAttachers;
 using Logic.Services;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
 using Logic.Systems.Time;
-using Physics;
 
 namespace Logic
 {
@@ -35,7 +33,6 @@ namespace Logic
                 .AddService(physicsConfiguration)
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
-                .AddService<IEventAttacher, DefaultEventAttacher>(new DefaultEventAttacher(_world))
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter())
                 .AddService(new InputCommandQueue());
@@ -55,7 +52,6 @@ namespace Logic
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
-                .OneFrame<InputAction>()
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

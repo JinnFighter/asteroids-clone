@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityScripts.Containers;
 using UnityScripts.EventEmitters;
-using UnityScripts.Presenters;
-using UnityScripts.Views;
+using UnityScripts.Presentation.Models;
+using UnityScripts.Presentation.Presenters;
+using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.Conveyors
 {
@@ -30,7 +31,10 @@ namespace UnityScripts.Conveyors
             {
                 ref var physicsBody = ref item.GetComponent<PhysicsBody>();
                 var shipGameObject = Object.Instantiate(_prefabsContainer.ShipPrefab);
-                var presenter = new PhysicsBodyPresenter(ref physicsBody, shipGameObject.GetComponent<PhysicsBodyView>());
+                
+                var physicsBodyModel = new PhysicsBodyModel(physicsBody.Position.X, physicsBody.Position.Y);
+                physicsBody.PositionChangedEvent += physicsBodyModel.UpdatePosition;
+                var presenter = new PhysicsBodyPresenter(physicsBodyModel, shipGameObject.GetComponent<PhysicsBodyView>());
 
                 var playerInput = shipGameObject.GetComponent<PlayerInput>();
                 var actionMap = playerInput.currentActionMap;

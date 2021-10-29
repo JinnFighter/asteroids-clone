@@ -1,5 +1,5 @@
 {
-    "name": "Logic.Factories",
+    "name": "Logic.Components",
     "rootNamespace": "",
     "references": [
         "GUID:1325b1ea927014649b289e48277d5ee6"

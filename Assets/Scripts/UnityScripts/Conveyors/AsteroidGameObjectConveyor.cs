@@ -5,8 +5,9 @@ using Logic.Components.Physics;
 using Logic.Conveyors;
 using UnityEngine;
 using UnityScripts.Containers;
-using UnityScripts.Presenters;
-using UnityScripts.Views;
+using UnityScripts.Presentation.Models;
+using UnityScripts.Presentation.Presenters;
+using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.Conveyors
 {
@@ -31,7 +32,9 @@ namespace UnityScripts.Conveyors
                 ref var physicsBody = ref item.GetComponent<PhysicsBody>();
                 
                 var asteroidGameObject = Object.Instantiate(_objectSelectors[param.Stage - 1].GetObject());
-                var presenter = new PhysicsBodyPresenter(ref physicsBody, asteroidGameObject.GetComponent<PhysicsBodyView>());
+                var physicsBodyModel = new PhysicsBodyModel(physicsBody.Position.X, physicsBody.Position.Y);
+                physicsBody.PositionChangedEvent += physicsBodyModel.UpdatePosition;
+                var presenter = new PhysicsBodyPresenter(physicsBodyModel, asteroidGameObject.GetComponent<PhysicsBodyView>());
             }
         }
     }

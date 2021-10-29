@@ -28,7 +28,7 @@ namespace Logic.Components.Physics
                 var oldRotation = _rotation;
                 _rotation = value;
                 if (Math.Abs(_rotation - oldRotation) > 0.000005f)
-                    RotationChangedEvent?.Invoke(+_rotation);
+                    RotationChangedEvent?.Invoke(_rotation);
             }
         }
 

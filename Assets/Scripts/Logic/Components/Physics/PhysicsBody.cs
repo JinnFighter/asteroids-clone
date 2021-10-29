@@ -35,6 +35,14 @@ namespace Logic.Components.Physics
         public delegate void RotationChanged(float rotation);
 
         public event RotationChanged RotationChangedEvent;
+
+        private Vector2 _direction;
+        
+        public Vector2 Direction
+        {
+            get => _direction;
+            set => _direction = value.Normalized;
+        }
         
         public Vector2 Velocity;
         public Vector2 Force;

@@ -59,6 +59,15 @@ namespace Physics
 
         public float Dot(Vector2 other) => X * other.X + Y * other.Y;
 
-        public float GetAngleBetween(Vector2 other) => (float)Math.Acos(Dot(other) / (Length * other.Length));
+        public float GetAngleBetween(Vector2 other)
+        {
+            if (Equals(Zero) || other.Equals(Zero))
+                return 0f;
+            
+            var dot = Dot(other);
+            var length = Length * other.Length;
+
+            return (float)Math.Acos(dot / length);
+        }
     }
 }

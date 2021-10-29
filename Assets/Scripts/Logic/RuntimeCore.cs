@@ -52,7 +52,6 @@ namespace Logic
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
-                .OneFrame<InputAction>()
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

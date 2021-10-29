@@ -58,5 +58,7 @@ namespace Physics
         public Vector2 Normalized => new Vector2(X / Length, Y / Length);
 
         public float Dot(Vector2 other) => X * other.X + Y * other.Y;
+
+        public float GetAngleBetween(Vector2 other) => (float)Math.Acos(Dot(other) / (Length * other.Length));
     }
 }

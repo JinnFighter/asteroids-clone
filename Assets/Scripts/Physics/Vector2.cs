@@ -48,6 +48,9 @@ namespace Physics
 
         public static Vector2 operator +(Vector2 left, Vector2 right) =>
             new Vector2(left.X + right.X, left.Y + right.Y);
+        
+        public static Vector2 operator -(Vector2 left, Vector2 right) =>
+            new Vector2(left.X - right.X, left.Y - right.Y);
 
         public static Vector2 Zero => _zero;
 
@@ -55,7 +58,7 @@ namespace Physics
 
         public float Length => (float)Math.Sqrt(X * X + Y * Y);
         
-        public Vector2 Normalized => new Vector2(X / Length, Y / Length);
+        public Vector2 Normalized => Length > 0 ? new Vector2(X / Length, Y / Length) : Zero;
 
         public float Dot(Vector2 other) => X * other.X + Y * other.Y;
 

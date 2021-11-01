@@ -11,7 +11,11 @@ namespace Logic.Conveyors
         {
             var physicsBody = new PhysicsBody
             {
-                Force = Vector2.Zero, Mass = param.Mass, Position = param.Position, Velocity = param.Direction,
+                Force = Vector2.Zero, 
+                Mass = param.Mass, 
+                Position = param.Position, 
+                Velocity = param.Direction,
+                Direction = param.Direction,
                 UseGravity = false
             };
             

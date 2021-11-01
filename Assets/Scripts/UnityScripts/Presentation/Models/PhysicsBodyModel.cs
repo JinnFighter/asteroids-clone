@@ -8,11 +8,19 @@ namespace UnityScripts.Presentation.Models
         public delegate void PositionChanged(float x, float y);
 
         public event PositionChanged PositionChangedEvent;
+        
+        
+        public float Rotation { get; private set; }
+        
+        public delegate void RotationChanged(float rotation);
+
+        public event RotationChanged RotationChangedEvent;
 
         public PhysicsBodyModel(float x, float y)
         {
             X = x;
             Y = y;
+            Rotation = 0f;
         }
 
         public void UpdatePosition(float x, float y)
@@ -20,6 +28,12 @@ namespace UnityScripts.Presentation.Models
             X = x;
             Y = y;
             PositionChangedEvent?.Invoke(x, y);
+        }
+        
+        public void UpdateRotation(float rotationAngle)
+        {
+            Rotation = rotationAngle;
+            RotationChangedEvent?.Invoke(Rotation);
         }
     }
 }

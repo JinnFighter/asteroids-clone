@@ -1,6 +1,7 @@
 using Ecs;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
+using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
 using Logic.Conveyors;
@@ -47,14 +48,17 @@ namespace Logic
                 .AddInitSystem(new CreateAsteroidCreatorSystem())
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
                 .AddRunSystem(new MoveShipsSystem())
+                .AddRunSystem(new RotatePlayerShipSystem())
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()))
+                .AddRunSystem(new RotatePhysicsBodiesSystem())
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
+                .OneFrame<RotateEvent>()
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateAsteroidEvent>()
                 .Init(_world);

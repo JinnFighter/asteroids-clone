@@ -12,11 +12,14 @@ namespace UnityScripts.Presentation.Presenters
         {
             _physicsBodyModel = physicsBodyModel;
             _physicsBodyModel.PositionChangedEvent += UpdatePosition;
+            _physicsBodyModel.RotationChangedEvent += UpdateRotation;
 
             _physicsBodyView = physicsBodyView;
         }
 
         private void UpdatePosition(float x, float y) =>
             _physicsBodyView.UpdatePosition(x, y);
+
+        private void UpdateRotation(float rotationAngle) => _physicsBodyView.UpdateRotation(rotationAngle);
     }
 }

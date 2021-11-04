@@ -12,13 +12,12 @@ namespace Logic.Conveyors
             var ship = new Ship { Speed = 1f };
             item.AddComponent(ship);
             var bodyTransform = new BodyTransform { Position = Vector2.Zero, Direction = new Vector2(0, 1) };
+
+            var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
             var physicsComponent = new PhysicsBody
             {
                 Transform = bodyTransform,
-                Velocity = Vector2.Zero,
-                Force = Vector2.Zero,
-                Mass = 1f,
-                UseGravity = false
+                RigidBody = rigidBody
             };
             
             item.AddComponent(physicsComponent);

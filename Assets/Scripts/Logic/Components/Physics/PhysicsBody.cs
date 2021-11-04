@@ -6,9 +6,6 @@ namespace Logic.Components.Physics
     {
         public BodyTransform Transform;
 
-        public Vector2 Velocity;
-        public Vector2 Force;
-        public float Mass;
-        public bool UseGravity;
+        public PhysicsRigidBody RigidBody;
     }
 }

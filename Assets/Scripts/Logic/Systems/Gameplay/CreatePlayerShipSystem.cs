@@ -20,7 +20,7 @@ namespace Logic.Systems.Gameplay
             var entity = world.CreateEntity();
             _shipConveyor.UpdateItem(entity);
             ref var physicsBody = ref entity.GetComponent<PhysicsBody>();
-            physicsBody.Position = Vector2.Zero;
+            physicsBody.Transform.Position = Vector2.Zero;
         }
     }
 }

@@ -4,7 +4,6 @@ using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
 using Logic.Components.Physics;
-using UnityEngine;
 
 namespace Logic.Systems.Gameplay
 {
@@ -17,17 +16,19 @@ namespace Logic.Systems.Gameplay
             foreach (var index in filter)
             {
                 ref var physicsBody = ref filter.Get2(index);
-                var position = physicsBody.Position;
+                var transform = physicsBody.Transform;
+                var position = transform.Position;
+                
                 var lookInputAction = filter.Get3(index);
                 var lookAtPoint = lookInputAction.LookAtPoint;
-                var direction = physicsBody.Direction;
+                var direction = transform.Direction;
                 var nextDirection = (lookAtPoint - position).Normalized;
                 var angle = (float)(Math.Acos(direction.Dot(nextDirection)) * 180 / Math.PI);
                 var entity = filter.GetEntity(index);
                 if (angle != 0f)
                 {
                     entity.AddComponent(new RotateEvent{ Angle = angle });
-                    physicsBody.Direction = nextDirection;
+                    transform.Direction = nextDirection;
                 }
             }
         }

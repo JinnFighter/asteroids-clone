@@ -30,11 +30,13 @@ namespace UnityScripts.Conveyors
             if (item.HasComponent<PhysicsBody>())
             {
                 ref var physicsBody = ref item.GetComponent<PhysicsBody>();
+                var transform = physicsBody.Transform;
+                
                 var shipGameObject = Object.Instantiate(_prefabsContainer.ShipPrefab);
                 
-                var physicsBodyModel = new PhysicsBodyModel(physicsBody.Position.X, physicsBody.Position.Y);
-                physicsBody.PositionChangedEvent += physicsBodyModel.UpdatePosition;
-                physicsBody.RotationChangedEvent += physicsBodyModel.UpdateRotation;
+                var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
+                transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
+                transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
                 var presenter = new PhysicsBodyPresenter(physicsBodyModel, shipGameObject.GetComponent<PhysicsBodyView>());
 
                 var playerInput = shipGameObject.GetComponent<PlayerInput>();

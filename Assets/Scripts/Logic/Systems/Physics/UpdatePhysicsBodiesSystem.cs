@@ -32,8 +32,6 @@ namespace Logic.Systems.Physics
                 physicsBody.Velocity += physicsBody.Force / physicsBody.Mass * deltaTime;
                 
                 physicsBody.Position += physicsBody.Velocity * deltaTime;
-
-                physicsBody.Force = Vector2.Zero;
             }
         }
     }

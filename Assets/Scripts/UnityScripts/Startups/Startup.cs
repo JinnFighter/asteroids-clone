@@ -31,7 +31,7 @@ namespace UnityScripts.Startups
             var asteroidConveyor = _runtimeCore.GetService<AsteroidConveyor>().GetLast();
             asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer));
 
-            _runtimeCore.AddService<IDeltaTimeCounter, UnityDeltaTimeCounter>(new UnityDeltaTimeCounter());
+            _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             
             _runtimeCore.Init();
         }

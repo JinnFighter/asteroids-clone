@@ -44,8 +44,6 @@ namespace Ecs
 
         public EcsSystems AddService<T>(in T obj) => UpdateServicesContainer(obj);
 
-        public EcsSystems AddService<T, T1>(T1 obj) where T1 : T => UpdateServicesContainer(obj);
-
         private EcsSystems UpdateServicesContainer<T>(in T obj)
         {
             _services[typeof(T)] = obj;

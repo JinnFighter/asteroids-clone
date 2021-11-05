@@ -12,15 +12,15 @@ namespace Physics
         {
             Width = width;
             Height = height;
-            UpdatePosition(position);
+            UpdatePosition(position.X, position.Y);
         }
 
-        public void UpdatePosition(Vector2 position)
+        public void UpdatePosition(float x, float y)
         {
             var halfWidth = Width / 2;
             var halfHeight = Height / 2;
-            TopLeft = new Vector2(position.X - halfWidth, position.Y - halfHeight);
-            DownRight = new Vector2(position.X + halfWidth, position.Y + halfHeight);
+            TopLeft = new Vector2(x - halfWidth, y - halfHeight);
+            DownRight = new Vector2(x + halfWidth, y + halfHeight);
         }
 
         public bool HasCollision(Vector2 position, IPhysicsCollider other,

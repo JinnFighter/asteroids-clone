@@ -53,7 +53,6 @@ namespace Logic
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new RotatePhysicsBodiesSystem())
                 .AddRunSystem(new CheckCollisionsSystem())
-                .AddRunSystem(new UpdateColliderPositionsSystem())
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))

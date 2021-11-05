@@ -39,6 +39,7 @@ namespace UnityScripts.Conveyors
                 var rect = spriteRenderer.sprite.rect;
                 var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
                 physicsBody.Collider = collider;
+                transform.PositionChangedEvent += collider.UpdatePosition;
                 
                 var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;

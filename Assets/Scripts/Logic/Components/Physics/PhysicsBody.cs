@@ -5,7 +5,7 @@ namespace Logic.Components.Physics
     public struct PhysicsBody
     {
         public BodyTransform Transform;
-
         public PhysicsRigidBody RigidBody;
+        public IPhysicsCollider Collider;
     }
 }

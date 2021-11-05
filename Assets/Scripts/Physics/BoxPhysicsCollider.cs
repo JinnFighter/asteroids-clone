@@ -11,11 +11,15 @@ namespace Physics
             Height = height;
         }
         
-        public override CollisionPoints GetCollisionPoints(Vector2 position, PhysicsCollider other,
-            Vector2 otherPosition)
-            => other.GetPointsFromBox(otherPosition, this, position);
+        public override bool GetCollisionPoints(Vector2 position, PhysicsCollider other,
+            Vector2 otherPosition, out CollisionPoints collisionPoints)
+            => other.GetPointsFromBox(otherPosition, this, position, out collisionPoints);
 
-        public override CollisionPoints GetPointsFromBox(Vector2 position, BoxPhysicsCollider other,
-            Vector2 otherPosition) => new CollisionPoints();
+        public override bool GetPointsFromBox(Vector2 position, BoxPhysicsCollider other,
+            Vector2 otherPosition, out CollisionPoints collisionPoints)
+        {
+            collisionPoints = new CollisionPoints();
+            return false;
+        }
     }
 }

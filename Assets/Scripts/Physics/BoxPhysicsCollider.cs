@@ -2,13 +2,15 @@ namespace Physics
 {
     public class BoxPhysicsCollider : PhysicsCollider
     {
-        public float Width { get; set; }
-        public float Height { get; set; }
+        public Vector2 TopLeft { get; private set; }
+        public Vector2 DownRight { get; private set; }
 
-        public BoxPhysicsCollider(float width, float height)
+        public BoxPhysicsCollider(Vector2 position, float width, float height)
         {
-            Width = width;
-            Height = height;
+            var halfWidth = width / 2;
+            var halfHeight = height / 2;
+            TopLeft = new Vector2(position.X - halfWidth, position.Y - halfHeight);
+            DownRight = new Vector2(position.X + halfWidth, position.Y + halfHeight);
         }
         
         public override bool HasCollision(Vector2 position, PhysicsCollider other,

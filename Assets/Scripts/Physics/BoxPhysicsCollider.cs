@@ -30,8 +30,10 @@ namespace Physics
         public bool HasCollisionWithBox(Vector2 position, BoxPhysicsCollider other,
             Vector2 otherPosition)
         {
-            var hasIntersection = false;
-            return hasIntersection;
+            var d1 = other.TopLeft - DownRight;
+            var d2 = TopLeft - other.DownRight;
+
+            return !(d1.X > 0 || d1.Y > 0 || d2.X > 0 || d2.Y > 0);
         }
     }
 }

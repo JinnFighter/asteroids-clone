@@ -1,6 +1,7 @@
 using Ecs;
 using Logic.Components.Physics;
 using Logic.Conveyors;
+using Physics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityScripts.Containers;
@@ -33,6 +34,10 @@ namespace UnityScripts.Conveyors
                 var transform = physicsBody.Transform;
                 
                 var shipGameObject = Object.Instantiate(_prefabsContainer.ShipPrefab);
+                var spriteRenderer = shipGameObject.GetComponent<SpriteRenderer>();
+                var rect = spriteRenderer.sprite.rect;
+                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
+                physicsBody.Collider = collider;
                 
                 var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;

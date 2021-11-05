@@ -3,6 +3,7 @@ using Ecs;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
 using Logic.Conveyors;
+using Physics;
 using UnityEngine;
 using UnityScripts.Containers;
 using UnityScripts.Presentation.Models;
@@ -33,6 +34,12 @@ namespace UnityScripts.Conveyors
                 var transform = physicsBody.Transform;
                 
                 var asteroidGameObject = Object.Instantiate(_objectSelectors[param.Stage - 1].GetObject());
+                
+                var spriteRenderer = asteroidGameObject.GetComponent<SpriteRenderer>();
+                var rect = spriteRenderer.sprite.rect;
+                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
+                physicsBody.Collider = collider;
+                
                 var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
                 transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;

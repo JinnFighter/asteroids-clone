@@ -2,6 +2,6 @@ namespace Physics
 {
     public struct CollisionInfo
     {
-        public IPhysicsCollider OtherCollider;
+        public PhysicsCollider OtherCollider;
     }
 }

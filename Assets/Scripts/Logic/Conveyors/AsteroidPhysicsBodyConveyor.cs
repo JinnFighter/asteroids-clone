@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Ecs;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
@@ -11,7 +12,7 @@ namespace Logic.Conveyors
         {
             var transform = new BodyTransform { Position = param.Position, Direction = param.Direction };
             var rigidBody = new PhysicsRigidBody { Mass = param.Mass, Velocity = param.Direction, UseGravity = false };
-            var collider = new BoxPhysicsCollider(param.Position, 10, 10);
+            var collider = new BoxPhysicsCollider(param.Position, 10, 10, new List<int>(), new List<int>());
             var physicsBody = new PhysicsBody
             {
                 Transform = transform,

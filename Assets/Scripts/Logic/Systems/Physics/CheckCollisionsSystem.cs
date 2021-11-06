@@ -40,7 +40,7 @@ namespace Logic.Systems.Physics
             }
         }
 
-        private void AddCollisionEvent(IPhysicsCollider caller, IPhysicsCollider other)
+        private void AddCollisionEvent(PhysicsCollider caller, PhysicsCollider other)
         {
             var info = new CollisionInfo { OtherCollider = other };
             List<CollisionInfo> collisionInfos;

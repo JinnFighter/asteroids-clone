@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DataContainers;
 using Ecs;
 using Logic.Components.Gameplay;
@@ -37,7 +38,7 @@ namespace UnityScripts.Conveyors
                 
                 var spriteRenderer = asteroidGameObject.GetComponent<SpriteRenderer>();
                 var rect = spriteRenderer.sprite.rect;
-                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
+                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height, new List<int>(), new List<int>());
                 physicsBody.Collider = collider;
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 

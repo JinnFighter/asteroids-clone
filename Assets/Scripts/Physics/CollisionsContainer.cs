@@ -3,7 +3,7 @@ using DataContainers;
 
 namespace Physics
 {
-    public class CollisionsContainer : DictionaryDataContainer<IPhysicsCollider, List<CollisionInfo>>
+    public class CollisionsContainer : DictionaryDataContainer<PhysicsCollider, List<CollisionInfo>>
     {
     }
 }

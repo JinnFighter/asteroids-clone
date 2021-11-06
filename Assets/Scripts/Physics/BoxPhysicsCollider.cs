@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace Physics
 {
-    public class BoxPhysicsCollider : IPhysicsCollider
+    public sealed class BoxPhysicsCollider : PhysicsCollider
     {
         public Vector2 TopLeft { get; private set; }
         public Vector2 DownRight { get; private set; }
@@ -8,14 +10,15 @@ namespace Physics
         public float Width { get; }
         public float Height { get; }
 
-        public BoxPhysicsCollider(Vector2 position, float width, float height)
+        public BoxPhysicsCollider(Vector2 position, float width, float height, IEnumerable<int> layers,
+            IEnumerable<int> targetLayers) : base(layers, targetLayers)
         {
             Width = width;
             Height = height;
             UpdatePosition(position.X, position.Y);
         }
 
-        public void UpdatePosition(float x, float y)
+        public override void UpdatePosition(float x, float y)
         {
             var halfWidth = Width / 2;
             var halfHeight = Height / 2;
@@ -23,11 +26,11 @@ namespace Physics
             DownRight = new Vector2(x + halfWidth, y + halfHeight);
         }
 
-        public bool HasCollision(Vector2 position, IPhysicsCollider other,
+        protected override bool HasCollisionInternal(Vector2 position, PhysicsCollider other,
             Vector2 otherPosition)
             => other.HasCollisionWithBox(otherPosition, this, position);
 
-        public bool HasCollisionWithBox(Vector2 position, BoxPhysicsCollider other,
+        protected internal override bool HasCollisionWithBox(Vector2 position, BoxPhysicsCollider other,
             Vector2 otherPosition)
         {
             var d1 = other.TopLeft - DownRight;

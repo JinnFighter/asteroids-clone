@@ -6,6 +6,6 @@ namespace Logic.Components.Physics
     {
         public BodyTransform Transform;
         public PhysicsRigidBody RigidBody;
-        public IPhysicsCollider Collider;
+        public PhysicsCollider Collider;
     }
 }

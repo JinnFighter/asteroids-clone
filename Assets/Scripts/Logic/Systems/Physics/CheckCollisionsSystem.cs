@@ -31,16 +31,13 @@ namespace Logic.Systems.Physics
                         var secondCollider = secondBody.Collider;
                         if (firstBody.Collider.HasCollision(firstBody.Transform.Position, secondCollider,
                             secondBody.Transform.Position))
-                        {
-                            AddCollisionEvent(firstCollider, secondCollider);
-                            AddCollisionEvent(secondCollider, firstCollider);
-                        }
+                            CreateCollisionInfo(firstCollider, secondCollider);
                     }
                 }
             }
         }
 
-        private void AddCollisionEvent(PhysicsCollider caller, PhysicsCollider other)
+        private void CreateCollisionInfo(PhysicsCollider caller, PhysicsCollider other)
         {
             var info = new CollisionInfo { OtherCollider = other };
             List<CollisionInfo> collisionInfos;

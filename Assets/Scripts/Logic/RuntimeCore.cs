@@ -9,6 +9,7 @@ using Logic.Services;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
 using Logic.Systems.Time;
+using Physics;
 
 namespace Logic
 {
@@ -32,6 +33,7 @@ namespace Logic
             _systems
                 .AddService(new GameFieldConfig(18, 18))
                 .AddService(physicsConfiguration)
+                .AddService(new CollisionsContainer())
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
                 .AddService(timeContainer)

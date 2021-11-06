@@ -15,8 +15,9 @@ namespace UnityScripts.Conveyors
     public class AsteroidGameObjectConveyor : AsteroidCreatorConveyor
     {
         private readonly IObjectSelector<GameObject>[] _objectSelectors;
+        private readonly CollisionLayersContainer _collisionLayersContainer;
 
-        public AsteroidGameObjectConveyor(PrefabsContainer prefabsContainer)
+        public AsteroidGameObjectConveyor(PrefabsContainer prefabsContainer, CollisionLayersContainer collisionLayersContainer)
         {
             _objectSelectors = new IObjectSelector<GameObject>[]
             {
@@ -24,6 +25,8 @@ namespace UnityScripts.Conveyors
                 new GameObjectRandomSelector(prefabsContainer.MediumAsteroidsPrefabs),
                 new GameObjectSingleSelector(prefabsContainer.BigAsteroidPrefab)
             };
+
+            _collisionLayersContainer = collisionLayersContainer;
         }
         
         protected override void UpdateItemInternal(EcsEntity item, CreateAsteroidEvent param)
@@ -40,6 +43,7 @@ namespace UnityScripts.Conveyors
                 var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
                 physicsBody.Collider = collider;
                 transform.PositionChangedEvent += collider.UpdatePosition;
+                collider.CollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 
                 var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;

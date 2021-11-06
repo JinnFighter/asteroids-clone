@@ -32,7 +32,7 @@ namespace UnityScripts.Startups
                 inputEventEmitter, collisionLayersContainer));
 
             var asteroidConveyor = _runtimeCore.GetService<AsteroidConveyor>().GetLast();
-            asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer));
+            asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer, collisionLayersContainer));
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

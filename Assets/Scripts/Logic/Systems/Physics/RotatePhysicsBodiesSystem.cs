@@ -14,7 +14,7 @@ namespace Logic.Systems.Physics
             {
                 ref var physicsBody = ref filter.Get1(index);
                 var rotateEvent = filter.Get2(index);
-                physicsBody.Rotation += rotateEvent.Angle;
+                physicsBody.Transform.Rotation += rotateEvent.Angle;
             }
         }
     }

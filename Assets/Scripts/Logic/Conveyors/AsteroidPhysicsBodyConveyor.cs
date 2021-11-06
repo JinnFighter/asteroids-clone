@@ -1,7 +1,7 @@
 using Ecs;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
-using Vector2 = Physics.Vector2;
+using Physics;
 
 namespace Logic.Conveyors
 {
@@ -9,14 +9,13 @@ namespace Logic.Conveyors
     {
         protected override void UpdateItemInternal(EcsEntity item, CreateAsteroidEvent param)
         {
+            var transform = new BodyTransform { Position = param.Position, Direction = param.Direction };
+            var rigidBody = new PhysicsRigidBody { Mass = param.Mass, Velocity = param.Direction, UseGravity = false };
+            var collider = new BoxPhysicsCollider(param.Position, 10, 10);
             var physicsBody = new PhysicsBody
             {
-                Force = Vector2.Zero, 
-                Mass = param.Mass, 
-                Position = param.Position, 
-                Velocity = param.Direction,
-                Direction = param.Direction,
-                UseGravity = false
+                Transform = transform,
+                RigidBody = rigidBody
             };
             
             item.AddComponent(physicsBody);

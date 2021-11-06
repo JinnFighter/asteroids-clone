@@ -25,13 +25,14 @@ namespace Logic.Systems.Physics
             foreach (var index in filter)
             {
                 ref var physicsBody = ref filter.Get1(index);
+                var rigidBody = physicsBody.RigidBody;
                 
-                var nextForce = (physicsBody.UseGravity ? _physicsConfiguration.Gravity : Vector2.Zero) * physicsBody.Mass;
-                physicsBody.Force += nextForce;
+                var nextForce = (rigidBody.UseGravity ? _physicsConfiguration.Gravity : Vector2.Zero) * rigidBody.Mass;
+                rigidBody.Force += nextForce;
 
-                physicsBody.Velocity += physicsBody.Force / physicsBody.Mass * deltaTime;
+                rigidBody.Velocity += rigidBody.Force / rigidBody.Mass * deltaTime;
                 
-                physicsBody.Position += physicsBody.Velocity * deltaTime;
+                physicsBody.Transform.Position += rigidBody.Velocity * deltaTime;
             }
         }
     }

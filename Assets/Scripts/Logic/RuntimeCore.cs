@@ -9,6 +9,7 @@ using Logic.Services;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
 using Logic.Systems.Time;
+using Physics;
 
 namespace Logic
 {
@@ -32,10 +33,12 @@ namespace Logic
             _systems
                 .AddService(new GameFieldConfig(18, 18))
                 .AddService(physicsConfiguration)
+                .AddService(new CollisionsContainer())
+                .AddService(new CollisionLayersContainer())
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
                 .AddService(timeContainer)
-                .AddService<IDeltaTimeCounter, DefaultDeltaTimeCounter>(new DefaultDeltaTimeCounter())
+                .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
                 .AddService(new InputCommandQueue());
         }
 
@@ -43,7 +46,11 @@ namespace Logic
         {
             var timeContainer = _systems.GetService<TimeContainer>();
             var gameFieldConfig = _systems.GetService<GameFieldConfig>();
+
+            var collisionsContainer = _systems.GetService<CollisionsContainer>();
+            var collisionLayersContainer = _systems.GetService<CollisionLayersContainer>();
             _systems
+                .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
                 .AddInitSystem(new CreateAsteroidCreatorSystem())
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
@@ -52,6 +59,9 @@ namespace Logic
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new RotatePhysicsBodiesSystem())
+                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer))
+                .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
+                .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
@@ -61,6 +71,7 @@ namespace Logic
                 .OneFrame<RotateEvent>()
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateAsteroidEvent>()
+                .OneFrame<GameOverEvent>()
                 .Init(_world);
         }
 
@@ -77,8 +88,6 @@ namespace Logic
         }
 
         public void AddService<T>(in T service) => _systems.AddService(service);
-        
-        public void AddService<T, T1>(in T1 service) where T1 : T => _systems.AddService<T>(service);
 
         public T GetService<T>() => _systems.GetService<T>();
 

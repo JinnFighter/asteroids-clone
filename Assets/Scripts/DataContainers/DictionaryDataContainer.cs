@@ -17,6 +17,10 @@ namespace DataContainers
 
         public bool Contains(T1 item) => _dictionary.ContainsValue(item);
 
+        public bool HasKey(T key) => _dictionary.ContainsKey(key);
+
         public bool TryGetValue(T key, out T1 value) => _dictionary.TryGetValue(key, out value);
+
+        public void Clear() => _dictionary.Clear();
     }
 }

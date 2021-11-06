@@ -45,6 +45,8 @@ namespace Logic
         {
             var timeContainer = _systems.GetService<TimeContainer>();
             var gameFieldConfig = _systems.GetService<GameFieldConfig>();
+
+            var collisionsContainer = _systems.GetService<CollisionsContainer>();
             _systems
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
                 .AddInitSystem(new CreateAsteroidCreatorSystem())
@@ -55,6 +57,7 @@ namespace Logic
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new RotatePhysicsBodiesSystem())
                 .AddRunSystem(new CheckCollisionsSystem())
+                .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))

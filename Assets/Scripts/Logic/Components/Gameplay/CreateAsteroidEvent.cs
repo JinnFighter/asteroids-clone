@@ -1,4 +1,4 @@
-using Physics;
+using Common;
 
 namespace Logic.Components.Gameplay
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Physics
+namespace Common
 {
     public readonly struct Vector2
     {

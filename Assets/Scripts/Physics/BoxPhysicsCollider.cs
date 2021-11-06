@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Physics
 {
     public sealed class BoxPhysicsCollider : PhysicsCollider
@@ -10,8 +8,7 @@ namespace Physics
         public float Width { get; }
         public float Height { get; }
 
-        public BoxPhysicsCollider(Vector2 position, float width, float height, IEnumerable<int> layers,
-            IEnumerable<int> targetLayers) : base(layers, targetLayers)
+        public BoxPhysicsCollider(Vector2 position, float width, float height)
         {
             Width = width;
             Height = height;

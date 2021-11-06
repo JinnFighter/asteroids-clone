@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Ecs;
 using Logic.Components.Physics;
 using Logic.Conveyors;
@@ -37,7 +36,7 @@ namespace UnityScripts.Conveyors
                 var shipGameObject = Object.Instantiate(_prefabsContainer.ShipPrefab);
                 var spriteRenderer = shipGameObject.GetComponent<SpriteRenderer>();
                 var rect = spriteRenderer.sprite.rect;
-                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height, new List<int>(), new List<int>());
+                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
                 physicsBody.Collider = collider;
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 

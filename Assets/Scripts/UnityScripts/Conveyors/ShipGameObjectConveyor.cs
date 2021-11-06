@@ -17,12 +17,15 @@ namespace UnityScripts.Conveyors
         private readonly PrefabsContainer _prefabsContainer;
         private readonly PlayerEntitiesDataContainer _playerEntitiesContainer;
         private readonly InputEventEmitter _inputEventEmitter;
+        private readonly CollisionLayersContainer _collisionLayersContainer;
 
-        public ShipGameObjectConveyor(PrefabsContainer prefabsContainer, PlayerEntitiesDataContainer playerEntities, InputEventEmitter inputEventEmitter)
+        public ShipGameObjectConveyor(PrefabsContainer prefabsContainer, PlayerEntitiesDataContainer playerEntities, 
+            InputEventEmitter inputEventEmitter, CollisionLayersContainer collisionLayersContainer)
         {
             _prefabsContainer = prefabsContainer;
             _playerEntitiesContainer = playerEntities;
             _inputEventEmitter = inputEventEmitter;
+            _collisionLayersContainer = collisionLayersContainer;
         }
         
         protected override void UpdateItemInternal(EcsEntity item)
@@ -37,6 +40,8 @@ namespace UnityScripts.Conveyors
                 var rect = spriteRenderer.sprite.rect;
                 var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
                 physicsBody.Collider = collider;
+                collider.CollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
+                collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 
                 var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);

@@ -34,6 +34,7 @@ namespace Logic
                 .AddService(new GameFieldConfig(18, 18))
                 .AddService(physicsConfiguration)
                 .AddService(new CollisionsContainer())
+                .AddService(new CollisionLayersContainer())
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
                 .AddService(timeContainer)

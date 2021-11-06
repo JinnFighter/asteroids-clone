@@ -4,7 +4,9 @@ namespace DataContainers
     {
         void AddData(T key, T1 value);
         T1 GetData(T key);
+        bool HasKey(T key);
         bool Contains(T1 item);
         bool TryGetValue(T key, out T1 value);
+        void Clear();
     }
 }

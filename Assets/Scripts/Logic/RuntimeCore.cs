@@ -48,7 +48,9 @@ namespace Logic
             var gameFieldConfig = _systems.GetService<GameFieldConfig>();
 
             var collisionsContainer = _systems.GetService<CollisionsContainer>();
+            var collisionLayersContainer = _systems.GetService<CollisionLayersContainer>();
             _systems
+                .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
                 .AddInitSystem(new CreateAsteroidCreatorSystem())
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))

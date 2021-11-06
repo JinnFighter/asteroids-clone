@@ -17,7 +17,7 @@ namespace Logic.Systems.Physics
         
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<PhysicsBody>().Exclude<CollisionEvent>();
+            var filter = ecsWorld.GetFilter<PhysicsBody>();
 
             foreach (var i in filter)
             {
@@ -27,18 +27,20 @@ namespace Logic.Systems.Physics
                     {
                         ref var firstBody = ref filter.Get1(i);
                         ref var secondBody = ref filter.Get1(j);
-                        if (firstBody.Collider.HasCollision(firstBody.Transform.Position, secondBody.Collider,
+                        var firstCollider = firstBody.Collider;
+                        var secondCollider = secondBody.Collider;
+                        if (firstBody.Collider.HasCollision(firstBody.Transform.Position, secondCollider,
                             secondBody.Transform.Position))
                         {
-                            AddCollisionEvent(filter.GetEntity(i), firstBody.Collider, secondBody.Collider);
-                            AddCollisionEvent(filter.GetEntity(j), secondBody.Collider, firstBody.Collider);
+                            AddCollisionEvent(firstCollider, secondCollider);
+                            AddCollisionEvent(secondCollider, firstCollider);
                         }
                     }
                 }
             }
         }
 
-        private void AddCollisionEvent(EcsEntity entity, IPhysicsCollider caller, IPhysicsCollider other)
+        private void AddCollisionEvent(IPhysicsCollider caller, IPhysicsCollider other)
         {
             var info = new CollisionInfo { OtherCollider = other };
             List<CollisionInfo> collisionInfos;
@@ -51,7 +53,6 @@ namespace Logic.Systems.Physics
             }
             
             collisionInfos.Add(info);
-            entity.AddComponent(new CollisionEvent());
         }
     }
 }

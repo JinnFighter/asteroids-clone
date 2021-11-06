@@ -14,7 +14,6 @@ namespace UnityScripts.Conveyors
 {
     public class ShipGameObjectConveyor : EntityConveyor
     {
-        private readonly IPhysicsBodyView _physicsBodyView;
         private readonly PrefabsContainer _prefabsContainer;
         private readonly PlayerEntitiesDataContainer _playerEntitiesContainer;
         private readonly InputEventEmitter _inputEventEmitter;

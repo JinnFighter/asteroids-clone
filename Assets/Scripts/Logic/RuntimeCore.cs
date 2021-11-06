@@ -67,6 +67,7 @@ namespace Logic
                 .OneFrame<RotateEvent>()
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateAsteroidEvent>()
+                .OneFrame<GameOverEvent>()
                 .Init(_world);
         }
 

@@ -6,7 +6,7 @@ using Physics;
 
 namespace Logic.Systems.Physics
 {
-    public class CheckCollisionsSystem : IEcsRunSystem
+    public sealed class CheckCollisionsSystem : IEcsRunSystem
     {
         private readonly CollisionsContainer _collisionsContainer;
 

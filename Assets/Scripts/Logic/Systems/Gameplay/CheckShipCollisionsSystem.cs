@@ -22,7 +22,8 @@ namespace Logic.Systems.Gameplay
             foreach (var index in filter)
             {
                 var physicsBody = filter.Get2(index);
-                if (_collisionsContainer.GetData(physicsBody.Collider).Any())
+                if (_collisionsContainer.TryGetValue(physicsBody.Collider, out var collisionInfos) 
+                    && collisionInfos.Any())
                 {
                     var entity = filter.GetEntity(index);
                     entity.AddComponent(new GameOverEvent());

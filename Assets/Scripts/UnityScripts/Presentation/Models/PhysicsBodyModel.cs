@@ -15,6 +15,10 @@ namespace UnityScripts.Presentation.Models
         public delegate void RotationChanged(float rotation);
 
         public event RotationChanged RotationChangedEvent;
+        
+        public delegate void Destroy();
+
+        public event Destroy DestroyEvent;
 
         public PhysicsBodyModel(float x, float y)
         {

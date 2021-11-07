@@ -16,9 +16,9 @@ namespace UnityScripts.Presentation.Models
 
         public event RotationChanged RotationChangedEvent;
         
-        public delegate void Destroy();
+        public delegate void OnDestroyEvent();
 
-        public event Destroy DestroyEvent;
+        public event OnDestroyEvent DestroyEvent;
 
         public PhysicsBodyModel(float x, float y)
         {
@@ -39,5 +39,7 @@ namespace UnityScripts.Presentation.Models
             Rotation = rotationAngle;
             RotationChangedEvent?.Invoke(Rotation);
         }
+
+        public void Destroy() => DestroyEvent?.Invoke();
     }
 }

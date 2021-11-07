@@ -47,6 +47,7 @@ namespace UnityScripts.Conveyors
                 var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
                 transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
+                transform.DestroyEvent += physicsBodyModel.Destroy;
                 var presenter = new PhysicsBodyPresenter(physicsBodyModel, shipGameObject.GetComponent<PhysicsBodyView>());
 
                 var playerInput = shipGameObject.GetComponent<PlayerInput>();

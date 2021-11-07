@@ -48,10 +48,8 @@ namespace Physics
             get => _direction;
             set => _direction = value.Normalized;
         }
-        
-        public delegate void OnDestroy();
 
-        public event OnDestroy DestroyEvent;
+        public event IDestroyable.OnDestroyEvent DestroyEvent;
 
         public void Destroy() => DestroyEvent?.Invoke();
     }

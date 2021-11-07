@@ -9,5 +9,7 @@ namespace UnityScripts.Presentation.Views
 
         public void UpdateRotation(float rotationAngle) =>
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, rotationAngle));
+
+        public void Destroy() => Object.Destroy(gameObject);
     }
 }

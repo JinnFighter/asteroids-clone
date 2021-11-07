@@ -1,7 +1,9 @@
 {
     "name": "UnityScripts.Ui",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:be627297f7fb79746893774a1db12d2a"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

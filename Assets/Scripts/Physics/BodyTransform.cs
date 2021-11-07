@@ -1,9 +1,10 @@
 using System;
 using Common;
+using Common.Interfaces;
 
 namespace Physics
 {
-    public class BodyTransform
+    public class BodyTransform : IDestroyable
     {
         private Vector2 _position;
         public Vector2 Position
@@ -47,5 +48,9 @@ namespace Physics
             get => _direction;
             set => _direction = value.Normalized;
         }
+
+        public event IDestroyable.OnDestroyEvent DestroyEvent;
+
+        public void Destroy() => DestroyEvent?.Invoke();
     }
 }

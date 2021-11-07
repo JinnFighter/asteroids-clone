@@ -1,6 +1,8 @@
+using Common.Interfaces;
+
 namespace UnityScripts.Presentation.Models
 {
-    public class PhysicsBodyModel
+    public class PhysicsBodyModel : IDestroyable
     {
         public float X { get; private set; }
         public float Y { get; private set; }
@@ -15,6 +17,8 @@ namespace UnityScripts.Presentation.Models
         public delegate void RotationChanged(float rotation);
 
         public event RotationChanged RotationChangedEvent;
+
+        public event IDestroyable.OnDestroyEvent DestroyEvent;
 
         public PhysicsBodyModel(float x, float y)
         {
@@ -35,5 +39,7 @@ namespace UnityScripts.Presentation.Models
             Rotation = rotationAngle;
             RotationChangedEvent?.Invoke(Rotation);
         }
+
+        public void Destroy() => DestroyEvent?.Invoke();
     }
 }

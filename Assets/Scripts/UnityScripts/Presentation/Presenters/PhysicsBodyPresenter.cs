@@ -13,6 +13,7 @@ namespace UnityScripts.Presentation.Presenters
             _physicsBodyModel = physicsBodyModel;
             _physicsBodyModel.PositionChangedEvent += UpdatePosition;
             _physicsBodyModel.RotationChangedEvent += UpdateRotation;
+            _physicsBodyModel.DestroyEvent += Destroy;
 
             _physicsBodyView = physicsBodyView;
         }
@@ -21,5 +22,14 @@ namespace UnityScripts.Presentation.Presenters
             _physicsBodyView.UpdatePosition(x, y);
 
         private void UpdateRotation(float rotationAngle) => _physicsBodyView.UpdateRotation(rotationAngle);
+
+        private void Destroy()
+        {
+            _physicsBodyModel.PositionChangedEvent -= UpdatePosition;
+            _physicsBodyModel.RotationChangedEvent -= UpdateRotation;
+            _physicsBodyModel.DestroyEvent -= Destroy;
+            
+            _physicsBodyView.Destroy();
+        }
     }
 }

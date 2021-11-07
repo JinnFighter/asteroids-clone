@@ -65,6 +65,9 @@ namespace Logic
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
+                .AddRunSystem(new DestroyAsteroidsSystem())
+                .AddRunSystem(new DestroyShipsSystem())
+                .AddRunSystem(new DestroyPhysicsBodySystem())
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
@@ -72,6 +75,7 @@ namespace Logic
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateAsteroidEvent>()
                 .OneFrame<GameOverEvent>()
+                .OneFrame<DestroyEvent>()
                 .Init(_world);
         }
 

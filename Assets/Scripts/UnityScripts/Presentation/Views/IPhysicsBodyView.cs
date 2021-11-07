@@ -4,5 +4,6 @@ namespace UnityScripts.Presentation.Views
     {
         void UpdatePosition(float x, float y);
         void UpdateRotation(float rotationAngle);
+        void Destroy();
     }
 }

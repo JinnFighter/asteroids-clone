@@ -13,6 +13,8 @@ namespace Logic.Systems.Gameplay
 
             foreach (var index in filter)
             {
+                var physicsBody = filter.Get1(index);
+                physicsBody.Transform.Destroy();
                 var entity = filter.GetEntity(index);
                 entity.RemoveComponent<PhysicsBody>();
             }

@@ -62,6 +62,7 @@ namespace Logic
                 .AddRunSystem(new CheckCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
+                .AddRunSystem(new ResetOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new DestroyAsteroidsSystem())
                 .AddRunSystem(new DestroyShipsSystem())

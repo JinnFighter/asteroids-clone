@@ -6,11 +6,11 @@ using Logic.Config;
 
 namespace Logic.Systems.Gameplay
 {
-    public class ResetOffScreenObjectsSystem : IEcsRunSystem
+    public class WrapOffScreenObjectsSystem : IEcsRunSystem
     {
         private readonly GameFieldConfig _gameFieldConfig;
 
-        public ResetOffScreenObjectsSystem(GameFieldConfig gameFieldConfig)
+        public WrapOffScreenObjectsSystem(GameFieldConfig gameFieldConfig)
         {
             _gameFieldConfig = gameFieldConfig;
         }

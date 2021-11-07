@@ -32,7 +32,7 @@ namespace Logic
             var asteroidConveyor = new AsteroidConveyor();
             asteroidConveyor.AddNextConveyor(new AsteroidPhysicsBodyConveyor());
             _systems
-                .AddService(new GameFieldConfig(18, 18))
+                .AddService(new GameFieldConfig(18, 10))
                 .AddService(physicsConfiguration)
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())

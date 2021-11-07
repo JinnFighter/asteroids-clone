@@ -67,6 +67,7 @@ namespace Logic
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .AddRunSystem(new DestroyAsteroidsSystem())
                 .AddRunSystem(new DestroyShipsSystem())
+                .AddRunSystem(new DestroyPhysicsBodySystem())
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

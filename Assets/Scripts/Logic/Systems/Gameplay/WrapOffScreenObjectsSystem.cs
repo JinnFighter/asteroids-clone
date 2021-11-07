@@ -1,6 +1,7 @@
 using Common;
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.GameField;
 using Logic.Components.Physics;
 using Logic.Config;
 
@@ -29,13 +30,27 @@ namespace Logic.Systems.Gameplay
                 var oldPosition = transform.Position;
                 var x = oldPosition.X;
                 var y = oldPosition.Y;
-                if (x < topLeft.X || x > downRight.X)
-                    x = -x;
+                var isWrappingX = TryWrap(x, topLeft.X, downRight.X, out x);
+                var isWrappingY = TryWrap(y, topLeft.Y, downRight.Y, out y);
                 
-                if (y < topLeft.Y || y > downRight.Y)
-                    y = -y;
                 transform.Position = new Vector2(x, y);
+                if (isWrappingX || isWrappingY)
+                {
+                    var entity = filter.GetEntity(index);
+                    entity.AddComponent(new IsWrapped{ IsWrappingX = isWrappingX, IsWrappingY = isWrappingY });
+                }
             }
+        }
+        
+        private bool TryWrap(float val, float begin, float end, out float wrappedVal)
+        {
+            var isOutside = val < begin || val > end;
+            if (isOutside)
+                wrappedVal = -val;
+            else
+                wrappedVal = val;
+
+            return isOutside;
         }
     }
 }

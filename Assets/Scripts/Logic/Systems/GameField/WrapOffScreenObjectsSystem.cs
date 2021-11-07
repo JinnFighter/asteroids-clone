@@ -5,7 +5,7 @@ using Logic.Components.GameField;
 using Logic.Components.Physics;
 using Logic.Config;
 
-namespace Logic.Systems.Gameplay
+namespace Logic.Systems.GameField
 {
     public class WrapOffScreenObjectsSystem : IEcsRunSystem
     {

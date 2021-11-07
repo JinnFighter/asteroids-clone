@@ -6,6 +6,7 @@ using Logic.Components.Time;
 using Logic.Config;
 using Logic.Conveyors;
 using Logic.Services;
+using Logic.Systems.GameField;
 using Logic.Systems.Gameplay;
 using Logic.Systems.Physics;
 using Logic.Systems.Time;
@@ -31,7 +32,7 @@ namespace Logic
             var asteroidConveyor = new AsteroidConveyor();
             asteroidConveyor.AddNextConveyor(new AsteroidPhysicsBodyConveyor());
             _systems
-                .AddService(new GameFieldConfig(18, 18))
+                .AddService(new GameFieldConfig(18, 10))
                 .AddService(physicsConfiguration)
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
@@ -62,12 +63,13 @@ namespace Logic
                 .AddRunSystem(new CheckCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
+                .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
-                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
-                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .AddRunSystem(new DestroyAsteroidsSystem())
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
+                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
+                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

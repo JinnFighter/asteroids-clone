@@ -38,6 +38,7 @@ namespace UnityScripts.Conveyors
                 physicsBody.Collider = collider;
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
+                collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
                 
                 var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;

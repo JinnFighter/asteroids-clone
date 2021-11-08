@@ -18,7 +18,8 @@ namespace Logic.Systems.Gameplay
                 var transform = physicsBody.Transform;
                 
                 var entity = filter.GetEntity(index);
-                entity.AddComponent(new CreateBulletEvent { Direction = transform.Direction, Velocity = transform.Direction * 3 });
+                entity.AddComponent(new CreateBulletEvent { Position = transform.Position, 
+                    Direction = transform.Direction, Velocity = transform.Direction * 3 });
             }
         }
     }

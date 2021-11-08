@@ -38,6 +38,7 @@ namespace Logic
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
+                .AddService(new BulletConveyor())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
                 .AddService(new InputCommandQueue());

@@ -9,5 +9,7 @@ namespace UnityScripts.Containers
         public GameObject BigAsteroidPrefab;
         public GameObject[] MediumAsteroidsPrefabs;
         public GameObject[] SmallAsteroidsPrefabs;
+
+        public GameObject BulletPrefab;
     }
 }

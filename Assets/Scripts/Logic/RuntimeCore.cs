@@ -66,6 +66,7 @@ namespace Logic
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
+                .AddRunSystem(new DestroyBulletsSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem())
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())

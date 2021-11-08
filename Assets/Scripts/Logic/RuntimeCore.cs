@@ -75,6 +75,7 @@ namespace Logic
                 .OneFrame<FireInputAction>()
                 .OneFrame<RotateEvent>()
                 .OneFrame<TimerEndEvent>()
+                .OneFrame<CreateBulletEvent>()
                 .OneFrame<CreateAsteroidEvent>()
                 .OneFrame<GameOverEvent>()
                 .OneFrame<DestroyEvent>()

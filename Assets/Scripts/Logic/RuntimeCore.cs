@@ -54,6 +54,9 @@ namespace Logic
 
             var collisionsContainer = _systems.GetService<CollisionsContainer>();
             var collisionLayersContainer = _systems.GetService<CollisionLayersContainer>();
+
+            var random = _systems.GetService<IRandomizer>();
+            
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
@@ -74,7 +77,7 @@ namespace Logic
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
-                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig))
+                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, random))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletConveyor>()))
                 .OneFrame<MovementInputAction>()

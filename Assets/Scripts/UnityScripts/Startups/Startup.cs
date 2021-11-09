@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityScripts.Containers;
 using UnityScripts.Conveyors;
 using UnityScripts.EventEmitters;
-using UnityScripts.Presentation.Views;
 using UnityScripts.Services;
 
 namespace UnityScripts.Startups
@@ -18,7 +17,7 @@ namespace UnityScripts.Startups
         
         private PrefabsContainer _prefabsContainer;
 
-        public UiTransformBodyView ShipUiView;
+        public GameObject ShipUiView;
 
         // Start is called before the first frame update
         void Start()

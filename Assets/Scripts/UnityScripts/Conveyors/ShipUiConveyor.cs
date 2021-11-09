@@ -1,6 +1,7 @@
 using Ecs;
 using Logic.Components.Physics;
 using Logic.Conveyors;
+using UnityEngine;
 using UnityScripts.Presentation.Models;
 using UnityScripts.Presentation.Presenters;
 using UnityScripts.Presentation.Views;
@@ -9,11 +10,11 @@ namespace UnityScripts.Conveyors
 {
     public class ShipUiConveyor : EntityConveyor
     {
-        private readonly UiTransformBodyView _uiTransformBodyView;
+        private readonly GameObject _shipUiGameObject;
 
-        public ShipUiConveyor(UiTransformBodyView uiTransformBodyView)
+        public ShipUiConveyor(GameObject shipUiGameObject)
         {
-            _uiTransformBodyView = uiTransformBodyView;
+            _shipUiGameObject = shipUiGameObject;
         }
         
         protected override void UpdateItemInternal(EcsEntity item)
@@ -23,11 +24,12 @@ namespace UnityScripts.Conveyors
                 var physicsBody = item.GetComponent<PhysicsBody>();
                 var transform = physicsBody.Transform;
                 
-                var physicsBodyModel = new TransformBodyModel(transform.Position.X, transform.Position.Y);
-                transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
-                transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
-                transform.DestroyEvent += physicsBodyModel.Destroy;
-                var presenter = new TransformBodyPresenter(physicsBodyModel, _uiTransformBodyView);
+                var transformBodyModel = new TransformBodyModel(transform.Position.X, transform.Position.Y);
+                transform.PositionChangedEvent += transformBodyModel.UpdatePosition;
+                transform.RotationChangedEvent += transformBodyModel.UpdateRotation;
+                transform.DestroyEvent += transformBodyModel.Destroy;
+                var presenter = new TransformBodyPresenter(transformBodyModel, 
+                    _shipUiGameObject.GetComponent<UiTransformBodyView>());
             }
         }
     }

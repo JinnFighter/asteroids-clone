@@ -49,11 +49,11 @@ namespace UnityScripts.Conveyors
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 collider.CollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 
-                var physicsBodyModel = new PhysicsBodyModel(position.X, position.Y);
+                var physicsBodyModel = new TransformBodyModel(position.X, position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
                 transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
                 transform.DestroyEvent += physicsBodyModel.Destroy;
-                var presenter = new PhysicsBodyPresenter(physicsBodyModel, asteroidGameObject.GetComponent<PhysicsBodyView>());
+                var presenter = new TransformBodyPresenter(physicsBodyModel, asteroidGameObject.GetComponent<TransformBodyView>());
             }
         }
     }

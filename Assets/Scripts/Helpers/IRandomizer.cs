@@ -1,4 +1,4 @@
-namespace Logic.Services
+namespace Helpers
 {
     public interface IRandomizer
     {

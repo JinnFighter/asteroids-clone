@@ -1,6 +1,6 @@
 using System;
 
-namespace Logic.Services
+namespace Helpers
 {
     public class Randomizer : IRandomizer
     {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Vector2 = Common.Vector2;
@@ -13,7 +14,7 @@ namespace UnityScripts.Presentation.Views
             UpdateVelocity(Vector2.Zero);
         }
 
-        public void UpdateVelocity(Vector2 velocity) => _velocityText.text = $"Speed : { velocity.Length }";
+        public void UpdateVelocity(Vector2 velocity) => _velocityText.text = $"Speed : { Math.Round(velocity.Length) }";
 
         public void Destroy() => _velocityText.gameObject.SetActive(false);
     }

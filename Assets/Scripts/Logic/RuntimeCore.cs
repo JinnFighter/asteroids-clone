@@ -74,7 +74,7 @@ namespace Logic
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new DestroyBulletsSystem())
-                .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig))
+                .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, random))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, random))

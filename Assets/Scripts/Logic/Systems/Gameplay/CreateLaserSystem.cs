@@ -1,6 +1,7 @@
 using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
+using Logic.Components.Time;
 
 namespace Logic.Systems.Gameplay
 {
@@ -14,6 +15,7 @@ namespace Logic.Systems.Gameplay
             {
                 var entity = filter.GetEntity(index);
                 entity.AddComponent(new Laser{ CurrentAmmo = 0, MaxAmmo = 3 });
+                entity.AddComponent(new Timer{ CurrentTime = 7f });
             }
         }
     }

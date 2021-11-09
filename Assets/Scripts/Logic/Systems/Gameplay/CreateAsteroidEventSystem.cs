@@ -13,13 +13,13 @@ namespace Logic.Systems.Gameplay
     {
         private readonly GameFieldConfig _gameFieldConfig;
         private readonly AsteroidConfig _asteroidConfig;
-        private readonly IRandomizer _random;
+        private readonly IRandomizer _randomizer;
 
-        public CreateAsteroidEventSystem(GameFieldConfig gameFieldConfig, AsteroidConfig asteroidConfig, IRandomizer random)
+        public CreateAsteroidEventSystem(GameFieldConfig gameFieldConfig, AsteroidConfig asteroidConfig, IRandomizer randomizer)
         {
             _gameFieldConfig = gameFieldConfig;
             _asteroidConfig = asteroidConfig;
-            _random = random;
+            _randomizer = randomizer;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -29,15 +29,15 @@ namespace Logic.Systems.Gameplay
             foreach (var index in filter)
             {
                 var entity = filter.GetEntity(index);
-                var stage = _random.Range(1, 4);
+                var stage = _randomizer.Range(1, 4);
 
                 var topLeft = _gameFieldConfig.TopLeft;
                 var downRight = _gameFieldConfig.DownRight;
 
-                float x = _random.Range((int)topLeft.X, (int)downRight.X);
-                float y = _random.Range((int)topLeft.Y, (int)downRight.Y);
+                float x = _randomizer.Range((int)topLeft.X, (int)downRight.X);
+                float y = _randomizer.Range((int)topLeft.Y, (int)downRight.Y);
                 
-                if (_random.IsProc(50))
+                if (_randomizer.IsProc(50))
                 {
                     x = Math.Abs(x - topLeft.X) <
                         Math.Abs(x - downRight.X) ? topLeft.X : downRight.X;
@@ -58,7 +58,7 @@ namespace Logic.Systems.Gameplay
                 ref var asteroidConfig = ref filter.Get1(index);
                 ref var timer = ref filter.Get2(index);
                 
-                timer.CurrentTime = _random.Range(asteroidConfig.MinTime, asteroidConfig.MaxTime);
+                timer.CurrentTime = _randomizer.Range(asteroidConfig.MinTime, asteroidConfig.MaxTime);
                 entity.AddComponent(new Counting());
             }
         }

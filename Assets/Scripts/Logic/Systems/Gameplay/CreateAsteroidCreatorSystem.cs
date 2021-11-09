@@ -8,11 +8,11 @@ namespace Logic.Systems.Gameplay
 {
     public class CreateAsteroidCreatorSystem : IEcsInitSystem
     {
-        private readonly IRandomizer _random;
+        private readonly IRandomizer _randomizer;
 
-        public CreateAsteroidCreatorSystem(IRandomizer random)
+        public CreateAsteroidCreatorSystem(IRandomizer randomizer)
         {
-            _random = random;
+            _randomizer = randomizer;
         }
         
         public void Init(EcsWorld world)
@@ -22,7 +22,7 @@ namespace Logic.Systems.Gameplay
             entity.AddComponent(asteroidCreatorConfig);
             
             var timer = new Timer
-                { CurrentTime = _random.Range(asteroidCreatorConfig.MinTime, asteroidCreatorConfig.MaxTime) };
+                { CurrentTime = _randomizer.Range(asteroidCreatorConfig.MinTime, asteroidCreatorConfig.MaxTime) };
             entity.AddComponent(timer);
             entity.AddComponent(new Counting());
         }

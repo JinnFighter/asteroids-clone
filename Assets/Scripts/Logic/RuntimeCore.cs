@@ -87,6 +87,7 @@ namespace Logic
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
+                .OneFrame<LaserFireInputAction>()
                 .OneFrame<RotateEvent>()
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateBulletEvent>()

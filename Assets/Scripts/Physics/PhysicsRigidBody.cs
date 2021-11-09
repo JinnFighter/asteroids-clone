@@ -4,10 +4,23 @@ namespace Physics
 {
     public class PhysicsRigidBody
     {
-        public Vector2 Velocity;
+        private Vector2 _velocity;
+        public Vector2 Velocity
+        {
+            get => _velocity;
+            set
+            {
+                _velocity = value;
+                VelocityChangedEvent?.Invoke(_velocity);
+            }
+        }
         public Vector2 Force;
         public float Mass;
         public bool UseGravity;
+
+        public delegate void VelocityChanged(Vector2 velocity);
+
+        public event VelocityChanged VelocityChangedEvent;
 
         public PhysicsRigidBody()
         {

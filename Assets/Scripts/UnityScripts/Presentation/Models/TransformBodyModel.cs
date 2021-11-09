@@ -2,7 +2,7 @@ using Common.Interfaces;
 
 namespace UnityScripts.Presentation.Models
 {
-    public class PhysicsBodyModel : IDestroyable
+    public class TransformBodyModel : IDestroyable
     {
         public float X { get; private set; }
         public float Y { get; private set; }
@@ -20,7 +20,7 @@ namespace UnityScripts.Presentation.Models
 
         public event IDestroyable.OnDestroyEvent DestroyEvent;
 
-        public PhysicsBodyModel(float x, float y)
+        public TransformBodyModel(float x, float y)
         {
             X = x;
             Y = y;

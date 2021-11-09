@@ -17,6 +17,8 @@ namespace Logic.Systems.Gameplay
                 if (laser.CurrentAmmo > 0)
                 {
                     laser.CurrentAmmo--;
+                    var entity = filter.GetEntity(index);
+                    entity.AddComponent(new ShootLaserEvent());
                 }
             }
         }

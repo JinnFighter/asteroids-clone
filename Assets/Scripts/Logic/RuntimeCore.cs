@@ -1,4 +1,5 @@
 using Ecs;
+using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
 using Logic.Components.Physics;
@@ -42,7 +43,8 @@ namespace Logic
                 .AddService(new BulletConveyor())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
-                .AddService(new InputCommandQueue());
+                .AddService(new InputCommandQueue())
+                .AddService<IRandomizer>(new Randomizer());
         }
 
         public void Init()
@@ -53,10 +55,13 @@ namespace Logic
 
             var collisionsContainer = _systems.GetService<CollisionsContainer>();
             var collisionLayersContainer = _systems.GetService<CollisionLayersContainer>();
+
+            var randomizer = _systems.GetService<IRandomizer>();
+            
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
-                .AddInitSystem(new CreateAsteroidCreatorSystem())
+                .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())
@@ -70,10 +75,10 @@ namespace Logic
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new DestroyBulletsSystem())
-                .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig))
+                .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
-                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig))
+                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletConveyor>()))
                 .OneFrame<MovementInputAction>()

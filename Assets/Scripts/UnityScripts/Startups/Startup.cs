@@ -1,3 +1,4 @@
+using Helpers;
 using Logic;
 using Logic.Conveyors;
 using Logic.Services;
@@ -23,6 +24,7 @@ namespace UnityScripts.Startups
             _runtimeCore = new RuntimeCore();
             _runtimeCore.Setup();
 
+            var randomizer = _runtimeCore.GetService<IRandomizer>();
             var collisionLayersContainer = _runtimeCore.GetService<CollisionLayersContainer>();
             var playerEntitiesContainer = new PlayerEntitiesDataContainer();
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, 
@@ -32,7 +34,8 @@ namespace UnityScripts.Startups
                 inputEventEmitter, collisionLayersContainer));
 
             var asteroidConveyor = _runtimeCore.GetService<AsteroidConveyor>().GetLast();
-            asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer, collisionLayersContainer));
+            asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer, collisionLayersContainer, 
+                randomizer));
 
             var bulletConveyor = _runtimeCore.GetService<BulletConveyor>().GetLast();
             bulletConveyor.AddNextConveyor(new BulletGameObjectConveyor(_prefabsContainer, collisionLayersContainer));

@@ -24,6 +24,7 @@ namespace UnityScripts.EventEmitters
             _inputActionConverters.Add(playerActions.Look.id, new LookInputActionConverter());
             _inputActionConverters.Add(playerActions.Move.id, new MovementInputActionConverter());
             _inputActionConverters.Add(playerActions.Fire.id, new FireInputActionConverter());
+            _inputActionConverters.Add(playerActions.LaserFire.id, new LaserFireInputActionConverter());
         }
 
         private void CreateInputEvent(InputAction.CallbackContext context)

@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityScripts.Containers;
 using UnityScripts.Conveyors;
 using UnityScripts.EventEmitters;
+using UnityScripts.Presentation.Views;
 using UnityScripts.Services;
 
 namespace UnityScripts.Startups
@@ -16,6 +17,8 @@ namespace UnityScripts.Startups
         private RuntimeCore _runtimeCore;
         
         private PrefabsContainer _prefabsContainer;
+
+        public UiTransformBodyView ShipUiView;
 
         // Start is called before the first frame update
         void Start()
@@ -30,8 +33,10 @@ namespace UnityScripts.Startups
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, 
                 _runtimeCore.GetService<InputCommandQueue>());
             var shipConveyor = _runtimeCore.GetService<ShipConveyor>().GetLast();
-            shipConveyor.AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer, playerEntitiesContainer, 
-                inputEventEmitter, collisionLayersContainer));
+            shipConveyor
+                .AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer, playerEntitiesContainer, 
+                inputEventEmitter, collisionLayersContainer))
+                .AddNextConveyor(new ShipUiConveyor(ShipUiView));
 
             var asteroidConveyor = _runtimeCore.GetService<AsteroidConveyor>().GetLast();
             asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer, collisionLayersContainer, 

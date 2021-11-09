@@ -42,8 +42,9 @@ namespace UnityScripts.Conveyors
                     new Vector2(position.X, position.Y), Quaternion.identity);
                 
                 var spriteRenderer = asteroidGameObject.GetComponent<SpriteRenderer>();
-                var rect = spriteRenderer.sprite.rect;
-                var collider = new BoxPhysicsCollider(position, rect.width, rect.height);
+                var rect = spriteRenderer.sprite.bounds;
+                var size = rect.size;
+                var collider = new BoxPhysicsCollider(transform.Position, size.x, size.y);
                 physicsBody.Collider = collider;
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 collider.CollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));

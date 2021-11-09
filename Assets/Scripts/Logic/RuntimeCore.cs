@@ -67,6 +67,7 @@ namespace Logic
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())
                 .AddRunSystem(new CheckFireActionSystem())
+                .AddRunSystem(new ShootLaserSystem())
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new RotatePhysicsBodiesSystem())

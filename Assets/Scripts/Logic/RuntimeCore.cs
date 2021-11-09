@@ -42,7 +42,8 @@ namespace Logic
                 .AddService(new BulletConveyor())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
-                .AddService(new InputCommandQueue());
+                .AddService(new InputCommandQueue())
+                .AddService<IRandomizer>(new Randomizer());
         }
 
         public void Init()

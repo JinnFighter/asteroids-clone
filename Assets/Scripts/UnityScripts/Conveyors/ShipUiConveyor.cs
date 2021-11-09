@@ -28,8 +28,16 @@ namespace UnityScripts.Conveyors
                 transform.PositionChangedEvent += transformBodyModel.UpdatePosition;
                 transform.RotationChangedEvent += transformBodyModel.UpdateRotation;
                 transform.DestroyEvent += transformBodyModel.Destroy;
-                var presenter = new TransformBodyPresenter(transformBodyModel, 
+                var transformBodyPresenter = new TransformBodyPresenter(transformBodyModel, 
                     _shipUiGameObject.GetComponent<UiTransformBodyView>());
+
+                var rigidBody = physicsBody.RigidBody;
+
+                var physicsBodyModel = new PhysicsRigidBodyModel(rigidBody.Velocity);
+                rigidBody.VelocityChangedEvent += physicsBodyModel.UpdateVelocity;
+                transform.DestroyEvent += physicsBodyModel.Destroy;
+                var physicsBodyPresenter = new PhysicsRigidBodyPresenter(physicsBodyModel,
+                    _shipUiGameObject.GetComponent<UiPhysicsRigidBodyView>());
             }
         }
     }

@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 419103788}
   - component: {fileID: 419103789}
   - component: {fileID: 419103790}
+  - component: {fileID: 419103791}
   m_Layer: 5
   m_Name: ShipStats
   m_TagString: Untagged
@@ -294,6 +295,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _positionText: {fileID: 824728748}
   _rotationText: {fileID: 913001449}
+--- !u!114 &419103791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419103786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3282abac18334d2488f96abe6e719c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _velocityText: {fileID: 630835712}
 --- !u!1 &503627994
 GameObject:
   m_ObjectHideFlags: 0

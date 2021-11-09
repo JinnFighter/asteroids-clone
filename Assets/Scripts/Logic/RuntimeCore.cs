@@ -49,6 +49,7 @@ namespace Logic
         {
             var timeContainer = _systems.GetService<TimeContainer>();
             var gameFieldConfig = _systems.GetService<GameFieldConfig>();
+            var asteroidConfig = _systems.GetService<AsteroidConfig>();
 
             var collisionsContainer = _systems.GetService<CollisionsContainer>();
             var collisionLayersContainer = _systems.GetService<CollisionLayersContainer>();
@@ -69,7 +70,7 @@ namespace Logic
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new DestroyBulletsSystem())
-                .AddRunSystem(new DestroyAsteroidsSystem())
+                .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))

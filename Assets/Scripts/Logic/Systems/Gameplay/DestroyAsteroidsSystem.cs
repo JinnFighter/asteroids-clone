@@ -3,11 +3,19 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Config;
 
 namespace Logic.Systems.Gameplay
 {
     public class DestroyAsteroidsSystem : IEcsRunSystem
     {
+        private readonly AsteroidConfig _asteroidConfig;
+
+        public DestroyAsteroidsSystem(AsteroidConfig asteroidConfig)
+        {
+            _asteroidConfig = asteroidConfig;
+        }
+        
         public void Run(EcsWorld ecsWorld)
         {
             var filter = ecsWorld.GetFilter<Asteroid, PhysicsBody, DestroyEvent>();
@@ -25,7 +33,7 @@ namespace Logic.Systems.Gameplay
                     entity.AddComponent(new CreateAsteroidEvent
                     {
                         Direction = transform.Position.Rotate(random.Next(15, 165)), 
-                        Mass = 10f, 
+                        Mass = _asteroidConfig.DefaultMass, 
                         Position = transform.Position, 
                         Stage = nextStage
                     });

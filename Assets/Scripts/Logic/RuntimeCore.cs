@@ -69,10 +69,12 @@ namespace Logic
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()))
                 .AddRunSystem(new RotatePhysicsBodiesSystem())
+                .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new CheckCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
+                .AddRunSystem(new CheckBulletCollisionsSystem(collisionsContainer))
+                .AddRunSystem(new CheckAsteroidCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
-                .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new DestroyBulletsSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))

@@ -36,17 +36,20 @@ namespace UnityScripts.Conveyors
             {
                 ref var physicsBody = ref item.GetComponent<PhysicsBody>();
                 var transform = physicsBody.Transform;
+                var position = transform.Position;
                 
-                var asteroidGameObject = Object.Instantiate(_objectSelectors[param.Stage - 1].GetObject());
+                var asteroidGameObject = Object.Instantiate(_objectSelectors[param.Stage - 1].GetObject(), 
+                    new Vector2(position.X, position.Y), Quaternion.identity);
                 
                 var spriteRenderer = asteroidGameObject.GetComponent<SpriteRenderer>();
-                var rect = spriteRenderer.sprite.rect;
-                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
+                var rect = spriteRenderer.sprite.bounds;
+                var size = rect.size;
+                var collider = new BoxPhysicsCollider(transform.Position, size.x, size.y);
                 physicsBody.Collider = collider;
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 collider.CollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 
-                var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
+                var physicsBodyModel = new PhysicsBodyModel(position.X, position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
                 transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
                 transform.DestroyEvent += physicsBodyModel.Destroy;

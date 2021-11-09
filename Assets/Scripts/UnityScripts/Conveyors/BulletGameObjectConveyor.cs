@@ -29,18 +29,21 @@ namespace UnityScripts.Conveyors
             {
                 ref var physicsBody = ref item.GetComponent<PhysicsBody>();
                 var transform = physicsBody.Transform;
+                var position = transform.Position;
                 
-                var bulletGameObject = Object.Instantiate(_prefabsContainer.BulletPrefab);
+                var bulletGameObject = Object.Instantiate(_prefabsContainer.BulletPrefab, 
+                    new Vector2(position.X, position.Y), Quaternion.identity);
                 
                 var spriteRenderer = bulletGameObject.GetComponent<SpriteRenderer>();
-                var rect = spriteRenderer.sprite.rect;
-                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
+                var rect = spriteRenderer.sprite.bounds;
+                var size = rect.size;
+                var collider = new BoxPhysicsCollider(transform.Position, size.x, size.y);
                 physicsBody.Collider = collider;
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
                 
-                var physicsBodyModel = new PhysicsBodyModel(transform.Position.X, transform.Position.Y);
+                var physicsBodyModel = new PhysicsBodyModel(position.X, position.Y);
                 transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
                 transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
                 transform.DestroyEvent += physicsBodyModel.Destroy;

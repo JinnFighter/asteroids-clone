@@ -37,8 +37,9 @@ namespace UnityScripts.Conveyors
                 
                 var shipGameObject = Object.Instantiate(_prefabsContainer.ShipPrefab);
                 var spriteRenderer = shipGameObject.GetComponent<SpriteRenderer>();
-                var rect = spriteRenderer.sprite.rect;
-                var collider = new BoxPhysicsCollider(transform.Position, rect.width, rect.height);
+                var rect = spriteRenderer.sprite.bounds;
+                var size = rect.size;
+                var collider = new BoxPhysicsCollider(transform.Position, size.x, size.y);
                 physicsBody.Collider = collider;
                 collider.CollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
                 collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));

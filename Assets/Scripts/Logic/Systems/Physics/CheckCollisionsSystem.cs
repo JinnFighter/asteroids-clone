@@ -31,7 +31,10 @@ namespace Logic.Systems.Physics
                         var secondCollider = secondBody.Collider;
                         if (firstBody.Collider.HasCollision(firstBody.Transform.Position, secondCollider,
                             secondBody.Transform.Position))
+                        {
                             CreateCollisionInfo(firstCollider, secondCollider);
+                            CreateCollisionInfo(secondCollider, firstCollider);
+                        }
                     }
                 }
             }

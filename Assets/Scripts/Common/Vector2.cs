@@ -72,5 +72,13 @@ namespace Common
 
             return (float)Math.Acos(dot / length);
         }
+
+        public Vector2 Rotate(float degrees)
+        {
+            var radians = Math.PI * degrees / 180.0f;
+            var sin = Math.Sin(radians);
+            var cos = Math.Cos(radians);
+            return new Vector2((float)(cos * X - sin * Y), (float)(sin * X + cos * Y));
+        }
     }
 }

@@ -62,17 +62,6 @@ namespace Common
 
         public float Dot(Vector2 other) => X * other.X + Y * other.Y;
 
-        public float GetAngleBetween(Vector2 other)
-        {
-            if (Equals(Zero) || other.Equals(Zero))
-                return 0f;
-            
-            var dot = Dot(other);
-            var length = Length * other.Length;
-
-            return (float)Math.Acos(dot / length);
-        }
-
         public Vector2 Rotate(float degrees)
         {
             var radians = Math.PI * degrees / 180.0f;

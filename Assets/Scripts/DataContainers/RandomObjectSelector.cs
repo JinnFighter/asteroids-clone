@@ -1,19 +1,19 @@
 using System.Collections.Generic;
-using Random = System.Random;
+using Helpers;
 
 namespace DataContainers
 {
     public abstract class RandomObjectSelector<T> : IObjectSelector<T>
     {
         private readonly List<T> _items;
-        private readonly Random _random;
+        private readonly IRandomizer _randomizer;
 
-        protected RandomObjectSelector(IEnumerable<T> items)
+        protected RandomObjectSelector(IEnumerable<T> items, IRandomizer randomizer)
         {
             _items = new List<T>(items);
-            _random = new Random();
+            _randomizer = randomizer;
         }
 
-        public T GetObject() => _items[_random.Next(0, _items.Count)];
+        public T GetObject() => _items[_randomizer.Range(0, _items.Count)];
     }
 }

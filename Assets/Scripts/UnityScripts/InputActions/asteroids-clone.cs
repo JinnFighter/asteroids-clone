@@ -41,6 +41,14 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""LaserFire"",
+                    ""type"": ""Button"",
+                    ""id"": ""5674f407-85fe-426a-bc22-00b22773e452"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -263,6 +271,39 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83179f6b-3796-4a98-8c1d-fca42da80e24"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""LaserFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""06da9c84-4f12-474e-8705-abc83760db53"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""LaserFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92150267-aaa7-4df3-bd80-c2b30eda42df"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""LaserFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -335,6 +376,7 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_LaserFire = m_Player.FindAction("LaserFire", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -387,6 +429,7 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_LaserFire;
     public struct PlayerActions
     {
         private @AsteroidsCloneInputActionAsset m_Wrapper;
@@ -394,6 +437,7 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @LaserFire => m_Wrapper.m_Player_LaserFire;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -412,6 +456,9 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @LaserFire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLaserFire;
+                @LaserFire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLaserFire;
+                @LaserFire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLaserFire;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -425,6 +472,9 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @LaserFire.started += instance.OnLaserFire;
+                @LaserFire.performed += instance.OnLaserFire;
+                @LaserFire.canceled += instance.OnLaserFire;
             }
         }
     }
@@ -479,5 +529,6 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnLaserFire(InputAction.CallbackContext context);
     }
 }

@@ -11,10 +11,12 @@ namespace Logic.Systems.Gameplay
     public class CreateAsteroidEventSystem : IEcsRunSystem
     {
         private readonly GameFieldConfig _gameFieldConfig;
+        private readonly AsteroidConfig _asteroidConfig;
 
-        public CreateAsteroidEventSystem(GameFieldConfig gameFieldConfig)
+        public CreateAsteroidEventSystem(GameFieldConfig gameFieldConfig, AsteroidConfig asteroidConfig)
         {
             _gameFieldConfig = gameFieldConfig;
+            _asteroidConfig = asteroidConfig;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -23,7 +25,6 @@ namespace Logic.Systems.Gameplay
 
             foreach (var index in filter)
             {
-                var asteroidCreatorConfig = filter.Get1(index);
                 var random = new Random();
                 var entity = filter.GetEntity(index);
                 var stage = random.Next(1, 4);
@@ -47,10 +48,10 @@ namespace Logic.Systems.Gameplay
 
                 var position = new Vector2(x, y);
 
-                var direction = new Vector2(-position.X + 2, -position.Y - 1).Normalized  * (asteroidCreatorConfig.DefaultMass - 3 * stage);
+                var direction = new Vector2(-position.X + 2, -position.Y - 1);
 
                 entity.AddComponent(new CreateAsteroidEvent
-                    { Direction = direction, Mass = asteroidCreatorConfig.DefaultMass, Position = position, Stage = stage });
+                    { Direction = direction, Mass = _asteroidConfig.DefaultMass, Position = position, Stage = stage });
 
                 ref var asteroidConfig = ref filter.Get1(index);
                 ref var timer = ref filter.Get2(index);

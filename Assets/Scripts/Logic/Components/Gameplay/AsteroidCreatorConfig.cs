@@ -4,6 +4,5 @@ namespace Logic.Components.Gameplay
     {
         public int MinTime;
         public int MaxTime;
-        public float DefaultMass;
     }
 }

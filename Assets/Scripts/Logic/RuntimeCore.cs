@@ -34,6 +34,7 @@ namespace Logic
             _systems
                 .AddService(new GameFieldConfig(18, 10))
                 .AddService(physicsConfiguration)
+                .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ShipConveyor())
@@ -48,6 +49,7 @@ namespace Logic
         {
             var timeContainer = _systems.GetService<TimeContainer>();
             var gameFieldConfig = _systems.GetService<GameFieldConfig>();
+            var asteroidConfig = _systems.GetService<AsteroidConfig>();
 
             var collisionsContainer = _systems.GetService<CollisionsContainer>();
             var collisionLayersContainer = _systems.GetService<CollisionLayersContainer>();
@@ -68,10 +70,10 @@ namespace Logic
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer))
                 .AddRunSystem(new DestroyBulletsSystem())
-                .AddRunSystem(new DestroyAsteroidsSystem())
+                .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
-                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig))
+                .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
                 .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletConveyor>()))
                 .OneFrame<MovementInputAction>()

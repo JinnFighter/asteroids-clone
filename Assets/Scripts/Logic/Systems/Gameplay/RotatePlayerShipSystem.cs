@@ -21,13 +21,12 @@ namespace Logic.Systems.Gameplay
                 
                 var lookInputAction = filter.Get3(index);
                 var lookAtPoint = lookInputAction.LookAtPoint;
-                var direction = transform.Direction;
                 var nextDirection = (lookAtPoint - position).Normalized;
-                var angle = (float)(Math.Acos(direction.Dot(nextDirection)) * 180 / Math.PI);
+                var angle = (float)(Math.Atan2(nextDirection.Y, nextDirection.X) * 180 / Math.PI);
                 var entity = filter.GetEntity(index);
                 if (angle != 0f)
                 {
-                    entity.AddComponent(new RotateEvent{ Angle = angle });
+                    entity.AddComponent(new RotateEvent{ Angle = angle - transform.Rotation });
                     transform.Direction = nextDirection;
                 }
             }

@@ -8,7 +8,7 @@ namespace UnityScripts.Presentation.Views
             transform.position = new Vector2(x, y);
 
         public void UpdateRotation(float rotationAngle) =>
-            transform.Rotate(new Vector3(0, 0, rotationAngle));
+            transform.eulerAngles = new Vector3(0, 0, rotationAngle);
 
         public void Destroy() => Object.Destroy(gameObject);
     }

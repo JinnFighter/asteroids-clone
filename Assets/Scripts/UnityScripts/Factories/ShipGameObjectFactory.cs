@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityScripts.Containers;
 using UnityScripts.EventEmitters;
-using UnityScripts.Presentation.Models;
-using UnityScripts.Presentation.Presenters;
 using UnityScripts.Presentation.Views;
 using Vector2 = Common.Vector2;
 
@@ -18,16 +16,18 @@ namespace UnityScripts.Factories
         private readonly PrefabsContainer _prefabsContainer;
         private readonly PlayerEntitiesDataContainer _playerEntitiesContainer;
         private readonly InputEventEmitter _inputEventEmitter;
+        private readonly ITransformPresenterFactory _transformPresenterFactory;
         private GameObject _gameObject;
         private EcsEntity _ecsEntity;
 
         public ShipGameObjectFactory(ShipFactory wrappedFactory, PrefabsContainer prefabsContainer,
-            PlayerEntitiesDataContainer container, InputEventEmitter inputEventEmitter)
+            PlayerEntitiesDataContainer container, InputEventEmitter inputEventEmitter, ITransformPresenterFactory transformPresenterFactory)
         {
             _wrappedFactory = wrappedFactory;
             _prefabsContainer = prefabsContainer;
             _playerEntitiesContainer = container;
             _inputEventEmitter = inputEventEmitter;
+            _transformPresenterFactory = transformPresenterFactory;
         }
 
         public override void AddEntity(EcsEntity entity) => _ecsEntity = entity;
@@ -39,11 +39,7 @@ namespace UnityScripts.Factories
             _gameObject = Object.Instantiate(_prefabsContainer.ShipPrefab, new UnityEngine.Vector2(position.X, position.Y),
                 Quaternion.identity);
             
-            var physicsBodyModel = new TransformBodyModel(transform.Position.X, transform.Position.Y);
-            transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
-            transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
-            transform.DestroyEvent += physicsBodyModel.Destroy;
-            var presenter = new TransformBodyPresenter(physicsBodyModel, _gameObject.GetComponent<TransformBodyView>());
+            var presenter = _transformPresenterFactory.CreatePresenter(transform, _gameObject.GetComponent<TransformBodyView>());
             
             var playerInput = _gameObject.GetComponent<PlayerInput>();
             var actionMap = playerInput.currentActionMap;

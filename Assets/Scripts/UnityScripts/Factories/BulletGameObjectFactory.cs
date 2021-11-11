@@ -27,7 +27,7 @@ namespace UnityScripts.Factories
             _gameObject = Object.Instantiate(_prefabsContainer.BulletPrefab, new UnityEngine.Vector2(position.X, position.Y),
                 Quaternion.identity);
             
-            var presenter = _transformPresenterFactory.CreatePresenter(transform , _gameObject.GetComponent<TransformBodyView>());
+            var presenter = _transformPresenterFactory.CreatePresenter(transform, _gameObject.GetComponent<TransformBodyView>());
             return transform;
         }
 

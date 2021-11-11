@@ -1,0 +1,19 @@
+{
+    "name": "UnityScripts.Factories",
+    "rootNamespace": "",
+    "references": [
+        "GUID:be627297f7fb79746893774a1db12d2a",
+        "GUID:1325b1ea927014649b289e48277d5ee6",
+        "GUID:ff4e318310e55c54a821fede6c9b98db",
+        "GUID:0d64717e41f52f145a1a966a0466cd81"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

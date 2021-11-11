@@ -1,12 +1,9 @@
 using Helpers;
 using Logic;
-using Logic.Conveyors;
 using Logic.Factories;
 using Logic.Services;
-using Physics;
 using UnityEngine;
 using UnityScripts.Containers;
-using UnityScripts.Conveyors;
 using UnityScripts.EventEmitters;
 using UnityScripts.Factories;
 using UnityScripts.Services;
@@ -29,15 +26,9 @@ namespace UnityScripts.Startups
             _runtimeCore.Setup();
 
             var randomizer = _runtimeCore.GetService<IRandomizer>();
-            var collisionLayersContainer = _runtimeCore.GetService<CollisionLayersContainer>();
             var playerEntitiesContainer = new PlayerEntitiesDataContainer();
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, 
                 _runtimeCore.GetService<InputCommandQueue>());
-            var shipConveyor = _runtimeCore.GetService<ShipConveyor>().GetLast();
-            shipConveyor
-                .AddNextConveyor(new ShipGameObjectConveyor(_prefabsContainer, playerEntitiesContainer, 
-                inputEventEmitter, collisionLayersContainer))
-                .AddNextConveyor(new ShipUiConveyor(ShipUiView));
 
             var shipFactory = _runtimeCore.GetService<ShipFactory>();
             _runtimeCore.AddService<ShipFactory>(new ShipUiFactory(new ShipGameObjectFactory(shipFactory,

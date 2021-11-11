@@ -43,6 +43,9 @@ namespace UnityScripts.Startups
             asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer, collisionLayersContainer, 
                 randomizer));
 
+            var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
+            _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer));
+
             var bulletFactory = _runtimeCore.GetService<BulletFactory>();
             _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory));
 

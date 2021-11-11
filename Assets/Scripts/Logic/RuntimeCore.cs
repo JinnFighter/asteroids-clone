@@ -6,6 +6,7 @@ using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
 using Logic.Conveyors;
+using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.GameField;
 using Logic.Systems.Gameplay;
@@ -41,6 +42,7 @@ namespace Logic
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
                 .AddService(new BulletConveyor())
+                .AddService<BulletFactory>(new DefaultBulletFactory())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
                 .AddService(new InputCommandQueue())

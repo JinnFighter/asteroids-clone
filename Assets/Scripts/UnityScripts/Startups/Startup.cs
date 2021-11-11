@@ -39,6 +39,9 @@ namespace UnityScripts.Startups
                 inputEventEmitter, collisionLayersContainer))
                 .AddNextConveyor(new ShipUiConveyor(ShipUiView));
 
+            var shipFactory = _runtimeCore.GetService<ShipFactory>();
+            _runtimeCore.AddService<ShipFactory>(new ShipGameObjectFactory(shipFactory, _prefabsContainer));
+
             var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
             _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer));
 

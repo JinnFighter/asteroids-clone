@@ -5,7 +5,6 @@ using Logic.Components.Input;
 using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
-using Logic.Conveyors;
 using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.GameField;
@@ -38,7 +37,6 @@ namespace Logic
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
-                .AddService(new ShipConveyor())
                 .AddService<ShipFactory>(new DefaultShipFactory())
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())

@@ -2,8 +2,6 @@ using Ecs;
 using Logic.Factories;
 using Physics;
 using UnityEngine;
-using UnityScripts.Presentation.Models;
-using UnityScripts.Presentation.Presenters;
 using UnityScripts.Presentation.Views;
 using Vector2 = Common.Vector2;
 
@@ -13,13 +11,16 @@ namespace UnityScripts.Factories
     {
         private readonly ShipFactory _wrappedFactory;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
+        private readonly IRigidBodyPresenterFactory _rigidBodyPresenterFactory;
         private readonly GameObject _gameObject;
 
-        public ShipUiFactory(ShipFactory wrappedFactory, GameObject gameObject, ITransformPresenterFactory transformPresenterFactory)
+        public ShipUiFactory(ShipFactory wrappedFactory, GameObject gameObject, 
+            ITransformPresenterFactory transformPresenterFactory, IRigidBodyPresenterFactory rigidBodyPresenterFactory)
         {
             _wrappedFactory = wrappedFactory;
             _gameObject = gameObject;
             _transformPresenterFactory = transformPresenterFactory;
+            _rigidBodyPresenterFactory = rigidBodyPresenterFactory;
         }
 
         public override void AddEntity(EcsEntity entity) => _wrappedFactory.AddEntity(entity);
@@ -37,10 +38,8 @@ namespace UnityScripts.Factories
         public override PhysicsRigidBody CreateRigidBody(float mass, bool useGravity)
         {
             var rigidBody = _wrappedFactory.CreateRigidBody(mass, useGravity);
-
-            var physicsBodyModel = new PhysicsRigidBodyModel(rigidBody.Velocity);
-            rigidBody.VelocityChangedEvent += physicsBodyModel.UpdateVelocity;
-            var physicsBodyPresenter = new PhysicsRigidBodyPresenter(physicsBodyModel,
+            
+            var physicsBodyPresenter = _rigidBodyPresenterFactory.CreatePresenter(rigidBody,
                 _gameObject.GetComponent<UiPhysicsRigidBodyView>());
 
             return rigidBody;

@@ -41,6 +41,7 @@ namespace Logic
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ShipConveyor())
                 .AddService(asteroidConveyor)
+                .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())

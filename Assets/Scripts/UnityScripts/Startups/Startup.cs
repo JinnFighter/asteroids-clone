@@ -37,7 +37,7 @@ namespace UnityScripts.Startups
                 _prefabsContainer, playerEntitiesContainer, inputEventEmitter), ShipUiView));
 
             var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
-            _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer));
+            _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer, transformPresenterFactory));
 
             var bulletFactory = _runtimeCore.GetService<BulletFactory>();
             _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory, transformPresenterFactory));

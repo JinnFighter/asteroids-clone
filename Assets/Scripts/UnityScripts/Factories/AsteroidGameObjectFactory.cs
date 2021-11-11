@@ -4,8 +4,6 @@ using Logic.Factories;
 using Physics;
 using UnityEngine;
 using UnityScripts.Containers;
-using UnityScripts.Presentation.Models;
-using UnityScripts.Presentation.Presenters;
 using UnityScripts.Presentation.Views;
 using Vector2 = Common.Vector2;
 
@@ -15,9 +13,10 @@ namespace UnityScripts.Factories
     {
         private readonly AsteroidFactory _wrappedFactory;
         private readonly IObjectSelector<GameObject>[] _objectSelectors;
+        private readonly ITransformPresenterFactory _transformPresenterFactory;
         private GameObject _gameObject;
 
-        public AsteroidGameObjectFactory(AsteroidFactory wrappedFactory, PrefabsContainer prefabsContainer, IRandomizer randomizer)
+        public AsteroidGameObjectFactory(AsteroidFactory wrappedFactory, PrefabsContainer prefabsContainer, IRandomizer randomizer, ITransformPresenterFactory transformPresenterFactory)
         {
             _wrappedFactory = wrappedFactory;
             _objectSelectors = new IObjectSelector<GameObject>[]
@@ -26,6 +25,7 @@ namespace UnityScripts.Factories
                 new GameObjectRandomSelector(prefabsContainer.MediumAsteroidsPrefabs, randomizer),
                 new GameObjectSingleSelector(prefabsContainer.BigAsteroidPrefab)
             };
+            _transformPresenterFactory = transformPresenterFactory;
         }
         
         public override void SetStage(int stage)
@@ -40,11 +40,7 @@ namespace UnityScripts.Factories
             _gameObject = Object.Instantiate(_objectSelectors[Stage - 1].GetObject(), 
                 new UnityEngine.Vector2(position.X, position.Y), Quaternion.identity);
             
-            var physicsBodyModel = new TransformBodyModel(position.X, position.Y);
-            transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
-            transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
-            transform.DestroyEvent += physicsBodyModel.Destroy;
-            var presenter = new TransformBodyPresenter(physicsBodyModel, _gameObject.GetComponent<TransformBodyView>());
+            var presenter = _transformPresenterFactory.CreatePresenter(transform, _gameObject.GetComponent<TransformBodyView>());
             
             return transform;
         }

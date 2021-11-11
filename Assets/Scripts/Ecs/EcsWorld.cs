@@ -8,17 +8,19 @@ namespace Ecs
         private readonly List<EcsEntity> _entities;
         private readonly EcsComponentManager _componentManager;
         private readonly List<EcsFilter> _filters;
+        private readonly EntityPool _entityPool;
 
         public EcsWorld()
         {
             _entities = new List<EcsEntity>();
             _componentManager = new EcsComponentManager();
             _filters = new List<EcsFilter>();
+            _entityPool = new EntityPool();
         }
 
         public EcsEntity CreateEntity()
         {
-            var entity = new EcsEntity(_componentManager);
+            var entity = _entityPool.Count() > 0 ? _entityPool.GetItem() : new EcsEntity(_componentManager);
             _entities.Add(entity);
             return entity;
         }
@@ -86,7 +88,10 @@ namespace Ecs
             var emptyEntities = _entities.Where(entity => entity.GetComponentsCount() == 0).ToList();
 
             foreach (var emptyEntity in emptyEntities)
+            {
                 _entities.Remove(emptyEntity);
+                _entityPool.AddItem(emptyEntity);
+            }
         }
 
         public void Destroy() => _entities.Clear();

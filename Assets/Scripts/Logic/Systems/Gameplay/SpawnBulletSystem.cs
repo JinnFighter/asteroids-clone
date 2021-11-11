@@ -1,17 +1,22 @@
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.GameField;
 using Logic.Components.Gameplay;
-using Logic.Conveyors;
+using Logic.Components.Physics;
+using Logic.Factories;
+using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class SpawnBulletSystem : IEcsRunSystem
     {
-        private readonly BulletCreatorConveyor _asteroidCreatorConveyor;
+        private readonly BulletFactory _bulletFactory;
+        private readonly CollisionLayersContainer _collisionLayersContainer;
 
-        public SpawnBulletSystem(BulletCreatorConveyor conveyor)
+        public SpawnBulletSystem(BulletFactory bulletFactory, CollisionLayersContainer collisionLayersContainer)
         {
-            _asteroidCreatorConveyor = conveyor;
+            _bulletFactory = bulletFactory;
+            _collisionLayersContainer = collisionLayersContainer;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -20,9 +25,30 @@ namespace Logic.Systems.Gameplay
 
             foreach (var index in filter)
             {
-                ref var createBulletEvent = ref filter.Get1(index);
+                var createBulletEvent = filter.Get1(index);
                 var entity = ecsWorld.CreateEntity();
-                _asteroidCreatorConveyor.UpdateItem(entity, createBulletEvent);
+
+                entity.AddComponent(new Bullet());
+
+                var bodyTransform =
+                    _bulletFactory.CreateTransform(createBulletEvent.Position, 0f, createBulletEvent.Direction);
+                var rigidBody = _bulletFactory.CreateRigidBody(1f, false);
+                rigidBody.Velocity += createBulletEvent.Velocity;
+                var collider = _bulletFactory.CreateCollider(bodyTransform.Position);
+                bodyTransform.PositionChangedEvent += collider.UpdatePosition;
+                var targetCollisionLayers = collider.TargetCollisionLayers;
+                targetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
+                targetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
+                
+                
+                entity.AddComponent(new PhysicsBody
+                {
+                    Transform = bodyTransform,
+                    RigidBody = rigidBody,
+                    Collider = collider
+                });
+            
+                entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
             }
         }
     }

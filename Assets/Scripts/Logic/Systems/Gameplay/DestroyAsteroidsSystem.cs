@@ -28,7 +28,7 @@ namespace Logic.Systems.Gameplay
                 var physicsBody = filter.Get2(index);
                 var transform = physicsBody.Transform;
                 var asteroid = filter.Get1(index);
-                var nextStage = asteroid.Stage--;
+                var nextStage = asteroid.Stage - 1;
                 if (nextStage > 0 && _randomizer.IsProc(50))
                 {
                     entity.AddComponent(new CreateAsteroidEvent

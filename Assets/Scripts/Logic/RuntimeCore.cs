@@ -5,7 +5,7 @@ using Logic.Components.Input;
 using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
-using Logic.Conveyors;
+using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.GameField;
 using Logic.Systems.Gameplay;
@@ -30,17 +30,16 @@ namespace Logic
         {
             var timeContainer = new TimeContainer();
             var physicsConfiguration = new PhysicsConfiguration();
-            var asteroidConveyor = new AsteroidConveyor();
-            asteroidConveyor.AddNextConveyor(new AsteroidPhysicsBodyConveyor());
+            
             _systems
                 .AddService(new GameFieldConfig(18, 10))
                 .AddService(physicsConfiguration)
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
-                .AddService(new ShipConveyor())
-                .AddService(asteroidConveyor)
-                .AddService(new BulletConveyor())
+                .AddService<ShipFactory>(new DefaultShipFactory())
+                .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
+                .AddService<BulletFactory>(new DefaultBulletFactory())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
                 .AddService(new InputCommandQueue())
@@ -60,7 +59,7 @@ namespace Logic
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
-                .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipConveyor>()))
+                .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipFactory>(), collisionLayersContainer))
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
@@ -85,8 +84,8 @@ namespace Logic
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
-                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
-                .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletConveyor>()))
+                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidFactory>(), collisionLayersContainer))
+                .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletFactory>(), collisionLayersContainer))
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

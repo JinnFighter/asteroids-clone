@@ -12,12 +12,14 @@ namespace UnityScripts.Factories
     public class ShipUiFactory : ShipFactory
     {
         private readonly ShipFactory _wrappedFactory;
+        private readonly ITransformPresenterFactory _transformPresenterFactory;
         private readonly GameObject _gameObject;
 
-        public ShipUiFactory(ShipFactory wrappedFactory, GameObject gameObject)
+        public ShipUiFactory(ShipFactory wrappedFactory, GameObject gameObject, ITransformPresenterFactory transformPresenterFactory)
         {
             _wrappedFactory = wrappedFactory;
             _gameObject = gameObject;
+            _transformPresenterFactory = transformPresenterFactory;
         }
 
         public override void AddEntity(EcsEntity entity) => _wrappedFactory.AddEntity(entity);
@@ -25,12 +27,8 @@ namespace UnityScripts.Factories
         public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction)
         {
             var transform = _wrappedFactory.CreateTransform(position, rotation, direction);
-
-            var transformBodyModel = new TransformBodyModel(transform.Position.X, transform.Position.Y);
-            transform.PositionChangedEvent += transformBodyModel.UpdatePosition;
-            transform.RotationChangedEvent += transformBodyModel.UpdateRotation;
-            transform.DestroyEvent += transformBodyModel.Destroy;
-            var transformBodyPresenter = new TransformBodyPresenter(transformBodyModel, 
+            
+            var transformBodyPresenter = _transformPresenterFactory.CreatePresenter(transform,
                 _gameObject.GetComponent<UiTransformBodyView>());
             
             return transform;

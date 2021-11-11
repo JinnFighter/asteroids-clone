@@ -19,9 +19,8 @@ namespace UnityScripts.Factories
             _wrappedFactory = wrappedFactory;
             _gameObject = gameObject;
         }
-        public override void AddEntity(EcsEntity entity)
-        {
-        }
+
+        public override void AddEntity(EcsEntity entity) => _wrappedFactory.AddEntity(entity);
 
         public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction)
         {
@@ -33,6 +32,7 @@ namespace UnityScripts.Factories
             transform.DestroyEvent += transformBodyModel.Destroy;
             var transformBodyPresenter = new TransformBodyPresenter(transformBodyModel, 
                 _gameObject.GetComponent<UiTransformBodyView>());
+            
             return transform;
         }
 

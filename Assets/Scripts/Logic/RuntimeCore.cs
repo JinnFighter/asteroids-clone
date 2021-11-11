@@ -31,8 +31,7 @@ namespace Logic
         {
             var timeContainer = new TimeContainer();
             var physicsConfiguration = new PhysicsConfiguration();
-            var asteroidConveyor = new AsteroidConveyor();
-            asteroidConveyor.AddNextConveyor(new AsteroidPhysicsBodyConveyor());
+            
             _systems
                 .AddService(new GameFieldConfig(18, 10))
                 .AddService(physicsConfiguration)
@@ -40,7 +39,6 @@ namespace Logic
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ShipConveyor())
-                .AddService(asteroidConveyor)
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())
                 .AddService(timeContainer)

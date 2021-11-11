@@ -39,10 +39,6 @@ namespace UnityScripts.Startups
                 inputEventEmitter, collisionLayersContainer))
                 .AddNextConveyor(new ShipUiConveyor(ShipUiView));
 
-            var asteroidConveyor = _runtimeCore.GetService<AsteroidConveyor>().GetLast();
-            asteroidConveyor.AddNextConveyor(new AsteroidGameObjectConveyor(_prefabsContainer, collisionLayersContainer, 
-                randomizer));
-
             var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
             _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer));
 

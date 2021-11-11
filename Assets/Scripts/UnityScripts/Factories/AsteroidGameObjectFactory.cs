@@ -37,7 +37,7 @@ namespace UnityScripts.Factories
         public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction)
         {
             var transform = _wrappedFactory.CreateTransform(position, rotation, direction);
-            _gameObject = Object.Instantiate(_objectSelectors[Stage].GetObject(), 
+            _gameObject = Object.Instantiate(_objectSelectors[Stage - 1].GetObject(), 
                 new UnityEngine.Vector2(position.X, position.Y), Quaternion.identity);
             
             var physicsBodyModel = new TransformBodyModel(position.X, position.Y);

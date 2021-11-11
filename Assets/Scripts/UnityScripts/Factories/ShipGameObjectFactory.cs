@@ -1,7 +1,10 @@
+using Ecs;
 using Logic.Factories;
 using Physics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityScripts.Containers;
+using UnityScripts.EventEmitters;
 using UnityScripts.Presentation.Models;
 using UnityScripts.Presentation.Presenters;
 using UnityScripts.Presentation.Views;
@@ -13,13 +16,21 @@ namespace UnityScripts.Factories
     {
         private readonly ShipFactory _wrappedFactory;
         private readonly PrefabsContainer _prefabsContainer;
+        private readonly PlayerEntitiesDataContainer _playerEntitiesContainer;
+        private readonly InputEventEmitter _inputEventEmitter;
         private GameObject _gameObject;
+        private EcsEntity _ecsEntity;
 
-        public ShipGameObjectFactory(ShipFactory wrappedFactory, PrefabsContainer prefabsContainer)
+        public ShipGameObjectFactory(ShipFactory wrappedFactory, PrefabsContainer prefabsContainer,
+            PlayerEntitiesDataContainer container, InputEventEmitter inputEventEmitter)
         {
             _wrappedFactory = wrappedFactory;
             _prefabsContainer = prefabsContainer;
+            _playerEntitiesContainer = container;
+            _inputEventEmitter = inputEventEmitter;
         }
+
+        public override void AddEntity(EcsEntity entity) => _ecsEntity = entity;
 
         public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction)
         {
@@ -33,6 +44,11 @@ namespace UnityScripts.Factories
             transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
             transform.DestroyEvent += physicsBodyModel.Destroy;
             var presenter = new TransformBodyPresenter(physicsBodyModel, _gameObject.GetComponent<TransformBodyView>());
+            
+            var playerInput = _gameObject.GetComponent<PlayerInput>();
+            var actionMap = playerInput.currentActionMap;
+            _playerEntitiesContainer.AddData(actionMap, _ecsEntity);
+            _inputEventEmitter.ListenToInputEvents(actionMap);
 
             return transform;
         }

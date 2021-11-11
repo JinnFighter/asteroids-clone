@@ -1,3 +1,4 @@
+using Ecs;
 using Physics;
 using Vector2 = Common.Vector2;
 
@@ -5,6 +6,10 @@ namespace Logic.Factories
 {
     public class DefaultShipFactory : ShipFactory
     {
+        public override void AddEntity(EcsEntity entity)
+        {
+        }
+
         public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction)
             => new BodyTransform { Position = position, Rotation = rotation, Direction = direction };
 

@@ -87,7 +87,7 @@ namespace Logic
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
-                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidConveyor>()))
+                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidFactory>(), collisionLayersContainer))
                 .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletFactory>(), collisionLayersContainer))
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()

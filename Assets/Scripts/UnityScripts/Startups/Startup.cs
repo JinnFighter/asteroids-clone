@@ -1,12 +1,14 @@
 using Helpers;
 using Logic;
 using Logic.Conveyors;
+using Logic.Factories;
 using Logic.Services;
 using Physics;
 using UnityEngine;
 using UnityScripts.Containers;
 using UnityScripts.Conveyors;
 using UnityScripts.EventEmitters;
+using UnityScripts.Factories;
 using UnityScripts.Services;
 
 namespace UnityScripts.Startups
@@ -43,6 +45,9 @@ namespace UnityScripts.Startups
 
             var bulletConveyor = _runtimeCore.GetService<BulletConveyor>().GetLast();
             bulletConveyor.AddNextConveyor(new BulletGameObjectConveyor(_prefabsContainer, collisionLayersContainer));
+
+            var bulletFactory = _runtimeCore.GetService<BulletFactory>();
+            _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory));
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

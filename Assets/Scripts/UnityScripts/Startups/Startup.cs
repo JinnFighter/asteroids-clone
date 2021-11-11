@@ -30,6 +30,8 @@ namespace UnityScripts.Startups
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, 
                 _runtimeCore.GetService<InputCommandQueue>());
 
+            var transformPresenterFactory = new TransformPresenterFactory();
+
             var shipFactory = _runtimeCore.GetService<ShipFactory>();
             _runtimeCore.AddService<ShipFactory>(new ShipUiFactory(new ShipGameObjectFactory(shipFactory,
                 _prefabsContainer, playerEntitiesContainer, inputEventEmitter), ShipUiView));
@@ -38,7 +40,7 @@ namespace UnityScripts.Startups
             _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer));
 
             var bulletFactory = _runtimeCore.GetService<BulletFactory>();
-            _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory));
+            _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory, transformPresenterFactory));
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

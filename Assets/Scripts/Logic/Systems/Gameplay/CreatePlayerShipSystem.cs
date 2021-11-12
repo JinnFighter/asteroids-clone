@@ -4,6 +4,7 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Events;
 using Logic.Factories;
 using Physics;
 
@@ -13,11 +14,13 @@ namespace Logic.Systems.Gameplay
     {
         private readonly ShipFactory _shipFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
+        private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerContainer;
 
-        public CreatePlayerShipSystem(ShipFactory shipFactory, CollisionLayersContainer collisionLayersContainer)
+        public CreatePlayerShipSystem(ShipFactory shipFactory, CollisionLayersContainer collisionLayersContainer, ShipRigidBodyEventHandlerContainer container)
         {
             _shipFactory = shipFactory;
             _collisionLayersContainer = collisionLayersContainer;
+            _rigidBodyEventHandlerContainer = container;
         }
         
         public void Init(EcsWorld world)
@@ -28,7 +31,8 @@ namespace Logic.Systems.Gameplay
             
             _shipFactory.AddEntity(entity);
             var transform = _shipFactory.CreateTransform(Vector2.Zero, 0f, new Vector2(0, 1));
-            var rigidBody = _shipFactory.CreateRigidBody(1f, false);
+            var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
+            _rigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
             var collider = _shipFactory.CreateCollider(transform.Position);
             transform.PositionChangedEvent += collider.UpdatePosition;
             collider.CollisionLayers.Add(_collisionLayersContainer.GetData("ships"));

@@ -3,7 +3,7 @@ using Ecs.Interfaces;
 
 namespace Ecs.Systems
 {
-    public class DisableSystemsSystem : IEcsRunSystem
+    internal class DisableSystemsSystem : IEcsRunSystem
     {
         private readonly EcsSystems _systems;
 

@@ -38,6 +38,7 @@ namespace Logic
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
+                .AddService(new ScoreEventListener())
                 .AddService<ShipFactory>(new DefaultShipFactory())
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())

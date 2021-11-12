@@ -21,7 +21,7 @@ namespace UnityScripts.Presentation.Presenters
         private void UpdateVelocity(Vector2 velocity) =>
             _rigidBodyView.UpdateVelocity(velocity);
 
-        private void Destroy()
+        public void Destroy()
         {
             _rigidBodyModel.VelocityChangedEvent -= UpdateVelocity;
             _rigidBodyModel.DestroyEvent -= Destroy;

@@ -2,7 +2,7 @@ namespace Logic.Containers
 {
     public class ScoreContainer
     {
-        private int _score;
+        public int Score { get; private set; }
 
         public delegate void ScoreChanged(int score);
 
@@ -10,13 +10,13 @@ namespace Logic.Containers
 
         public ScoreContainer()
         {
-            _score = 0;
+            Score = 0;
         }
 
         public void UpdateScore(int nextScore)
         {
-            _score += nextScore;
-            ScoreChangedEvent?.Invoke(_score);
+            Score += nextScore;
+            ScoreChangedEvent?.Invoke(Score);
         }
     }
 }

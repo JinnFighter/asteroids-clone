@@ -6,6 +6,7 @@ using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
 using Logic.Containers;
+using Logic.Events;
 using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.GameField;
@@ -39,6 +40,7 @@ namespace Logic
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ScoreEventListener())
+                .AddService(new ComponentEventListener())
                 .AddService<ShipFactory>(new DefaultShipFactory())
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())

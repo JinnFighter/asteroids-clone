@@ -9,7 +9,7 @@ namespace Ecs
     public class EcsSystems
     {
         private readonly Queue<IEcsInitSystem> _initSystems;
-        private readonly List<RunSystemContainer> _runSystems;
+        private readonly List<RunSystemContainer> _runSystemContainers;
         private readonly Queue<IEcsOnDestroySystem> _onDestroySystems;
         private readonly List<IEcsRunSystem> _removeOneFrameSystems;
         
@@ -18,7 +18,7 @@ namespace Ecs
         public EcsSystems()
         {
             _initSystems = new Queue<IEcsInitSystem>();
-            _runSystems = new List<RunSystemContainer>();
+            _runSystemContainers = new List<RunSystemContainer>();
             _onDestroySystems = new Queue<IEcsOnDestroySystem>();
             _removeOneFrameSystems = new List<IEcsRunSystem>();
             _services = new Dictionary<Type, object>();
@@ -32,7 +32,7 @@ namespace Ecs
 
         public EcsSystems AddRunSystem(IEcsRunSystem runSystem, string tag = "")
         {
-            _runSystems.Add(new RunSystemContainer(runSystem, tag : tag));
+            _runSystemContainers.Add(new RunSystemContainer(runSystem, tag : tag));
             return this;
         }
 
@@ -52,7 +52,7 @@ namespace Ecs
 
         public void SetRunSystemState(string tag, bool state)
         {
-            foreach (var container in _runSystems.Where(container => container.Tag == tag))
+            foreach (var container in _runSystemContainers.Where(container => container.Tag == tag))
                 container.IsActive = state;
         }
 
@@ -76,7 +76,7 @@ namespace Ecs
 
         public void Run(EcsWorld world)
         {
-            foreach (var runSystemContainer in _runSystems.Where(runSystemContainer => runSystemContainer.IsActive))
+            foreach (var runSystemContainer in _runSystemContainers.Where(runSystemContainer => runSystemContainer.IsActive))
             {
                 var system = runSystemContainer.System;
                 system.Run(world);
@@ -102,7 +102,7 @@ namespace Ecs
                 system.OnDestroy(world);
             }
             
-            _runSystems.Clear();
+            _runSystemContainers.Clear();
             _removeOneFrameSystems.Clear();
             
             _services.Clear();

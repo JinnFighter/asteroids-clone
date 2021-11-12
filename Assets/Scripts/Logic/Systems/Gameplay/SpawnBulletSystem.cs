@@ -32,7 +32,7 @@ namespace Logic.Systems.Gameplay
 
                 var bodyTransform =
                     _bulletFactory.CreateTransform(createBulletEvent.Position, 0f, createBulletEvent.Direction);
-                var rigidBody = _bulletFactory.CreateRigidBody(1f, false);
+                var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 rigidBody.Velocity += createBulletEvent.Velocity;
                 var collider = _bulletFactory.CreateCollider(bodyTransform.Position);
                 bodyTransform.PositionChangedEvent += collider.UpdatePosition;

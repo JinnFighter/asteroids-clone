@@ -50,6 +50,12 @@ namespace Ecs
             return this;
         }
 
+        public void SetRunSystemState(string tag, bool state)
+        {
+            foreach (var container in _runSystems.Where(container => container.Tag == tag))
+                container.IsActive = state;
+        }
+
         public T GetService<T>()
         {
             var hasValue = _services.TryGetValue(typeof(T), out var res);

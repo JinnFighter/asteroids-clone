@@ -34,5 +34,7 @@ namespace Logic.Events
             
             handlers.Add(handler);
         }
+
+        public void Clear() => _dictionary.Clear();
     }
 }

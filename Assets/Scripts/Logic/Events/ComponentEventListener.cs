@@ -5,7 +5,12 @@ namespace Logic.Events
 {
     public class ComponentEventListener
     {
-        private Dictionary<Type, List<object>> _dictionary;
+        private readonly Dictionary<Type, List<object>> _dictionary;
+
+        public ComponentEventListener()
+        {
+            _dictionary = new Dictionary<Type, List<object>>();
+        }
 
         public void HandleEvent<T>(ref T context) where T : struct
         {

@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShipUiView: {fileID: 419103786}
   ScoreUiView: {fileID: 825528106}
+  GameOverScreen: {fileID: 1320445843}
 --- !u!4 &114308410
 Transform:
   m_ObjectHideFlags: 0
@@ -1400,6 +1401,11 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!1 &1320445843 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3184451055904301527, guid: 5bd682941ee8bb94697f8cdf458f8d76, type: 3}
+  m_PrefabInstance: {fileID: 3184451057145233006}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1443438522 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3184451055904301524, guid: 5bd682941ee8bb94697f8cdf458f8d76, type: 3}

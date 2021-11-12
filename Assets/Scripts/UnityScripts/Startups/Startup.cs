@@ -1,5 +1,7 @@
 using Helpers;
 using Logic;
+using Logic.Containers;
+using Logic.Events;
 using Logic.Factories;
 using Logic.Services;
 using UnityEngine;
@@ -7,6 +9,7 @@ using UnityScripts.Containers;
 using UnityScripts.EventEmitters;
 using UnityScripts.EventHandlers;
 using UnityScripts.Factories;
+using UnityScripts.Presentation.Screens;
 using UnityScripts.Presentation.Views;
 using UnityScripts.Services;
 
@@ -20,6 +23,7 @@ namespace UnityScripts.Startups
 
         public GameObject ShipUiView;
         public GameObject ScoreUiView;
+        public GameObject GameOverScreen;
 
         // Start is called before the first frame update
         void Start()
@@ -49,6 +53,10 @@ namespace UnityScripts.Startups
             var scoreEventListener = _runtimeCore.GetService<ScoreEventListener>();
             scoreEventListener.AddHandler(new ScorePresenterEventHandler(new ScorePresenterFactory(), 
                 ScoreUiView.GetComponent<ScoreView>()));
+
+            var componentEventListener = _runtimeCore.GetService<ComponentEventListener>();
+            componentEventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
+                _runtimeCore.GetService<ScoreContainer>()));
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

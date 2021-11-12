@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipUiView: {fileID: 419103786}
+  ScoreUiView: {fileID: 825528106}
 --- !u!4 &114308410
 Transform:
   m_ObjectHideFlags: 0

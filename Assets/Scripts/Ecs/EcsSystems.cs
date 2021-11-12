@@ -16,8 +16,6 @@ namespace Ecs
         
         private readonly Dictionary<Type, object> _services;
 
-        private readonly string _internalTag;
-
         public EcsSystems()
         {
             _initSystems = new Queue<IEcsInitSystem>();
@@ -25,7 +23,6 @@ namespace Ecs
             _onDestroySystems = new Queue<IEcsOnDestroySystem>();
             _removeOneFrameSystems = new List<IEcsRunSystem>();
             _services = new Dictionary<Type, object>();
-            _internalTag = "Internal";
         }
         
         public EcsSystems AddInitSystem(IEcsInitSystem initSystem)
@@ -56,7 +53,7 @@ namespace Ecs
 
         public void SetRunSystemState(string tag, bool state)
         {
-            foreach (var container in _runSystemContainers.Where(container => container.Tag != _internalTag && container.Tag == tag))
+            foreach (var container in _runSystemContainers.Where(container => !container.IsInternal && container.Tag == tag))
                 container.IsActive = state;
         }
 
@@ -71,8 +68,8 @@ namespace Ecs
 
         public void Init(EcsWorld world)
         {
-            _runSystemContainers.Add(new RunSystemContainer(new DisableSystemsSystem(this), tag: _internalTag));
-            _runSystemContainers.Add(new RunSystemContainer(new EnableSystemsSystem(this), tag: _internalTag));
+            _runSystemContainers.Add(new RunSystemContainer(new DisableSystemsSystem(this), isInternal: true));
+            _runSystemContainers.Add(new RunSystemContainer(new EnableSystemsSystem(this), isInternal: true));
             
             OneFrame<DisableSystemsEvent>().OneFrame<EnableSystemsEvent>();
             

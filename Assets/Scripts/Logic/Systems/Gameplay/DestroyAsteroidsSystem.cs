@@ -41,6 +41,8 @@ namespace Logic.Systems.Gameplay
                 }
                 
                 entity.RemoveComponent<Asteroid>();
+                
+                entity.AddComponent(new UpdateScoreEvent{ Score = 10 * asteroid.Stage });
             }
         }
     }

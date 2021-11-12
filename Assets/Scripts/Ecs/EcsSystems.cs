@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ecs.Components;
 using Ecs.Interfaces;
 using Ecs.Systems;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 
 namespace Ecs
 {
@@ -71,6 +71,11 @@ namespace Ecs
 
         public void Init(EcsWorld world)
         {
+            _runSystemContainers.Add(new RunSystemContainer(new DisableSystemsSystem(this), tag: _internalTag));
+            _runSystemContainers.Add(new RunSystemContainer(new EnableSystemsSystem(this), tag: _internalTag));
+            
+            OneFrame<DisableSystemsEvent>().OneFrame<EnableSystemsEvent>();
+            
             while (_initSystems.Any())
             {
                 var system = _initSystems.Dequeue();

@@ -54,7 +54,7 @@ namespace UnityScripts.Startups
             scoreEventListener.AddHandler(new ScorePresenterEventHandler(new ScorePresenterFactory(), 
                 ScoreUiView.GetComponent<ScoreView>()));
 
-            var componentEventListener = _runtimeCore.GetService<ComponentEventListener>();
+            var componentEventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             componentEventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
                 _runtimeCore.GetService<ScoreContainer>()));
 

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Logic.Events
 {
-    public class ComponentEventListener
+    public class ComponentEventHandlerContainer
     {
         private readonly Dictionary<Type, List<object>> _dictionary;
 
-        public ComponentEventListener()
+        public ComponentEventHandlerContainer()
         {
             _dictionary = new Dictionary<Type, List<object>>();
         }

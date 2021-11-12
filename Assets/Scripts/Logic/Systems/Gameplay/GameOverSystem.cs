@@ -8,11 +8,11 @@ namespace Logic.Systems.Gameplay
 {
     public class GameOverSystem : IEcsRunSystem
     {
-        private readonly ComponentEventListener _componentEventListener;
+        private readonly ComponentEventHandlerContainer _componentEventHandlerContainer;
 
-        public GameOverSystem(ComponentEventListener componentEventListener)
+        public GameOverSystem(ComponentEventHandlerContainer componentEventHandlerContainer)
         {
-            _componentEventListener = componentEventListener;
+            _componentEventHandlerContainer = componentEventHandlerContainer;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -22,7 +22,7 @@ namespace Logic.Systems.Gameplay
             {
                 var entity = ecsWorld.CreateEntity();
                 entity.AddComponent(new DisableSystemsEvent{Tag = "DisableOnGameOver"});
-                _componentEventListener.HandleEvent(ref filter.Get1(0));
+                _componentEventHandlerContainer.HandleEvent(ref filter.Get1(0));
             }
         }
     }

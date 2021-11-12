@@ -10,9 +10,6 @@ namespace Logic.Factories
         public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction) 
             => new BodyTransform { Position = position, Direction = direction };
 
-        public override PhysicsRigidBody CreateRigidBody(float mass, bool useGravity) 
-            => new PhysicsRigidBody { Mass = mass, UseGravity = useGravity };
-
         public override PhysicsCollider CreateCollider(Vector2 position) => new BoxPhysicsCollider(position, 10, 10);
     }
 }

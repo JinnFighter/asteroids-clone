@@ -33,8 +33,6 @@ namespace UnityScripts.Factories
             return transform;
         }
 
-        public override PhysicsRigidBody CreateRigidBody(float mass, bool useGravity) => _wrappedFactory.CreateRigidBody(mass, useGravity);
-
         public override PhysicsCollider CreateCollider(Vector2 position) => _wrappedFactory.CreateCollider(position);
     }
 }

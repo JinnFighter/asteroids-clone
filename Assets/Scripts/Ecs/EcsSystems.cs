@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ecs.Components;
 using Ecs.Interfaces;
 using Ecs.Systems;
 
@@ -9,7 +10,7 @@ namespace Ecs
     public class EcsSystems
     {
         private readonly Queue<IEcsInitSystem> _initSystems;
-        private readonly List<IEcsRunSystem> _runSystems;
+        private readonly List<RunSystemContainer> _runSystemContainers;
         private readonly Queue<IEcsOnDestroySystem> _onDestroySystems;
         private readonly List<IEcsRunSystem> _removeOneFrameSystems;
         
@@ -18,7 +19,7 @@ namespace Ecs
         public EcsSystems()
         {
             _initSystems = new Queue<IEcsInitSystem>();
-            _runSystems = new List<IEcsRunSystem>();
+            _runSystemContainers = new List<RunSystemContainer>();
             _onDestroySystems = new Queue<IEcsOnDestroySystem>();
             _removeOneFrameSystems = new List<IEcsRunSystem>();
             _services = new Dictionary<Type, object>();
@@ -30,9 +31,9 @@ namespace Ecs
             return this;
         }
 
-        public EcsSystems AddRunSystem(IEcsRunSystem runSystem)
+        public EcsSystems AddRunSystem(IEcsRunSystem runSystem, string tag = "")
         {
-            _runSystems.Add(runSystem);
+            _runSystemContainers.Add(new RunSystemContainer(runSystem, tag : tag));
             return this;
         }
 
@@ -50,6 +51,12 @@ namespace Ecs
             return this;
         }
 
+        public void SetRunSystemState(string tag, bool state)
+        {
+            foreach (var container in _runSystemContainers.Where(container => !container.IsInternal && container.Tag == tag))
+                container.IsActive = state;
+        }
+
         public T GetService<T>()
         {
             var hasValue = _services.TryGetValue(typeof(T), out var res);
@@ -61,6 +68,11 @@ namespace Ecs
 
         public void Init(EcsWorld world)
         {
+            _runSystemContainers.Add(new RunSystemContainer(new DisableSystemsSystem(this), isInternal: true));
+            _runSystemContainers.Add(new RunSystemContainer(new EnableSystemsSystem(this), isInternal: true));
+            
+            OneFrame<DisableSystemsEvent>().OneFrame<EnableSystemsEvent>();
+            
             while (_initSystems.Any())
             {
                 var system = _initSystems.Dequeue();
@@ -70,8 +82,9 @@ namespace Ecs
 
         public void Run(EcsWorld world)
         {
-            foreach (var system in _runSystems)
+            foreach (var runSystemContainer in _runSystemContainers.Where(runSystemContainer => runSystemContainer.IsActive))
             {
+                var system = runSystemContainer.System;
                 system.Run(world);
                 world.UpdateFilters();
             }
@@ -95,7 +108,7 @@ namespace Ecs
                 system.OnDestroy(world);
             }
             
-            _runSystems.Clear();
+            _runSystemContainers.Clear();
             _removeOneFrameSystems.Clear();
             
             _services.Clear();

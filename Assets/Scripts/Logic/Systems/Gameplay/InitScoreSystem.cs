@@ -8,18 +8,18 @@ namespace Logic.Systems.Gameplay
     public class InitScoreSystem : IEcsInitSystem
     {
         private readonly ScoreContainer _scoreContainer;
-        private readonly ScoreEventListener _scoreEventListener;
+        private readonly ScoreEventHandlerContainer _scoreEventHandlerContainer;
 
-        public InitScoreSystem(ScoreContainer scoreContainer, ScoreEventListener scoreEventListener)
+        public InitScoreSystem(ScoreContainer scoreContainer, ScoreEventHandlerContainer scoreEventHandlerContainer)
         {
             _scoreContainer = scoreContainer;
-            _scoreEventListener = scoreEventListener;
+            _scoreEventHandlerContainer = scoreEventHandlerContainer;
         }
         
         public void Init(EcsWorld world)
         {
             _scoreContainer.UpdateScore(0);
-            _scoreEventListener.OnCreateEvent(_scoreContainer);
+            _scoreEventHandlerContainer.OnCreateEvent(_scoreContainer);
         }
     }
 }

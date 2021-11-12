@@ -6,6 +6,7 @@ using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
 using Logic.Containers;
+using Logic.Events;
 using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.GameField;
@@ -38,7 +39,8 @@ namespace Logic
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
-                .AddService(new ScoreEventListener())
+                .AddService(new ScoreEventHandlerContainer())
+                .AddService(new ComponentEventHandlerContainer())
                 .AddService<ShipFactory>(new DefaultShipFactory())
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())
@@ -59,6 +61,7 @@ namespace Logic
             var collisionLayersContainer = _systems.GetService<CollisionLayersContainer>();
 
             var randomizer = _systems.GetService<IRandomizer>();
+            var disableOnGameOverTag = "DisableOnGameOver";
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
@@ -66,23 +69,23 @@ namespace Logic
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
-                    _systems.GetService<ScoreEventListener>()))
-                .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()))
+                    _systems.GetService<ScoreEventHandlerContainer>()))
+                .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()), disableOnGameOverTag)
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())
                 .AddRunSystem(new CheckFireActionSystem())
                 .AddRunSystem(new ShootLaserSystem())
                 .AddRunSystem(new StartReloadingLaserSystem())
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
-                    _systems.GetService<PhysicsConfiguration>()))
-                .AddRunSystem(new RotatePhysicsBodiesSystem())
-                .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig))
-                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer))
+                    _systems.GetService<PhysicsConfiguration>()), disableOnGameOverTag)
+                .AddRunSystem(new RotatePhysicsBodiesSystem(), disableOnGameOverTag)
+                .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig), disableOnGameOverTag)
+                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer), disableOnGameOverTag)
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckBulletCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckAsteroidCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
-                .AddRunSystem(new UpdateTimersSystem(timeContainer))
+                .AddRunSystem(new UpdateTimersSystem(timeContainer), disableOnGameOverTag)
                 .AddRunSystem(new FinishReloadingLaserSystem())
                 .AddRunSystem(new DestroyBulletsSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
@@ -92,6 +95,7 @@ namespace Logic
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidFactory>(), collisionLayersContainer))
                 .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletFactory>(), collisionLayersContainer))
+                .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

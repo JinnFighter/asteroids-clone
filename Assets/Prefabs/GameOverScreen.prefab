@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3184451055904301523}
   - component: {fileID: 3184451055904301522}
   - component: {fileID: 3184451055904301525}
+  - component: {fileID: 521386414084304372}
   m_Layer: 5
   m_Name: GameOverScreen
   m_TagString: Untagged
@@ -105,6 +106,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &521386414084304372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3184451055904301527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 019a0255f4a86de489bb61aa3d975e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreText: {fileID: 3184451057154744061}
 --- !u!1 &3184451056703603948
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,7 +461,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3184451057231610681}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 521386414084304372}
+        m_TargetAssemblyTypeName: UnityScripts.Presentation.Screens.GameOverScreen,
+          UnityScripts.Ui
+        m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3184451057540510038
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,7 +674,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3184451057649907357}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 521386414084304372}
+        m_TargetAssemblyTypeName: UnityScripts.Presentation.Screens.GameOverScreen,
+          UnityScripts.Ui
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3184451057798882585
 GameObject:
   m_ObjectHideFlags: 0

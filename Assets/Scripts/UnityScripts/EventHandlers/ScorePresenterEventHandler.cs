@@ -23,16 +23,16 @@ namespace UnityScripts.EventHandlers
         public void OnCreateEvent(ScoreContainer context)
         {
             var presenter = _scorePresenterFactory.CreatePresenter(context, _scoreView);
-            List<ScorePresenter> contextPresenters;
+            List<ScorePresenter> contextedPresentersList;
             if (_presenters.ContainsKey(context))
-                contextPresenters = _presenters[context];
+                contextedPresentersList = _presenters[context];
             else
             {
-                contextPresenters = new List<ScorePresenter>();
-                _presenters[context] = contextPresenters;
+                contextedPresentersList = new List<ScorePresenter>();
+                _presenters[context] = contextedPresentersList;
             }
             
-            contextPresenters.Add(presenter);
+            contextedPresentersList.Add(presenter);
         }
 
         public void OnDestroyEvent(ScoreContainer context)

@@ -91,6 +91,7 @@ namespace Logic
                 .OneFrame<FireInputAction>()
                 .OneFrame<LaserFireInputAction>()
                 .OneFrame<RotateEvent>()
+                .OneFrame<UpdateScoreEvent>()
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateBulletEvent>()
                 .OneFrame<CreateAsteroidEvent>()

@@ -5,6 +5,7 @@ using Logic.Components.Input;
 using Logic.Components.Physics;
 using Logic.Components.Time;
 using Logic.Config;
+using Logic.Containers;
 using Logic.Factories;
 using Logic.Services;
 using Logic.Systems.GameField;
@@ -40,6 +41,7 @@ namespace Logic
                 .AddService<ShipFactory>(new DefaultShipFactory())
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())
+                .AddService(new ScoreContainer())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
                 .AddService(new InputCommandQueue())

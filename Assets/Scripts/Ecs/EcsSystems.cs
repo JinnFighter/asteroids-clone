@@ -30,9 +30,9 @@ namespace Ecs
             return this;
         }
 
-        public EcsSystems AddRunSystem(IEcsRunSystem runSystem)
+        public EcsSystems AddRunSystem(IEcsRunSystem runSystem, string tag = "")
         {
-            _runSystems.Add(new RunSystemContainer(runSystem));
+            _runSystems.Add(new RunSystemContainer(runSystem, tag : tag));
             return this;
         }
 

@@ -1,0 +1,19 @@
+{
+    "name": "UnityScipts.EventHandlers",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9ccfb7c0bf2bc2e4b827c112792933f9",
+        "GUID:7974815ba0a70984cb7d7cb98a09e4e9",
+        "GUID:c3c3e8abb6ac01e44ba88e9e1727045e",
+        "GUID:7e153a7e59a358c409c4b0bb8845fc72"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -33,7 +33,7 @@ namespace Logic.Systems.Gameplay
                 var velocity = createAsteroidEvent.Direction.Normalized * (createAsteroidEvent.Mass - 3 * createAsteroidEvent.Stage);
                 var transform =
                     _asteroidFactory.CreateTransform(createAsteroidEvent.Position, 0f, velocity);
-                var rigidBody = _asteroidFactory.CreateRigidBody(createAsteroidEvent.Mass, false);
+                var rigidBody = new PhysicsRigidBody { Mass = createAsteroidEvent.Mass, UseGravity = false };
                 rigidBody.Velocity += velocity;
                 var collider = _asteroidFactory.CreateCollider(transform.Position);
                 transform.PositionChangedEvent += collider.UpdatePosition;

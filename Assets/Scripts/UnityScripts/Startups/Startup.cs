@@ -50,7 +50,7 @@ namespace UnityScripts.Startups
             var bulletFactory = _runtimeCore.GetService<BulletFactory>();
             _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory, transformPresenterFactory));
 
-            var scoreEventListener = _runtimeCore.GetService<ScoreEventListener>();
+            var scoreEventListener = _runtimeCore.GetService<ScoreEventHandlerContainer>();
             scoreEventListener.AddHandler(new ScorePresenterEventHandler(new ScorePresenterFactory(), 
                 ScoreUiView.GetComponent<ScoreView>()));
 

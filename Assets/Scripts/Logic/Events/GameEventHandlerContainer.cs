@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Logic.Events
 {
-    public abstract class GameEventListener<T>
+    public abstract class GameEventHandlerContainer<T>
     {
         private readonly List<IEventHandler<T>> _eventHandlers;
 
-        protected GameEventListener()
+        protected GameEventHandlerContainer()
         {
             _eventHandlers = new List<IEventHandler<T>>();
         }

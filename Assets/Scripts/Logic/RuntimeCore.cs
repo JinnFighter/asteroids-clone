@@ -39,7 +39,7 @@ namespace Logic
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
-                .AddService(new ScoreEventListener())
+                .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
                 .AddService<ShipFactory>(new DefaultShipFactory())
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
@@ -69,7 +69,7 @@ namespace Logic
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
-                    _systems.GetService<ScoreEventListener>()))
+                    _systems.GetService<ScoreEventHandlerContainer>()))
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()), disableOnGameOverTag)
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())

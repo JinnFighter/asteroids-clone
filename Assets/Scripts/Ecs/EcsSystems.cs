@@ -9,7 +9,7 @@ namespace Ecs
     public class EcsSystems
     {
         private readonly Queue<IEcsInitSystem> _initSystems;
-        private readonly List<IEcsRunSystem> _runSystems;
+        private readonly List<RunSystemContainer> _runSystems;
         private readonly Queue<IEcsOnDestroySystem> _onDestroySystems;
         private readonly List<IEcsRunSystem> _removeOneFrameSystems;
         
@@ -18,7 +18,7 @@ namespace Ecs
         public EcsSystems()
         {
             _initSystems = new Queue<IEcsInitSystem>();
-            _runSystems = new List<IEcsRunSystem>();
+            _runSystems = new List<RunSystemContainer>();
             _onDestroySystems = new Queue<IEcsOnDestroySystem>();
             _removeOneFrameSystems = new List<IEcsRunSystem>();
             _services = new Dictionary<Type, object>();
@@ -32,7 +32,7 @@ namespace Ecs
 
         public EcsSystems AddRunSystem(IEcsRunSystem runSystem)
         {
-            _runSystems.Add(runSystem);
+            _runSystems.Add(new RunSystemContainer(runSystem));
             return this;
         }
 
@@ -70,8 +70,9 @@ namespace Ecs
 
         public void Run(EcsWorld world)
         {
-            foreach (var system in _runSystems)
+            foreach (var runSystemContainer in _runSystems.Where(runSystemContainer => runSystemContainer.IsActive))
             {
+                var system = runSystemContainer.System;
                 system.Run(world);
                 world.UpdateFilters();
             }

@@ -18,6 +18,7 @@ namespace UnityScripts.EventHandlers
         {
             _rigidBodyPresenterFactory = rigidBodyPresenterFactory;
             _uiGameObject = uiGameObject;
+            _presenters = new Dictionary<PhysicsRigidBody, List<PhysicsRigidBodyPresenter>>();
         }
         
         public void OnCreateEvent(PhysicsRigidBody context)

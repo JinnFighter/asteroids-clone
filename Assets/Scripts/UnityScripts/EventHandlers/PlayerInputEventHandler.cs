@@ -19,6 +19,7 @@ namespace UnityScripts.EventHandlers
             _inputEventEmitter = inputEventEmitter;
         }
         private PlayerInput _playerInput;
+        
         public void OnCreateEvent(IPlayerInputReceiver context)
         {
             var actionMap = _playerInput.currentActionMap;
@@ -26,14 +27,6 @@ namespace UnityScripts.EventHandlers
             _inputEventEmitter.ListenToInputEvents(actionMap);
         }
 
-        public void OnDestroyEvent(IPlayerInputReceiver context)
-        {
-        }
-
         public void OnCreateEvent(GameObject context) => _playerInput = context.GetComponent<PlayerInput>();
-
-        public void OnDestroyEvent(GameObject context)
-        {
-        }
     }
 }

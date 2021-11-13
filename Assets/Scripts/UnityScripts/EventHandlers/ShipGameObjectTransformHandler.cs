@@ -20,9 +20,5 @@ namespace UnityScripts.EventHandlers
             var gameObject = _gameObjectFactory.CreateGameObject(context.Position);
             _gameObjectEventHandlerContainer.OnCreateEvent(gameObject);
         }
-
-        public void OnDestroyEvent(BodyTransform context)
-        {
-        }
     }
 }

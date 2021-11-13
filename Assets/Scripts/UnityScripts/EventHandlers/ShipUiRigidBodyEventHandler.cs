@@ -21,9 +21,5 @@ namespace UnityScripts.EventHandlers
         {
             var presenter = _rigidBodyPresenterFactory.CreatePresenter(context, _uiGameObject.GetComponent<UiPhysicsRigidBodyView>());
         }
-
-        public void OnDestroyEvent(PhysicsRigidBody context)
-        {
-        }
     }
 }

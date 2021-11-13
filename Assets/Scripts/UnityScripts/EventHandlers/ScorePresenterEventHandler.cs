@@ -20,9 +20,5 @@ namespace UnityScripts.EventHandlers
         {
             var presenter = _scorePresenterFactory.CreatePresenter(context, _scoreView);
         }
-
-        public void OnDestroyEvent(ScoreContainer context)
-        {
-        }
     }
 }

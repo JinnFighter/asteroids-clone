@@ -28,9 +28,5 @@ namespace UnityScripts.Factories
             var rect = spriteRenderer.sprite.bounds;
             _size = rect.size;
         }
-
-        public void OnDestroyEvent(GameObject context)
-        {
-        }
     }
 }

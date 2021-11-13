@@ -39,7 +39,6 @@ namespace UnityScripts.Startups
 
             var transformPresenterFactory = new TransformPresenterFactory();
 
-
             var shipEventHandler = new ShipEventHandler(transformPresenterFactory, _prefabsContainer,
                 playerEntitiesContainer, inputEventEmitter);
             
@@ -53,7 +52,15 @@ namespace UnityScripts.Startups
             _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory, transformPresenterFactory));
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
-            shipTransformEventHandlerContainer.AddHandler(shipEventHandler);
+
+            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
+            var gameObjectHandler =
+                new ShipGameObjectTransformHandler(gameObjectHandlerContainer,
+                    new ShipObjectFactory(_prefabsContainer));
+            var transformPresenterHandler = new TransformPresenterEventHandler(transformPresenterFactory);
+            gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
+            shipTransformEventHandlerContainer.AddHandler(gameObjectHandler);
+            shipTransformEventHandlerContainer.AddHandler(transformPresenterHandler);
             shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, ShipUiView));
 
             var playerInputEventHandlerContainer = _runtimeCore.GetService<PlayerInputEventHandlerContainer>();

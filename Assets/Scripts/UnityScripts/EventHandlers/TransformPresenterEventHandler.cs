@@ -10,6 +10,11 @@ namespace UnityScripts.EventHandlers
     {
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private ITransformBodyView _transformBodyView;
+
+        public TransformPresenterEventHandler(ITransformPresenterFactory factory)
+        {
+            _transformPresenterFactory = factory;
+        }
         
         public void OnCreateEvent(BodyTransform context) => _transformPresenterFactory.CreatePresenter(context, _transformBodyView);
 

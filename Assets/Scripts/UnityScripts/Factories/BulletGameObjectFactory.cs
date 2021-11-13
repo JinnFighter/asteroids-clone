@@ -1,3 +1,4 @@
+using Logic.Events;
 using Logic.Factories;
 using Physics;
 using UnityEngine;
@@ -7,12 +8,13 @@ using Vector2 = Common.Vector2;
 
 namespace UnityScripts.Factories
 {
-    public class BulletGameObjectFactory : BulletFactory
+    public class BulletGameObjectFactory : BulletFactory, IEventHandler<GameObject>
     {
         private readonly PrefabsContainer _prefabsContainer;
         private readonly BulletFactory _wrappedFactory;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private GameObject _gameObject;
+        private Vector3 _size;
 
         public BulletGameObjectFactory(PrefabsContainer container, BulletFactory wrappedFactory, ITransformPresenterFactory transformPresenterFactory)
         {
@@ -31,12 +33,14 @@ namespace UnityScripts.Factories
             return transform;
         }
 
-        public override PhysicsCollider CreateCollider(Vector2 position)
+        public override PhysicsCollider CreateCollider(Vector2 position) 
+            => new BoxPhysicsCollider(position, _size.x, _size.y);
+
+        public void Handle(GameObject context)
         {
-            var spriteRenderer = _gameObject.GetComponent<SpriteRenderer>();
+            var spriteRenderer = context.GetComponent<SpriteRenderer>();
             var rect = spriteRenderer.sprite.bounds;
-            var size = rect.size;
-            return new BoxPhysicsCollider(position, size.x, size.y);
+            _size = rect.size;
         }
     }
 }

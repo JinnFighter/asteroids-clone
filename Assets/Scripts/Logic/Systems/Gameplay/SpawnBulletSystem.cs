@@ -3,6 +3,7 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Events;
 using Logic.Factories;
 using Physics;
 
@@ -12,11 +13,14 @@ namespace Logic.Systems.Gameplay
     {
         private readonly BulletFactory _bulletFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
+        private readonly BulletTransformHandlerContainer _bulletTransformHandlerContainer;
 
-        public SpawnBulletSystem(BulletFactory bulletFactory, CollisionLayersContainer collisionLayersContainer)
+        public SpawnBulletSystem(BulletFactory bulletFactory, CollisionLayersContainer collisionLayersContainer, 
+            BulletTransformHandlerContainer bulletTransformHandlerContainer)
         {
             _bulletFactory = bulletFactory;
             _collisionLayersContainer = collisionLayersContainer;
+            _bulletTransformHandlerContainer = bulletTransformHandlerContainer;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -30,8 +34,9 @@ namespace Logic.Systems.Gameplay
 
                 entity.AddComponent(new Bullet());
 
-                var bodyTransform =
-                    _bulletFactory.CreateTransform(createBulletEvent.Position, 0f, createBulletEvent.Direction);
+                var bodyTransform = new BodyTransform
+                    { Position = createBulletEvent.Position, Rotation = 0f, Direction = createBulletEvent.Direction };
+                _bulletTransformHandlerContainer.OnCreateEvent(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 rigidBody.Velocity += createBulletEvent.Velocity;
                 var collider = _bulletFactory.CreateCollider(bodyTransform.Position);

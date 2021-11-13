@@ -70,7 +70,8 @@ namespace Logic
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipFactory>(), collisionLayersContainer, 
                     _systems.GetService<ShipTransformEventHandlerContainer>(),
-                    _systems.GetService<ShipRigidBodyEventHandlerContainer>()))
+                    _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
+                    _systems.GetService<PlayerInputEventHandlerContainer>()))
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 

@@ -37,11 +37,15 @@ namespace UnityScripts.Startups
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, 
                 _runtimeCore.GetService<InputCommandQueue>());
 
+            var playerHandlerContainer = _runtimeCore.GetService<PlayerInputEventHandlerContainer>();
+            var playerInputHandler = new PlayerInputEventHandler(playerEntitiesContainer, inputEventEmitter);
+            playerHandlerContainer.AddHandler(playerInputHandler);
+            
+            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
+            gameObjectHandlerContainer.AddHandler(playerInputHandler);
+
             var transformPresenterFactory = new TransformPresenterFactory();
 
-            var shipEventHandler = new ShipEventHandler(transformPresenterFactory, _prefabsContainer,
-                playerEntitiesContainer, inputEventEmitter);
-            
             var shipFactory = _runtimeCore.GetService<ShipFactory>();
             var shipGameObjectFactory = new ShipGameObjectFactory(shipFactory);
             _runtimeCore.AddService<ShipFactory>(shipGameObjectFactory);
@@ -54,7 +58,7 @@ namespace UnityScripts.Startups
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
 
-            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
+            
             var gameObjectHandler =
                 new ShipGameObjectTransformHandler(gameObjectHandlerContainer,
                     new ShipObjectFactory(_prefabsContainer));
@@ -66,9 +70,6 @@ namespace UnityScripts.Startups
             shipTransformEventHandlerContainer.AddHandler(transformPresenterHandler);
             shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, ShipUiView));
 
-            var playerInputEventHandlerContainer = _runtimeCore.GetService<PlayerInputEventHandlerContainer>();
-            playerInputEventHandlerContainer.AddHandler(shipEventHandler);
-            
             var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
             shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));
 

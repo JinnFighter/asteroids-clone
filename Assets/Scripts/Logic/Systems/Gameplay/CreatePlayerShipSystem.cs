@@ -6,6 +6,7 @@ using Logic.Components.Gameplay;
 using Logic.Components.Physics;
 using Logic.Events;
 using Logic.Factories;
+using Logic.Input;
 using Physics;
 
 namespace Logic.Systems.Gameplay
@@ -16,15 +17,18 @@ namespace Logic.Systems.Gameplay
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly ShipTransformEventHandlerContainer _transformEventHandlerContainer;
         private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
+        private readonly PlayerInputEventHandlerContainer _playerInputEventHandler;
 
         public CreatePlayerShipSystem(ShipFactory shipFactory, CollisionLayersContainer collisionLayersContainer, 
             ShipTransformEventHandlerContainer transformEventHandlerContainer, 
-            ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer)
+            ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer,
+            PlayerInputEventHandlerContainer playerInputEventHandler)
         {
             _shipFactory = shipFactory;
             _collisionLayersContainer = collisionLayersContainer;
             _transformEventHandlerContainer = transformEventHandlerContainer;
             _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
+            _playerInputEventHandler = playerInputEventHandler;
         }
         
         public void Init(EcsWorld world)
@@ -50,6 +54,9 @@ namespace Logic.Systems.Gameplay
             });
             
             entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
+
+            var inputEventReceiver = new PlayerInputReceiver(entity);
+            _playerInputEventHandler.OnCreateEvent(inputEventReceiver);
         }
     }
 }

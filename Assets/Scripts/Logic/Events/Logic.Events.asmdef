@@ -1,3 +1,17 @@
 {
-	"name": "Logic.Events"
+    "name": "Logic.Events",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1325b1ea927014649b289e48277d5ee6",
+        "GUID:800389fe4e8e19e4184d37a58c1d1966"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

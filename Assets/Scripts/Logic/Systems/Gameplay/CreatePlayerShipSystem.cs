@@ -4,20 +4,31 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
-using Logic.Factories;
+using Logic.Containers;
+using Logic.Events;
+using Logic.Input;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class CreatePlayerShipSystem : IEcsInitSystem
     {
-        private readonly ShipFactory _shipFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
+        private readonly ShipTransformEventHandlerContainer _transformEventHandlerContainer;
+        private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
+        private readonly PlayerInputEventHandlerContainer _playerInputEventHandler;
+        private readonly ColliderFactoryContainer _colliderFactoryContainer;
 
-        public CreatePlayerShipSystem(ShipFactory shipFactory, CollisionLayersContainer collisionLayersContainer)
+        public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
+            ShipTransformEventHandlerContainer transformEventHandlerContainer, 
+            ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer,
+            PlayerInputEventHandlerContainer playerInputEventHandler)
         {
-            _shipFactory = shipFactory;
+            _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
+            _transformEventHandlerContainer = transformEventHandlerContainer;
+            _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
+            _playerInputEventHandler = playerInputEventHandler;
         }
         
         public void Init(EcsWorld world)
@@ -25,11 +36,13 @@ namespace Logic.Systems.Gameplay
             var entity = world.CreateEntity();
             
             entity.AddComponent(new Ship{ Speed = 1f });
-            
-            _shipFactory.AddEntity(entity);
-            var transform = _shipFactory.CreateTransform(Vector2.Zero, 0f, new Vector2(0, 1));
-            var rigidBody = _shipFactory.CreateRigidBody(1f, false);
-            var collider = _shipFactory.CreateCollider(transform.Position);
+
+            var transform = new BodyTransform { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
+            _transformEventHandlerContainer.OnCreateEvent(transform);
+            var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
+            _rigidBodyEventHandlerRigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
+            var colliderFactory = _colliderFactoryContainer.GetFactory<Ship>();
+            var collider = colliderFactory.CreateCollider(transform.Position);
             transform.PositionChangedEvent += collider.UpdatePosition;
             collider.CollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
             collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
@@ -42,6 +55,9 @@ namespace Logic.Systems.Gameplay
             });
             
             entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
+
+            var inputEventReceiver = new PlayerInputReceiver(entity);
+            _playerInputEventHandler.OnCreateEvent(inputEventReceiver);
         }
     }
 }

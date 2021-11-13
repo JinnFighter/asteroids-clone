@@ -32,6 +32,11 @@ namespace Logic
         {
             var timeContainer = new TimeContainer();
             var physicsConfiguration = new PhysicsConfiguration();
+
+            var colliderFactoryContainer = new ColliderFactoryContainer();
+            colliderFactoryContainer.AddColliderFactory<Ship>(new DefaultShipColliderFactory());
+            colliderFactoryContainer.AddColliderFactory<Bullet>(new DefaultBulletColliderFactory());
+            colliderFactoryContainer.AddColliderFactory<Asteroid>(new DefaultAsteroidColliderFactory());
             
             _systems
                 .AddService(new GameFieldConfig(18, 10))
@@ -39,11 +44,14 @@ namespace Logic
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
+                .AddService(new ColliderFactoryContainer())
+                .AddService(new PlayerInputEventHandlerContainer())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
-                .AddService<ShipFactory>(new DefaultShipFactory())
-                .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
-                .AddService<BulletFactory>(new DefaultBulletFactory())
+                .AddService(new ShipTransformEventHandlerContainer())
+                .AddService(new ShipRigidBodyEventHandlerContainer())
+                .AddService(new BulletTransformHandlerContainer())
+                .AddService(new AsteroidTransformHandlerContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
@@ -62,10 +70,15 @@ namespace Logic
 
             var randomizer = _systems.GetService<IRandomizer>();
             var disableOnGameOverTag = "DisableOnGameOver";
-            
+
+            var colliderFactoryContainer = _systems.GetService<ColliderFactoryContainer>();
+
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
-                .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipFactory>(), collisionLayersContainer))
+                .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
+                    _systems.GetService<ShipTransformEventHandlerContainer>(),
+                    _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
+                    _systems.GetService<PlayerInputEventHandlerContainer>()))
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
@@ -93,8 +106,11 @@ namespace Logic
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
-                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidFactory>(), collisionLayersContainer))
-                .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletFactory>(), collisionLayersContainer))
+                .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
+                    _systems.GetService<ComponentEventHandlerContainer>(), 
+                    _systems.GetService<AsteroidTransformHandlerContainer>()))
+                .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, 
+                    _systems.GetService<BulletTransformHandlerContainer>()))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()

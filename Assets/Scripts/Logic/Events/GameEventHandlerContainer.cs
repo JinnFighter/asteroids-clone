@@ -14,13 +14,7 @@ namespace Logic.Events
         public void OnCreateEvent(T context)
         {
             foreach (var handler in _eventHandlers)
-                handler.OnCreateEvent(context);
-        }
-        
-        public void OnDestroyEvent(T context)
-        {
-            foreach (var handler in _eventHandlers)
-                handler.OnDestroyEvent(context);
+                handler.Handle(context);
         }
 
 

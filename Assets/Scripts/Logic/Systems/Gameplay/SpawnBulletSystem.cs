@@ -3,20 +3,24 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
-using Logic.Factories;
+using Logic.Containers;
+using Logic.Events;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class SpawnBulletSystem : IEcsRunSystem
     {
-        private readonly BulletFactory _bulletFactory;
+        private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly CollisionLayersContainer _collisionLayersContainer;
+        private readonly BulletTransformHandlerContainer _bulletTransformHandlerContainer;
 
-        public SpawnBulletSystem(BulletFactory bulletFactory, CollisionLayersContainer collisionLayersContainer)
+        public SpawnBulletSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
+            BulletTransformHandlerContainer bulletTransformHandlerContainer)
         {
-            _bulletFactory = bulletFactory;
+            _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
+            _bulletTransformHandlerContainer = bulletTransformHandlerContainer;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -30,11 +34,13 @@ namespace Logic.Systems.Gameplay
 
                 entity.AddComponent(new Bullet());
 
-                var bodyTransform =
-                    _bulletFactory.CreateTransform(createBulletEvent.Position, 0f, createBulletEvent.Direction);
-                var rigidBody = _bulletFactory.CreateRigidBody(1f, false);
+                var bodyTransform = new BodyTransform
+                    { Position = createBulletEvent.Position, Rotation = 0f, Direction = createBulletEvent.Direction };
+                _bulletTransformHandlerContainer.OnCreateEvent(bodyTransform);
+                var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 rigidBody.Velocity += createBulletEvent.Velocity;
-                var collider = _bulletFactory.CreateCollider(bodyTransform.Position);
+                var colliderFactory = _colliderFactoryContainer.GetFactory<Bullet>();
+                var collider = colliderFactory.CreateCollider(bodyTransform.Position);
                 bodyTransform.PositionChangedEvent += collider.UpdatePosition;
                 var targetCollisionLayers = collider.TargetCollisionLayers;
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));

@@ -3,6 +3,7 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Events;
 using Logic.Factories;
 using Physics;
 
@@ -12,11 +13,16 @@ namespace Logic.Systems.Gameplay
     {
         private readonly AsteroidFactory _asteroidFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
+        private readonly ComponentEventHandlerContainer _componentEventHandlerContainer;
+        private readonly AsteroidTransformHandlerContainer _asteroidTransformHandlerContainer;
 
-        public SpawnAsteroidSystem(AsteroidFactory asteroidFactory, CollisionLayersContainer collisionLayersContainer)
+        public SpawnAsteroidSystem(AsteroidFactory asteroidFactory, CollisionLayersContainer collisionLayersContainer,
+            ComponentEventHandlerContainer componentComponentEventHandlerContainer, AsteroidTransformHandlerContainer asteroidTransformHandlerContainer)
         {
             _asteroidFactory = asteroidFactory;
             _collisionLayersContainer = collisionLayersContainer;
+            _componentEventHandlerContainer = componentComponentEventHandlerContainer;
+            _asteroidTransformHandlerContainer = asteroidTransformHandlerContainer;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -29,10 +35,11 @@ namespace Logic.Systems.Gameplay
                 var entity = ecsWorld.CreateEntity();
                 entity.AddComponent(new Asteroid{ Stage = createAsteroidEvent.Stage });
 
-                _asteroidFactory.SetStage(createAsteroidEvent.Stage);
+                _componentEventHandlerContainer.HandleEvent(ref createAsteroidEvent);
                 var velocity = createAsteroidEvent.Direction.Normalized * (createAsteroidEvent.Mass - 3 * createAsteroidEvent.Stage);
-                var transform =
-                    _asteroidFactory.CreateTransform(createAsteroidEvent.Position, 0f, velocity);
+                var transform = new BodyTransform
+                    { Position = createAsteroidEvent.Position, Rotation = 0f, Direction = velocity };
+                _asteroidTransformHandlerContainer.OnCreateEvent(transform);
                 var rigidBody = new PhysicsRigidBody { Mass = createAsteroidEvent.Mass, UseGravity = false };
                 rigidBody.Velocity += velocity;
                 var collider = _asteroidFactory.CreateCollider(transform.Position);

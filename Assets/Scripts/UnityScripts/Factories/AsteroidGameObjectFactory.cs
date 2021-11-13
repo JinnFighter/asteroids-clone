@@ -1,31 +1,19 @@
-using DataContainers;
-using Helpers;
+using Logic.Events;
 using Logic.Factories;
 using Physics;
 using UnityEngine;
-using UnityScripts.Containers;
-using UnityScripts.Presentation.Views;
 using Vector2 = Common.Vector2;
 
 namespace UnityScripts.Factories
 {
-    public class AsteroidGameObjectFactory : AsteroidFactory
+    public class AsteroidGameObjectFactory : AsteroidFactory, IEventHandler<GameObject>
     {
         private readonly AsteroidFactory _wrappedFactory;
-        private readonly IObjectSelector<GameObject>[] _objectSelectors;
-        private readonly ITransformPresenterFactory _transformPresenterFactory;
-        private GameObject _gameObject;
+        private Vector3 _size;
 
-        public AsteroidGameObjectFactory(AsteroidFactory wrappedFactory, PrefabsContainer prefabsContainer, IRandomizer randomizer, ITransformPresenterFactory transformPresenterFactory)
+        public AsteroidGameObjectFactory(AsteroidFactory wrappedFactory)
         {
             _wrappedFactory = wrappedFactory;
-            _objectSelectors = new IObjectSelector<GameObject>[]
-            {
-                new GameObjectRandomSelector(prefabsContainer.SmallAsteroidsPrefabs, randomizer),
-                new GameObjectRandomSelector(prefabsContainer.MediumAsteroidsPrefabs, randomizer),
-                new GameObjectSingleSelector(prefabsContainer.BigAsteroidPrefab)
-            };
-            _transformPresenterFactory = transformPresenterFactory;
         }
         
         public override void SetStage(int stage)
@@ -35,22 +23,16 @@ namespace UnityScripts.Factories
         }
 
         public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction)
-        {
-            var transform = _wrappedFactory.CreateTransform(position, rotation, direction);
-            _gameObject = Object.Instantiate(_objectSelectors[Stage - 1].GetObject(), 
-                new UnityEngine.Vector2(position.X, position.Y), Quaternion.identity);
-            
-            var presenter = _transformPresenterFactory.CreatePresenter(transform, _gameObject.GetComponent<TransformBodyView>());
-            
-            return transform;
-        }
+            => _wrappedFactory.CreateTransform(position, rotation, direction);
 
-        public override PhysicsCollider CreateCollider(Vector2 position)
+        public override PhysicsCollider CreateCollider(Vector2 position) => 
+            new BoxPhysicsCollider(position, _size.x, _size.y);
+
+        public void Handle(GameObject context)
         {
-            var spriteRenderer = _gameObject.GetComponent<SpriteRenderer>();
+            var spriteRenderer = context.GetComponent<SpriteRenderer>();
             var rect = spriteRenderer.sprite.bounds;
-            var size = rect.size;
-            return new BoxPhysicsCollider(position, size.x, size.y);
+            _size = rect.size;
         }
     }
 }

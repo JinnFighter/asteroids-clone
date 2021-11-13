@@ -51,7 +51,8 @@ namespace UnityScripts.Startups
             _runtimeCore.AddService<ShipFactory>(shipGameObjectFactory);
 
             var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
-            _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer, transformPresenterFactory));
+            var asteroidGameObjectFactory = new AsteroidGameObjectFactory(asteroidFactory);
+            _runtimeCore.AddService<AsteroidFactory>(asteroidGameObjectFactory);
 
             var bulletFactory = _runtimeCore.GetService<BulletFactory>();
             var bulletGameObjectFactory =
@@ -83,6 +84,21 @@ namespace UnityScripts.Startups
             
             bulletTransformHandlerContainer.AddHandler(bulletGameObjectHandler);
             bulletTransformHandlerContainer.AddHandler(transformHandler);
+
+            var asteroidObjectFactory = new AsteroidObjectFactory(_prefabsContainer, randomizer);
+            var asteroidGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
+            var asteroidGameObjectHandler = new GameObjectTransformHandler(asteroidGameObjectHandlerContainer,
+                asteroidObjectFactory);
+            var asteroidTransformHandlerContainer = _runtimeCore.GetService<AsteroidTransformHandlerContainer>();
+            var asteroidTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
+            asteroidGameObjectHandlerContainer.AddHandler(asteroidTransformHandler);
+            asteroidGameObjectHandlerContainer.AddHandler(asteroidGameObjectFactory);
+            
+            asteroidTransformHandlerContainer.AddHandler(asteroidGameObjectHandler);
+            asteroidTransformHandlerContainer.AddHandler(asteroidTransformHandler);
+
+            var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
+            eventListener.AddHandler(asteroidObjectFactory);
 
             var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
             shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));

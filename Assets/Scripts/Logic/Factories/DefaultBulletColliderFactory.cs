@@ -3,9 +3,9 @@ using Vector2 = Common.Vector2;
 
 namespace Logic.Factories
 {
-    public class DefaultBulletColliderFactory : BulletColliderFactory
+    public class DefaultBulletColliderFactory : IColliderFactory
     {
-        public override PhysicsCollider CreateCollider(Vector2 position) =>
+        public PhysicsCollider CreateCollider(Vector2 position) =>
             new BoxPhysicsCollider(position, 7, 7);
     }
 }

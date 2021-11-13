@@ -39,6 +39,7 @@ namespace Logic
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
+                .AddService(new PlayerInputEventHandlerContainer())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
                 .AddService(new ShipTransformEventHandlerContainer())

@@ -3,8 +3,8 @@ using Vector2 = Common.Vector2;
 
 namespace Logic.Factories
 {
-    public class DefaultAsteroidColliderFactory : AsteroidColliderFactory
+    public class DefaultAsteroidColliderFactory : IColliderFactory
     {
-        public override PhysicsCollider CreateCollider(Vector2 position) => new BoxPhysicsCollider(position, 10, 10);
+        public PhysicsCollider CreateCollider(Vector2 position) => new BoxPhysicsCollider(position, 10, 10);
     }
 }

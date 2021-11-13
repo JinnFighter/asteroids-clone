@@ -62,7 +62,7 @@ namespace UnityScripts.Startups
 
             
             var gameObjectHandler =
-                new ShipGameObjectTransformHandler(gameObjectHandlerContainer,
+                new GameObjectTransformHandler(gameObjectHandlerContainer,
                     new ShipObjectFactory(_prefabsContainer));
             var transformPresenterHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             gameObjectHandlerContainer.AddHandler(transformPresenterHandler);

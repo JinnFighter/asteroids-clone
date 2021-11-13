@@ -43,7 +43,8 @@ namespace UnityScripts.Startups
                 playerEntitiesContainer, inputEventEmitter);
             
             var shipFactory = _runtimeCore.GetService<ShipFactory>();
-            _runtimeCore.AddService<ShipFactory>(new ShipGameObjectFactory(shipFactory));
+            var shipGameObjectFactory = new ShipGameObjectFactory(shipFactory);
+            _runtimeCore.AddService<ShipFactory>(shipGameObjectFactory);
 
             var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
             _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer, transformPresenterFactory));
@@ -59,6 +60,8 @@ namespace UnityScripts.Startups
                     new ShipObjectFactory(_prefabsContainer));
             var transformPresenterHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
+            gameObjectHandlerContainer.AddHandler(shipGameObjectFactory);
+            
             shipTransformEventHandlerContainer.AddHandler(gameObjectHandler);
             shipTransformEventHandlerContainer.AddHandler(transformPresenterHandler);
             shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, ShipUiView));

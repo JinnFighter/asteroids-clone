@@ -20,7 +20,7 @@ namespace UnityScripts.EventHandlers
         public void OnCreateEvent(BodyTransform context)
         {
             var presenter =
-                _transformPresenterFactory.CreatePresenter(context, _gameObject.GetComponent<TransformBodyView>());
+                _transformPresenterFactory.CreatePresenter(context, _gameObject.GetComponent<UiTransformBodyView>());
         }
 
         public void OnDestroyEvent(BodyTransform context)

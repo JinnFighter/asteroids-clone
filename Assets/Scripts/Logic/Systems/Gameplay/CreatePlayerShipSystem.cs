@@ -14,13 +14,17 @@ namespace Logic.Systems.Gameplay
     {
         private readonly ShipFactory _shipFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
-        private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerContainer;
+        private readonly ShipTransformEventHandlerContainer _transformEventHandlerContainer;
+        private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
 
-        public CreatePlayerShipSystem(ShipFactory shipFactory, CollisionLayersContainer collisionLayersContainer, ShipRigidBodyEventHandlerContainer container)
+        public CreatePlayerShipSystem(ShipFactory shipFactory, CollisionLayersContainer collisionLayersContainer, 
+            ShipTransformEventHandlerContainer transformEventHandlerContainer, 
+            ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer)
         {
             _shipFactory = shipFactory;
             _collisionLayersContainer = collisionLayersContainer;
-            _rigidBodyEventHandlerContainer = container;
+            _transformEventHandlerContainer = transformEventHandlerContainer;
+            _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
         }
         
         public void Init(EcsWorld world)
@@ -31,8 +35,9 @@ namespace Logic.Systems.Gameplay
             
             _shipFactory.AddEntity(entity);
             var transform = _shipFactory.CreateTransform(Vector2.Zero, 0f, new Vector2(0, 1));
+            _transformEventHandlerContainer.OnCreateEvent(transform);
             var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
-            _rigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
+            _rigidBodyEventHandlerRigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
             var collider = _shipFactory.CreateCollider(transform.Position);
             transform.PositionChangedEvent += collider.UpdatePosition;
             collider.CollisionLayers.Add(_collisionLayersContainer.GetData("ships"));

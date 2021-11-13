@@ -45,23 +45,19 @@ namespace UnityScripts.Startups
             gameObjectHandlerContainer.AddHandler(playerInputHandler);
 
             var transformPresenterFactory = new TransformPresenterFactory();
-
-            var shipFactory = _runtimeCore.GetService<ShipFactory>();
-            var shipGameObjectFactory = new ShipGameObjectFactory(shipFactory);
+            
+            var shipGameObjectFactory = new ShipGameObjectFactory();
             _runtimeCore.AddService<ShipFactory>(shipGameObjectFactory);
-
-            var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
-            var asteroidGameObjectFactory = new AsteroidGameObjectFactory(asteroidFactory);
+            
+            var asteroidGameObjectFactory = new AsteroidGameObjectFactory();
             _runtimeCore.AddService<AsteroidFactory>(asteroidGameObjectFactory);
-
-            var bulletFactory = _runtimeCore.GetService<BulletFactory>();
+            
             var bulletGameObjectFactory =
-                new BulletGameObjectFactory(bulletFactory);
+                new BulletGameObjectFactory();
             _runtimeCore.AddService<BulletFactory>(bulletGameObjectFactory);
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
 
-            
             var gameObjectHandler =
                 new GameObjectTransformHandler(gameObjectHandlerContainer,
                     new ShipObjectFactory(_prefabsContainer));

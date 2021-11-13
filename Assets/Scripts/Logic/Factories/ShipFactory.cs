@@ -5,8 +5,6 @@ namespace Logic.Factories
 {
     public abstract class ShipFactory : IPhysicsBodyFactory
     {
-        public abstract BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction);
-
         public abstract PhysicsCollider CreateCollider(Vector2 position);
     }
 }

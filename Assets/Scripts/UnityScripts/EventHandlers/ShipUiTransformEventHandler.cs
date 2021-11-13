@@ -1,6 +1,5 @@
 using Logic.Events;
 using Physics;
-using UnityEngine;
 using UnityScripts.Factories;
 using UnityScripts.Presentation.Views;
 
@@ -9,18 +8,14 @@ namespace UnityScripts.EventHandlers
     public class ShipUiTransformEventHandler : IEventHandler<BodyTransform>
     {
         private readonly ITransformPresenterFactory _transformPresenterFactory;
-        private readonly GameObject _gameObject;
+        private readonly ITransformBodyView _view;
 
-        public ShipUiTransformEventHandler(ITransformPresenterFactory factory, GameObject gameObject)
+        public ShipUiTransformEventHandler(ITransformPresenterFactory factory, ITransformBodyView view)
         {
             _transformPresenterFactory = factory;
-            _gameObject = gameObject;
+            _view = view;
         }
         
-        public void Handle(BodyTransform context)
-        {
-            var presenter =
-                _transformPresenterFactory.CreatePresenter(context, _gameObject.GetComponent<UiTransformBodyView>());
-        }
+        public void Handle(BodyTransform context) => _transformPresenterFactory.CreatePresenter(context, _view);
     }
 }

@@ -68,7 +68,8 @@ namespace UnityScripts.Startups
             
             shipTransformEventHandlerContainer.AddHandler(gameObjectHandler);
             shipTransformEventHandlerContainer.AddHandler(transformPresenterHandler);
-            shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, ShipUiView));
+            shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, 
+                ShipUiView.GetComponent<UiTransformBodyView>()));
 
             var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
             shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));

@@ -25,7 +25,8 @@ namespace UnityScripts.Factories
         }
 
         public GameObject CreateGameObject(Vector2 position) =>
-            Object.Instantiate(_objectSelectors[_stage - 1].GetObject());
+            Object.Instantiate(_objectSelectors[_stage - 1].GetObject(), 
+                new UnityEngine.Vector2(position.X, position.Y), Quaternion.identity);
 
         public void Handle(ref CreateAsteroidEvent context) => _stage = context.Stage;
     }

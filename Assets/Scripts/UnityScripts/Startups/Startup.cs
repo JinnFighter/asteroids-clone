@@ -55,7 +55,7 @@ namespace UnityScripts.Startups
 
             var bulletFactory = _runtimeCore.GetService<BulletFactory>();
             var bulletGameObjectFactory =
-                new BulletGameObjectFactory(_prefabsContainer, bulletFactory, transformPresenterFactory);
+                new BulletGameObjectFactory(bulletFactory);
             _runtimeCore.AddService<BulletFactory>(bulletGameObjectFactory);
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();

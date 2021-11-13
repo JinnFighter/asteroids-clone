@@ -1,3 +1,17 @@
 {
-	"name": "Logic.Containers"
+    "name": "Logic.Containers",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2b8a4ac72c285924d93092010e30df2b",
+        "GUID:ff4e318310e55c54a821fede6c9b98db"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

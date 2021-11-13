@@ -20,13 +20,13 @@ namespace UnityScripts.EventHandlers
         }
         private PlayerInput _playerInput;
         
-        public void OnCreateEvent(IPlayerInputReceiver context)
+        public void Handle(IPlayerInputReceiver context)
         {
             var actionMap = _playerInput.currentActionMap;
             _playerEntitiesContainer.AddData(actionMap, context);
             _inputEventEmitter.ListenToInputEvents(actionMap);
         }
 
-        public void OnCreateEvent(GameObject context) => _playerInput = context.GetComponent<PlayerInput>();
+        public void Handle(GameObject context) => _playerInput = context.GetComponent<PlayerInput>();
     }
 }

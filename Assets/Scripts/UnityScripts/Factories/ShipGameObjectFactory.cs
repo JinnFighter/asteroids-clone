@@ -22,7 +22,7 @@ namespace UnityScripts.Factories
 
         public override PhysicsCollider CreateCollider(Vector2 position) => new BoxPhysicsCollider(position, _size.x, _size.y);
 
-        public void OnCreateEvent(GameObject context)
+        public void Handle(GameObject context)
         {
             var spriteRenderer = context.GetComponent<SpriteRenderer>();
             var rect = spriteRenderer.sprite.bounds;

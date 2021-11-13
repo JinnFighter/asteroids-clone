@@ -16,7 +16,7 @@ namespace UnityScripts.EventHandlers
             _scoreView = scoreView;
         }
         
-        public void OnCreateEvent(ScoreContainer context)
+        public void Handle(ScoreContainer context)
         {
             var presenter = _scorePresenterFactory.CreatePresenter(context, _scoreView);
         }

@@ -17,7 +17,7 @@ namespace UnityScripts.EventHandlers
             _uiGameObject = uiGameObject;
         }
         
-        public void OnCreateEvent(PhysicsRigidBody context)
+        public void Handle(PhysicsRigidBody context)
         {
             var presenter = _rigidBodyPresenterFactory.CreatePresenter(context, _uiGameObject.GetComponent<UiPhysicsRigidBodyView>());
         }

@@ -17,7 +17,7 @@ namespace UnityScripts.EventHandlers
             _gameObject = gameObject;
         }
         
-        public void OnCreateEvent(BodyTransform context)
+        public void Handle(BodyTransform context)
         {
             var presenter =
                 _transformPresenterFactory.CreatePresenter(context, _gameObject.GetComponent<UiTransformBodyView>());

@@ -14,7 +14,7 @@ namespace Logic.Events
         public void OnCreateEvent(T context)
         {
             foreach (var handler in _eventHandlers)
-                handler.OnCreateEvent(context);
+                handler.Handle(context);
         }
 
 

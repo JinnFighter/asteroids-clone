@@ -15,7 +15,7 @@ namespace UnityScripts.EventHandlers
             _gameObjectFactory = gameObjectFactory;
         }
     
-        public void OnCreateEvent(BodyTransform context)
+        public void Handle(BodyTransform context)
         {
             var gameObject = _gameObjectFactory.CreateGameObject(context.Position);
             _gameObjectEventHandlerContainer.OnCreateEvent(gameObject);

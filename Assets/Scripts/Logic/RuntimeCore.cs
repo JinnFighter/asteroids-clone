@@ -121,6 +121,7 @@ namespace Logic
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateBulletEvent>()
                 .OneFrame<CreateAsteroidEvent>()
+                .OneFrame<CreateSaucerEvent>()
                 .OneFrame<ShootLaserEvent>()
                 .OneFrame<GameOverEvent>()
                 .OneFrame<DestroyEvent>()

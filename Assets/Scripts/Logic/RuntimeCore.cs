@@ -52,6 +52,7 @@ namespace Logic
                 .AddService(new ShipRigidBodyEventHandlerContainer())
                 .AddService(new BulletTransformHandlerContainer())
                 .AddService(new AsteroidTransformHandlerContainer())
+                .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())

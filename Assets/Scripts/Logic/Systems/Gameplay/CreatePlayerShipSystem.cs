@@ -32,9 +32,8 @@ namespace Logic.Systems.Gameplay
             var entity = world.CreateEntity();
             
             entity.AddComponent(new Ship{ Speed = 1f });
-            
-            _shipFactory.AddEntity(entity);
-            var transform = _shipFactory.CreateTransform(Vector2.Zero, 0f, new Vector2(0, 1));
+
+            var transform = new BodyTransform { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
             _transformEventHandlerContainer.OnCreateEvent(transform);
             var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
             _rigidBodyEventHandlerRigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);

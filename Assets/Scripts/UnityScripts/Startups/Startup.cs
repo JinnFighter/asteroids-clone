@@ -39,9 +39,12 @@ namespace UnityScripts.Startups
 
             var transformPresenterFactory = new TransformPresenterFactory();
 
+
+            var shipEventHandler = new ShipEventHandler(transformPresenterFactory, _prefabsContainer,
+                playerEntitiesContainer, inputEventEmitter);
+            
             var shipFactory = _runtimeCore.GetService<ShipFactory>();
-            _runtimeCore.AddService<ShipFactory>(new ShipGameObjectFactory(shipFactory,
-                _prefabsContainer, playerEntitiesContainer, inputEventEmitter, transformPresenterFactory));
+            _runtimeCore.AddService<ShipFactory>(new ShipGameObjectFactory(shipFactory));
 
             var asteroidFactory = _runtimeCore.GetService<AsteroidFactory>();
             _runtimeCore.AddService<AsteroidFactory>(new AsteroidGameObjectFactory(asteroidFactory, _prefabsContainer, randomizer, transformPresenterFactory));
@@ -50,7 +53,11 @@ namespace UnityScripts.Startups
             _runtimeCore.AddService<BulletFactory>(new BulletGameObjectFactory(_prefabsContainer, bulletFactory, transformPresenterFactory));
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
+            shipTransformEventHandlerContainer.AddHandler(shipEventHandler);
             shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, ShipUiView));
+
+            var playerInputEventHandlerContainer = _runtimeCore.GetService<PlayerInputEventHandlerContainer>();
+            playerInputEventHandlerContainer.AddHandler(shipEventHandler);
             
             var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
             shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));

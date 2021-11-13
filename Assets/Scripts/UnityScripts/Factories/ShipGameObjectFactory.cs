@@ -14,41 +14,15 @@ namespace UnityScripts.Factories
     public class ShipGameObjectFactory : ShipFactory
     {
         private readonly ShipFactory _wrappedFactory;
-        private readonly PrefabsContainer _prefabsContainer;
-        private readonly PlayerEntitiesDataContainer _playerEntitiesContainer;
-        private readonly InputEventEmitter _inputEventEmitter;
-        private readonly ITransformPresenterFactory _transformPresenterFactory;
         private GameObject _gameObject;
-        private EcsEntity _ecsEntity;
 
-        public ShipGameObjectFactory(ShipFactory wrappedFactory, PrefabsContainer prefabsContainer,
-            PlayerEntitiesDataContainer container, InputEventEmitter inputEventEmitter, ITransformPresenterFactory transformPresenterFactory)
+        public ShipGameObjectFactory(ShipFactory wrappedFactory)
         {
             _wrappedFactory = wrappedFactory;
-            _prefabsContainer = prefabsContainer;
-            _playerEntitiesContainer = container;
-            _inputEventEmitter = inputEventEmitter;
-            _transformPresenterFactory = transformPresenterFactory;
         }
 
-        public override void AddEntity(EcsEntity entity) => _ecsEntity = entity;
-
-        public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction)
-        {
-            var transform = _wrappedFactory.CreateTransform(position, rotation, direction);
-
-            _gameObject = Object.Instantiate(_prefabsContainer.ShipPrefab, new UnityEngine.Vector2(position.X, position.Y),
-                Quaternion.identity);
-            
-            var presenter = _transformPresenterFactory.CreatePresenter(transform, _gameObject.GetComponent<TransformBodyView>());
-            
-            var playerInput = _gameObject.GetComponent<PlayerInput>();
-            var actionMap = playerInput.currentActionMap;
-            _playerEntitiesContainer.AddData(actionMap, new PlayerInputReceiver(_ecsEntity));
-            _inputEventEmitter.ListenToInputEvents(actionMap);
-
-            return transform;
-        }
+        public override BodyTransform CreateTransform(Vector2 position, float rotation, Vector2 direction) 
+            => _wrappedFactory.CreateTransform(position, rotation, direction);
 
         public override PhysicsCollider CreateCollider(Vector2 position)
         {

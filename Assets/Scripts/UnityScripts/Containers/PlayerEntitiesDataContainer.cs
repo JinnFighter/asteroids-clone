@@ -1,9 +1,9 @@
 using DataContainers;
-using Ecs;
+using Logic.Input;
 
 namespace UnityScripts.Containers
 {
-    public class PlayerEntitiesDataContainer : DictionaryDataContainer<object, EcsEntity>
+    public class PlayerEntitiesDataContainer : DictionaryDataContainer<object, IPlayerInputReceiver>
     {
     }
 }

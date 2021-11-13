@@ -1,5 +1,6 @@
 using Ecs;
 using Logic.Factories;
+using Logic.Input;
 using Physics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -43,7 +44,7 @@ namespace UnityScripts.Factories
             
             var playerInput = _gameObject.GetComponent<PlayerInput>();
             var actionMap = playerInput.currentActionMap;
-            _playerEntitiesContainer.AddData(actionMap, _ecsEntity);
+            _playerEntitiesContainer.AddData(actionMap, new PlayerInputReceiver(_ecsEntity));
             _inputEventEmitter.ListenToInputEvents(actionMap);
 
             return transform;

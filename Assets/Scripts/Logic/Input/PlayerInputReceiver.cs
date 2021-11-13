@@ -11,6 +11,6 @@ namespace Logic.Input
             _entity = entity;
         }
 
-        public void AcceptInputEvent<T>(ref T eventObject) where T : struct => _entity.AddComponent(eventObject);
+        public void AcceptInputEvent<T>(T eventObject) where T : struct => _entity.AddComponent(eventObject);
     }
 }

@@ -3,23 +3,23 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Containers;
 using Logic.Events;
-using Logic.Factories;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class SpawnAsteroidSystem : IEcsRunSystem
     {
-        private readonly AsteroidColliderFactory _asteroidColliderFactory;
+        private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly ComponentEventHandlerContainer _componentEventHandlerContainer;
         private readonly AsteroidTransformHandlerContainer _asteroidTransformHandlerContainer;
 
-        public SpawnAsteroidSystem(AsteroidColliderFactory asteroidColliderFactory, CollisionLayersContainer collisionLayersContainer,
+        public SpawnAsteroidSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer,
             ComponentEventHandlerContainer componentComponentEventHandlerContainer, AsteroidTransformHandlerContainer asteroidTransformHandlerContainer)
         {
-            _asteroidColliderFactory = asteroidColliderFactory;
+            _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
             _componentEventHandlerContainer = componentComponentEventHandlerContainer;
             _asteroidTransformHandlerContainer = asteroidTransformHandlerContainer;
@@ -42,7 +42,8 @@ namespace Logic.Systems.Gameplay
                 _asteroidTransformHandlerContainer.OnCreateEvent(transform);
                 var rigidBody = new PhysicsRigidBody { Mass = createAsteroidEvent.Mass, UseGravity = false };
                 rigidBody.Velocity += velocity;
-                var collider = _asteroidColliderFactory.CreateCollider(transform.Position);
+                var colliderFactory = _colliderFactoryContainer.GetFactory<Asteroid>();
+                var collider = colliderFactory.CreateCollider(transform.Position);
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 collider.CollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 

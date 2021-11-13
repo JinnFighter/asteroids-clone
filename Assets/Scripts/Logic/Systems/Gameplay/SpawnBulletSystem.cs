@@ -3,22 +3,22 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Containers;
 using Logic.Events;
-using Logic.Factories;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class SpawnBulletSystem : IEcsRunSystem
     {
-        private readonly BulletColliderFactory _bulletColliderFactory;
+        private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly BulletTransformHandlerContainer _bulletTransformHandlerContainer;
 
-        public SpawnBulletSystem(BulletColliderFactory bulletColliderFactory, CollisionLayersContainer collisionLayersContainer, 
+        public SpawnBulletSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
             BulletTransformHandlerContainer bulletTransformHandlerContainer)
         {
-            _bulletColliderFactory = bulletColliderFactory;
+            _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
             _bulletTransformHandlerContainer = bulletTransformHandlerContainer;
         }
@@ -39,7 +39,8 @@ namespace Logic.Systems.Gameplay
                 _bulletTransformHandlerContainer.OnCreateEvent(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 rigidBody.Velocity += createBulletEvent.Velocity;
-                var collider = _bulletColliderFactory.CreateCollider(bodyTransform.Position);
+                var colliderFactory = _colliderFactoryContainer.GetFactory<Bullet>();
+                var collider = colliderFactory.CreateCollider(bodyTransform.Position);
                 bodyTransform.PositionChangedEvent += collider.UpdatePosition;
                 var targetCollisionLayers = collider.TargetCollisionLayers;
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));

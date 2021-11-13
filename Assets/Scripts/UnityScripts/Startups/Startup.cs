@@ -1,5 +1,6 @@
 using Helpers;
 using Logic;
+using Logic.Components.Gameplay;
 using Logic.Containers;
 using Logic.Events;
 using Logic.Factories;
@@ -45,16 +46,18 @@ namespace UnityScripts.Startups
             gameObjectHandlerContainer.AddHandler(playerInputHandler);
 
             var transformPresenterFactory = new TransformPresenterFactory();
+
+            var colliderFactoryContainer = _runtimeCore.GetService<ColliderFactoryContainer>();
+
+            var shipColliderFactory = new SpriteSizeColliderFactory();
+
+            var asteroidColliderFactory = new SpriteSizeColliderFactory();
+
+            var bulletColliderFactory = new SpriteSizeColliderFactory();
             
-            var shipGameObjectFactory = new UnityShipColliderFactory();
-            _runtimeCore.AddService<ShipColliderFactory>(shipGameObjectFactory);
-            
-            var asteroidGameObjectFactory = new UnityAsteroidColliderFactory();
-            _runtimeCore.AddService<AsteroidColliderFactory>(asteroidGameObjectFactory);
-            
-            var bulletGameObjectFactory =
-                new UnityBulletColliderFactory();
-            _runtimeCore.AddService<BulletColliderFactory>(bulletGameObjectFactory);
+            colliderFactoryContainer.AddColliderFactory<Ship>(shipColliderFactory);
+            colliderFactoryContainer.AddColliderFactory<Bullet>(bulletColliderFactory);
+            colliderFactoryContainer.AddColliderFactory<Asteroid>(asteroidColliderFactory);
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
 
@@ -63,12 +66,15 @@ namespace UnityScripts.Startups
                     new ShipObjectFactory(_prefabsContainer));
             var transformPresenterHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
-            gameObjectHandlerContainer.AddHandler(shipGameObjectFactory);
+            gameObjectHandlerContainer.AddHandler(shipColliderFactory);
             
             shipTransformEventHandlerContainer.AddHandler(gameObjectHandler);
             shipTransformEventHandlerContainer.AddHandler(transformPresenterHandler);
             shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, 
                 ShipUiView.GetComponent<UiTransformBodyView>()));
+            
+            var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
+            shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));
 
             var bulletGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
             var bulletGameObjectHandler = new GameObjectTransformHandler(bulletGameObjectHandlerContainer,
@@ -76,7 +82,7 @@ namespace UnityScripts.Startups
             var bulletTransformHandlerContainer = _runtimeCore.GetService<BulletTransformHandlerContainer>();
             var transformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             bulletGameObjectHandlerContainer.AddHandler(transformHandler);
-            bulletGameObjectHandlerContainer.AddHandler(bulletGameObjectFactory);
+            bulletGameObjectHandlerContainer.AddHandler(bulletColliderFactory);
             
             bulletTransformHandlerContainer.AddHandler(bulletGameObjectHandler);
             bulletTransformHandlerContainer.AddHandler(transformHandler);
@@ -88,17 +94,14 @@ namespace UnityScripts.Startups
             var asteroidTransformHandlerContainer = _runtimeCore.GetService<AsteroidTransformHandlerContainer>();
             var asteroidTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             asteroidGameObjectHandlerContainer.AddHandler(asteroidTransformHandler);
-            asteroidGameObjectHandlerContainer.AddHandler(asteroidGameObjectFactory);
+            asteroidGameObjectHandlerContainer.AddHandler(asteroidColliderFactory);
             
             asteroidTransformHandlerContainer.AddHandler(asteroidGameObjectHandler);
             asteroidTransformHandlerContainer.AddHandler(asteroidTransformHandler);
 
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             eventListener.AddHandler(asteroidObjectFactory);
-
-            var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
-            shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));
-
+            
             var scoreEventListener = _runtimeCore.GetService<ScoreEventHandlerContainer>();
             scoreEventListener.AddHandler(new ScorePresenterEventHandler(new ScorePresenterFactory(), 
                 ScoreUiView.GetComponent<ScoreView>()));

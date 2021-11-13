@@ -44,6 +44,7 @@ namespace Logic
                 .AddService(new ComponentEventHandlerContainer())
                 .AddService(new ShipTransformEventHandlerContainer())
                 .AddService(new ShipRigidBodyEventHandlerContainer())
+                .AddService(new BulletTransformHandlerContainer())
                 .AddService<ShipFactory>(new DefaultShipFactory())
                 .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
                 .AddService<BulletFactory>(new DefaultBulletFactory())

@@ -74,12 +74,14 @@ namespace Logic
 
             var colliderFactoryContainer = _systems.GetService<ColliderFactoryContainer>();
 
+            var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
                     _systems.GetService<ShipTransformEventHandlerContainer>(),
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
                     _systems.GetService<PlayerInputEventHandlerContainer>()))
+                .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 

@@ -11,15 +11,15 @@ namespace Logic.Systems.Gameplay
 {
     public class SpawnAsteroidSystem : IEcsRunSystem
     {
-        private readonly AsteroidFactory _asteroidFactory;
+        private readonly AsteroidColliderFactory _asteroidColliderFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly ComponentEventHandlerContainer _componentEventHandlerContainer;
         private readonly AsteroidTransformHandlerContainer _asteroidTransformHandlerContainer;
 
-        public SpawnAsteroidSystem(AsteroidFactory asteroidFactory, CollisionLayersContainer collisionLayersContainer,
+        public SpawnAsteroidSystem(AsteroidColliderFactory asteroidColliderFactory, CollisionLayersContainer collisionLayersContainer,
             ComponentEventHandlerContainer componentComponentEventHandlerContainer, AsteroidTransformHandlerContainer asteroidTransformHandlerContainer)
         {
-            _asteroidFactory = asteroidFactory;
+            _asteroidColliderFactory = asteroidColliderFactory;
             _collisionLayersContainer = collisionLayersContainer;
             _componentEventHandlerContainer = componentComponentEventHandlerContainer;
             _asteroidTransformHandlerContainer = asteroidTransformHandlerContainer;
@@ -42,7 +42,7 @@ namespace Logic.Systems.Gameplay
                 _asteroidTransformHandlerContainer.OnCreateEvent(transform);
                 var rigidBody = new PhysicsRigidBody { Mass = createAsteroidEvent.Mass, UseGravity = false };
                 rigidBody.Velocity += velocity;
-                var collider = _asteroidFactory.CreateCollider(transform.Position);
+                var collider = _asteroidColliderFactory.CreateCollider(transform.Position);
                 transform.PositionChangedEvent += collider.UpdatePosition;
                 collider.CollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 

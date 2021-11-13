@@ -6,7 +6,7 @@ using Vector2 = Common.Vector2;
 
 namespace UnityScripts.Factories
 {
-    public class BulletGameObjectFactory : BulletFactory, IEventHandler<GameObject>
+    public class UnityBulletColliderFactory : BulletColliderFactory, IEventHandler<GameObject>
     {
         private Vector3 _size;
         

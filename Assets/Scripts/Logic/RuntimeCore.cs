@@ -46,9 +46,9 @@ namespace Logic
                 .AddService(new ShipRigidBodyEventHandlerContainer())
                 .AddService(new BulletTransformHandlerContainer())
                 .AddService(new AsteroidTransformHandlerContainer())
-                .AddService<ShipFactory>(new DefaultShipFactory())
-                .AddService<AsteroidFactory>(new DefaultAsteroidFactory())
-                .AddService<BulletFactory>(new DefaultBulletFactory())
+                .AddService<ShipColliderFactory>(new DefaultShipColliderFactory())
+                .AddService<AsteroidColliderFactory>(new DefaultAsteroidColliderFactory())
+                .AddService<BulletColliderFactory>(new DefaultBulletColliderFactory())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
@@ -70,7 +70,7 @@ namespace Logic
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
-                .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipFactory>(), collisionLayersContainer, 
+                .AddInitSystem(new CreatePlayerShipSystem(_systems.GetService<ShipColliderFactory>(), collisionLayersContainer, 
                     _systems.GetService<ShipTransformEventHandlerContainer>(),
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
                     _systems.GetService<PlayerInputEventHandlerContainer>()))
@@ -101,10 +101,10 @@ namespace Logic
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
-                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidFactory>(), collisionLayersContainer, 
+                .AddRunSystem(new SpawnAsteroidSystem(_systems.GetService<AsteroidColliderFactory>(), collisionLayersContainer, 
                     _systems.GetService<ComponentEventHandlerContainer>(), 
                     _systems.GetService<AsteroidTransformHandlerContainer>()))
-                .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletFactory>(), collisionLayersContainer, 
+                .AddRunSystem(new SpawnBulletSystem(_systems.GetService<BulletColliderFactory>(), collisionLayersContainer, 
                     _systems.GetService<BulletTransformHandlerContainer>()))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<MovementInputAction>()

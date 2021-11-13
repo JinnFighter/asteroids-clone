@@ -13,18 +13,18 @@ namespace Logic.Systems.Gameplay
 {
     public class CreatePlayerShipSystem : IEcsInitSystem
     {
-        private readonly ShipFactory _shipFactory;
+        private readonly ShipColliderFactory _shipColliderFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly ShipTransformEventHandlerContainer _transformEventHandlerContainer;
         private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
         private readonly PlayerInputEventHandlerContainer _playerInputEventHandler;
 
-        public CreatePlayerShipSystem(ShipFactory shipFactory, CollisionLayersContainer collisionLayersContainer, 
+        public CreatePlayerShipSystem(ShipColliderFactory shipColliderFactory, CollisionLayersContainer collisionLayersContainer, 
             ShipTransformEventHandlerContainer transformEventHandlerContainer, 
             ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer,
             PlayerInputEventHandlerContainer playerInputEventHandler)
         {
-            _shipFactory = shipFactory;
+            _shipColliderFactory = shipColliderFactory;
             _collisionLayersContainer = collisionLayersContainer;
             _transformEventHandlerContainer = transformEventHandlerContainer;
             _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
@@ -41,7 +41,7 @@ namespace Logic.Systems.Gameplay
             _transformEventHandlerContainer.OnCreateEvent(transform);
             var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
             _rigidBodyEventHandlerRigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
-            var collider = _shipFactory.CreateCollider(transform.Position);
+            var collider = _shipColliderFactory.CreateCollider(transform.Position);
             transform.PositionChangedEvent += collider.UpdatePosition;
             collider.CollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
             collider.TargetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));

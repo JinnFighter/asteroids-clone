@@ -11,14 +11,14 @@ namespace Logic.Systems.Gameplay
 {
     public class SpawnBulletSystem : IEcsRunSystem
     {
-        private readonly BulletFactory _bulletFactory;
+        private readonly BulletColliderFactory _bulletColliderFactory;
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly BulletTransformHandlerContainer _bulletTransformHandlerContainer;
 
-        public SpawnBulletSystem(BulletFactory bulletFactory, CollisionLayersContainer collisionLayersContainer, 
+        public SpawnBulletSystem(BulletColliderFactory bulletColliderFactory, CollisionLayersContainer collisionLayersContainer, 
             BulletTransformHandlerContainer bulletTransformHandlerContainer)
         {
-            _bulletFactory = bulletFactory;
+            _bulletColliderFactory = bulletColliderFactory;
             _collisionLayersContainer = collisionLayersContainer;
             _bulletTransformHandlerContainer = bulletTransformHandlerContainer;
         }
@@ -39,7 +39,7 @@ namespace Logic.Systems.Gameplay
                 _bulletTransformHandlerContainer.OnCreateEvent(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 rigidBody.Velocity += createBulletEvent.Velocity;
-                var collider = _bulletFactory.CreateCollider(bodyTransform.Position);
+                var collider = _bulletColliderFactory.CreateCollider(bodyTransform.Position);
                 bodyTransform.PositionChangedEvent += collider.UpdatePosition;
                 var targetCollisionLayers = collider.TargetCollisionLayers;
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));

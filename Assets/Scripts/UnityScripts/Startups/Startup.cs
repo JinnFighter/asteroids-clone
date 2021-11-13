@@ -46,15 +46,15 @@ namespace UnityScripts.Startups
 
             var transformPresenterFactory = new TransformPresenterFactory();
             
-            var shipGameObjectFactory = new ShipGameObjectFactory();
-            _runtimeCore.AddService<ShipFactory>(shipGameObjectFactory);
+            var shipGameObjectFactory = new UnityShipColliderFactory();
+            _runtimeCore.AddService<ShipColliderFactory>(shipGameObjectFactory);
             
-            var asteroidGameObjectFactory = new AsteroidGameObjectFactory();
-            _runtimeCore.AddService<AsteroidFactory>(asteroidGameObjectFactory);
+            var asteroidGameObjectFactory = new UnityAsteroidColliderFactory();
+            _runtimeCore.AddService<AsteroidColliderFactory>(asteroidGameObjectFactory);
             
             var bulletGameObjectFactory =
-                new BulletGameObjectFactory();
-            _runtimeCore.AddService<BulletFactory>(bulletGameObjectFactory);
+                new UnityBulletColliderFactory();
+            _runtimeCore.AddService<BulletColliderFactory>(bulletGameObjectFactory);
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
 

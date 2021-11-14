@@ -83,24 +83,16 @@ namespace UnityScripts.Startups
             CreateTransformHandlers(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
                 new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
                 transformPresenterFactory, bulletColliderFactory);
-
+            
             var asteroidObjectFactory = new AsteroidObjectFactory(new List<IObjectSelector<GameObject>>
             {
                 new GameObjectRandomSelector(_prefabsContainer.SmallAsteroidsPrefabs, randomizer),
                 new GameObjectRandomSelector(_prefabsContainer.MediumAsteroidsPrefabs, randomizer),
                 new GameObjectSingleSelector(_prefabsContainer.BigAsteroidPrefab)
             });
-            var asteroidGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var asteroidGameObjectHandler = new GameObjectTransformHandler(asteroidGameObjectHandlerContainer,
-                asteroidObjectFactory);
-            var asteroidTransformHandlerContainer = _runtimeCore.GetService<AsteroidTransformHandlerContainer>();
-            var asteroidTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            asteroidGameObjectHandlerContainer.AddHandler(asteroidTransformHandler);
-            asteroidGameObjectHandlerContainer.AddHandler(asteroidColliderFactory);
-            
-            asteroidTransformHandlerContainer.AddHandler(asteroidGameObjectHandler);
-            asteroidTransformHandlerContainer.AddHandler(asteroidTransformHandler);
-            
+            CreateTransformHandlers(_runtimeCore.GetService<AsteroidTransformHandlerContainer>(), 
+                asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory);
+
             CreateTransformHandlers(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
                 new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
                 transformPresenterFactory, saucerColliderFactory);

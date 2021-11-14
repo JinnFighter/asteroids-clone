@@ -103,7 +103,7 @@ namespace UnityScripts.Startups
             
             var saucerGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
             var saucerGameObjectHandler = new GameObjectTransformHandler(saucerGameObjectHandlerContainer,
-                new SaucerObjectFactory(_prefabsContainer));
+                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab));
             var saucerTransformHandlerContainer = _runtimeCore.GetService<SaucerTransformHandlerContainer>();
             var saucerTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             saucerGameObjectHandlerContainer.AddHandler(saucerTransformHandler);

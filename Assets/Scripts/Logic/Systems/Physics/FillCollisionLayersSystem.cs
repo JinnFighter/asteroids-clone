@@ -17,6 +17,7 @@ namespace Logic.Systems.Physics
         {
             _collisionLayersContainer.AddData("ships", 0);
             _collisionLayersContainer.AddData("asteroids", 1);
+            _collisionLayersContainer.AddData("saucers", 2);
         }
     }
 }

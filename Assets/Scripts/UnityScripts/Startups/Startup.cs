@@ -80,7 +80,7 @@ namespace UnityScripts.Startups
 
             var bulletGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
             var bulletGameObjectHandler = new GameObjectTransformHandler(bulletGameObjectHandlerContainer,
-                new BulletObjectFactory(_prefabsContainer));
+                new PrefabObjectFactory(_prefabsContainer.BulletPrefab));
             var bulletTransformHandlerContainer = _runtimeCore.GetService<BulletTransformHandlerContainer>();
             var transformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             bulletGameObjectHandlerContainer.AddHandler(transformHandler);

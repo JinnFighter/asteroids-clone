@@ -114,6 +114,7 @@ namespace Logic
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
+                .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
                     _systems.GetService<ComponentEventHandlerContainer>(), 
                     _systems.GetService<AsteroidTransformHandlerContainer>()))

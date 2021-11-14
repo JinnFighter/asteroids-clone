@@ -80,16 +80,9 @@ namespace UnityScripts.Startups
             var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
             shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));
 
-            var bulletGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var bulletGameObjectHandler = new GameObjectTransformHandler(bulletGameObjectHandlerContainer,
-                new PrefabObjectFactory(_prefabsContainer.BulletPrefab));
-            var bulletTransformHandlerContainer = _runtimeCore.GetService<BulletTransformHandlerContainer>();
-            var transformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            bulletGameObjectHandlerContainer.AddHandler(transformHandler);
-            bulletGameObjectHandlerContainer.AddHandler(bulletColliderFactory);
-            
-            bulletTransformHandlerContainer.AddHandler(bulletGameObjectHandler);
-            bulletTransformHandlerContainer.AddHandler(transformHandler);
+            CreateTransformHandlers(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
+                new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
+                transformPresenterFactory, bulletColliderFactory);
 
             var asteroidObjectFactory = new AsteroidObjectFactory(new List<IObjectSelector<GameObject>>
             {

@@ -1,8 +1,6 @@
-using Physics;
-
 namespace Logic.Events
 {
-    public class SaucerTransformHandlerContainer : GameEventHandlerContainer<BodyTransform>
+    public class SaucerTransformHandlerContainer : TransformEventHandlerContainer
     {
     }
 }

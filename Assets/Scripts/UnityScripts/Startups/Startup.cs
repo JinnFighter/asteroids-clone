@@ -80,44 +80,22 @@ namespace UnityScripts.Startups
             var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
             shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));
 
-            var bulletGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var bulletGameObjectHandler = new GameObjectTransformHandler(bulletGameObjectHandlerContainer,
-                new PrefabObjectFactory(_prefabsContainer.BulletPrefab));
-            var bulletTransformHandlerContainer = _runtimeCore.GetService<BulletTransformHandlerContainer>();
-            var transformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            bulletGameObjectHandlerContainer.AddHandler(transformHandler);
-            bulletGameObjectHandlerContainer.AddHandler(bulletColliderFactory);
+            CreateTransformHandlers(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
+                new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
+                transformPresenterFactory, bulletColliderFactory);
             
-            bulletTransformHandlerContainer.AddHandler(bulletGameObjectHandler);
-            bulletTransformHandlerContainer.AddHandler(transformHandler);
-
             var asteroidObjectFactory = new AsteroidObjectFactory(new List<IObjectSelector<GameObject>>
             {
                 new GameObjectRandomSelector(_prefabsContainer.SmallAsteroidsPrefabs, randomizer),
                 new GameObjectRandomSelector(_prefabsContainer.MediumAsteroidsPrefabs, randomizer),
                 new GameObjectSingleSelector(_prefabsContainer.BigAsteroidPrefab)
             });
-            var asteroidGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var asteroidGameObjectHandler = new GameObjectTransformHandler(asteroidGameObjectHandlerContainer,
-                asteroidObjectFactory);
-            var asteroidTransformHandlerContainer = _runtimeCore.GetService<AsteroidTransformHandlerContainer>();
-            var asteroidTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            asteroidGameObjectHandlerContainer.AddHandler(asteroidTransformHandler);
-            asteroidGameObjectHandlerContainer.AddHandler(asteroidColliderFactory);
-            
-            asteroidTransformHandlerContainer.AddHandler(asteroidGameObjectHandler);
-            asteroidTransformHandlerContainer.AddHandler(asteroidTransformHandler);
-            
-            var saucerGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var saucerGameObjectHandler = new GameObjectTransformHandler(saucerGameObjectHandlerContainer,
-                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab));
-            var saucerTransformHandlerContainer = _runtimeCore.GetService<SaucerTransformHandlerContainer>();
-            var saucerTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            saucerGameObjectHandlerContainer.AddHandler(saucerTransformHandler);
-            saucerGameObjectHandlerContainer.AddHandler(saucerColliderFactory);
-            
-            saucerTransformHandlerContainer.AddHandler(saucerGameObjectHandler);
-            saucerTransformHandlerContainer.AddHandler(saucerTransformHandler);
+            CreateTransformHandlers(_runtimeCore.GetService<AsteroidTransformHandlerContainer>(), 
+                asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory);
+
+            CreateTransformHandlers(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
+                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
+                transformPresenterFactory, saucerColliderFactory);
 
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             eventListener.AddHandler(asteroidObjectFactory);
@@ -133,6 +111,20 @@ namespace UnityScripts.Startups
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             
             _runtimeCore.Init();
+        }
+
+        private void CreateTransformHandlers(TransformEventHandlerContainer transformHandlerContainer, 
+            IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory, 
+            IEventHandler<GameObject> colliderFactoryHandler)
+        {
+            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
+            var gameObjectHandler = new GameObjectTransformHandler(gameObjectHandlerContainer, gameObjectFactory);
+            var transformPresenterEventHandler = new TransformPresenterEventHandler(transformPresenterFactory);
+            gameObjectHandlerContainer.AddHandler(transformPresenterEventHandler);
+            gameObjectHandlerContainer.AddHandler(colliderFactoryHandler);
+            
+            transformHandlerContainer.AddHandler(gameObjectHandler);
+            transformHandlerContainer.AddHandler(transformPresenterEventHandler);
         }
 
         // Update is called once per frame

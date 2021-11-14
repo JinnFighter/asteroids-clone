@@ -45,6 +45,7 @@ namespace Logic.Systems.Gameplay
                 var targetCollisionLayers = collider.TargetCollisionLayers;
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
+                targetCollisionLayers.Add(_collisionLayersContainer.GetData("saucers"));
                 
                 
                 entity.AddComponent(new PhysicsBody

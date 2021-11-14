@@ -108,16 +108,9 @@ namespace UnityScripts.Startups
             asteroidTransformHandlerContainer.AddHandler(asteroidGameObjectHandler);
             asteroidTransformHandlerContainer.AddHandler(asteroidTransformHandler);
             
-            var saucerGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var saucerGameObjectHandler = new GameObjectTransformHandler(saucerGameObjectHandlerContainer,
-                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab));
-            var saucerTransformHandlerContainer = _runtimeCore.GetService<SaucerTransformHandlerContainer>();
-            var saucerTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            saucerGameObjectHandlerContainer.AddHandler(saucerTransformHandler);
-            saucerGameObjectHandlerContainer.AddHandler(saucerColliderFactory);
-            
-            saucerTransformHandlerContainer.AddHandler(saucerGameObjectHandler);
-            saucerTransformHandlerContainer.AddHandler(saucerTransformHandler);
+            CreateTransformHandlers(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
+                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
+                transformPresenterFactory, saucerColliderFactory);
 
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             eventListener.AddHandler(asteroidObjectFactory);
@@ -133,6 +126,20 @@ namespace UnityScripts.Startups
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             
             _runtimeCore.Init();
+        }
+
+        private void CreateTransformHandlers(TransformEventHandlerContainer transformHandlerContainer, 
+            IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory, 
+            IEventHandler<GameObject> colliderFactoryHandler)
+        {
+            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
+            var gameObjectHandler = new GameObjectTransformHandler(gameObjectHandlerContainer, gameObjectFactory);
+            var transformPresenterEventHandler = new TransformPresenterEventHandler(transformPresenterFactory);
+            gameObjectHandlerContainer.AddHandler(transformPresenterEventHandler);
+            gameObjectHandlerContainer.AddHandler(colliderFactoryHandler);
+            
+            transformHandlerContainer.AddHandler(gameObjectHandler);
+            transformHandlerContainer.AddHandler(transformPresenterEventHandler);
         }
 
         // Update is called once per frame

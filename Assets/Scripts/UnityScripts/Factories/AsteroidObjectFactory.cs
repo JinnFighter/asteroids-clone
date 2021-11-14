@@ -1,9 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using DataContainers;
-using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Events;
 using UnityEngine;
-using UnityScripts.Containers;
 using Vector2 = Common.Vector2;
 
 namespace UnityScripts.Factories
@@ -13,14 +13,9 @@ namespace UnityScripts.Factories
         private readonly IObjectSelector<GameObject>[] _objectSelectors;
         private int _stage;
 
-        public AsteroidObjectFactory(PrefabsContainer prefabsContainer, IRandomizer randomizer)
+        public AsteroidObjectFactory(IEnumerable<IObjectSelector<GameObject>> selectors)
         {
-            _objectSelectors = new IObjectSelector<GameObject>[]
-            {
-                new GameObjectRandomSelector(prefabsContainer.SmallAsteroidsPrefabs, randomizer),
-                new GameObjectRandomSelector(prefabsContainer.MediumAsteroidsPrefabs, randomizer),
-                new GameObjectSingleSelector(prefabsContainer.BigAsteroidPrefab)
-            };
+            _objectSelectors = selectors.ToArray();
             _stage = 3;
         }
 

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using DataContainers;
 using Helpers;
 using Logic;
 using Logic.Components.Gameplay;
@@ -89,7 +91,12 @@ namespace UnityScripts.Startups
             bulletTransformHandlerContainer.AddHandler(bulletGameObjectHandler);
             bulletTransformHandlerContainer.AddHandler(transformHandler);
 
-            var asteroidObjectFactory = new AsteroidObjectFactory(_prefabsContainer, randomizer);
+            var asteroidObjectFactory = new AsteroidObjectFactory(new List<IObjectSelector<GameObject>>
+            {
+                new GameObjectRandomSelector(_prefabsContainer.SmallAsteroidsPrefabs, randomizer),
+                new GameObjectRandomSelector(_prefabsContainer.MediumAsteroidsPrefabs, randomizer),
+                new GameObjectSingleSelector(_prefabsContainer.BigAsteroidPrefab)
+            });
             var asteroidGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
             var asteroidGameObjectHandler = new GameObjectTransformHandler(asteroidGameObjectHandlerContainer,
                 asteroidObjectFactory);

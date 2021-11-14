@@ -43,6 +43,8 @@ namespace Logic.Systems.Gameplay
                 var colliderFactory = _colliderFactoryContainer.GetFactory<Saucer>();
                 var collider = colliderFactory.CreateCollider(bodyTransform.Position);
                 bodyTransform.PositionChangedEvent += collider.UpdatePosition;
+                var collisionLayers = collider.CollisionLayers;
+                collisionLayers.Add(_collisionLayersContainer.GetData("saucers"));
                 var targetCollisionLayers = collider.TargetCollisionLayers;
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
                 

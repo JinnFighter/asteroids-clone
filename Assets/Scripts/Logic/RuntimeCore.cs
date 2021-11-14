@@ -37,6 +37,7 @@ namespace Logic
             colliderFactoryContainer.AddColliderFactory<Ship>(new DefaultShipColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Bullet>(new DefaultBulletColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Asteroid>(new DefaultAsteroidColliderFactory());
+            colliderFactoryContainer.AddColliderFactory<Saucer>(new DefaultShipColliderFactory());
             
             _systems
                 .AddService(new GameFieldConfig(18, 10))

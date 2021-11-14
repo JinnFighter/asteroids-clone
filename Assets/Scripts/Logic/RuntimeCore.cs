@@ -93,6 +93,7 @@ namespace Logic
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()), disableOnGameOverTag)
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())
+                .AddRunSystem(new CheckSaucerDirectionSystem())
                 .AddRunSystem(new CheckFireActionSystem())
                 .AddRunSystem(new ShootLaserSystem())
                 .AddRunSystem(new StartReloadingLaserSystem())

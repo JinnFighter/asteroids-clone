@@ -76,6 +76,8 @@ namespace Logic
             var colliderFactoryContainer = _systems.GetService<ColliderFactoryContainer>();
 
             var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
+
+            var saucerConfig = _systems.GetService<SaucerConfig>();
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
@@ -85,6 +87,7 @@ namespace Logic
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
+                .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
                     _systems.GetService<ScoreEventHandlerContainer>()))
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()), disableOnGameOverTag)

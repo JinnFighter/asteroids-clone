@@ -11,5 +11,6 @@ namespace UnityScripts.Containers
         public GameObject[] SmallAsteroidsPrefabs;
 
         public GameObject BulletPrefab;
+        public GameObject SaucerPrefab;
     }
 }

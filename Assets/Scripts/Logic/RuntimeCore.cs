@@ -37,11 +37,13 @@ namespace Logic
             colliderFactoryContainer.AddColliderFactory<Ship>(new DefaultShipColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Bullet>(new DefaultBulletColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Asteroid>(new DefaultAsteroidColliderFactory());
+            colliderFactoryContainer.AddColliderFactory<Saucer>(new DefaultShipColliderFactory());
             
             _systems
                 .AddService(new GameFieldConfig(18, 10))
                 .AddService(physicsConfiguration)
                 .AddService(new AsteroidConfig(10f))
+                .AddService(new SaucerConfig())
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())
@@ -52,6 +54,8 @@ namespace Logic
                 .AddService(new ShipRigidBodyEventHandlerContainer())
                 .AddService(new BulletTransformHandlerContainer())
                 .AddService(new AsteroidTransformHandlerContainer())
+                .AddService(new SaucerTransformHandlerContainer())
+                .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)
                 .AddService<IDeltaTimeCounter>(new DefaultDeltaTimeCounter())
@@ -73,19 +77,25 @@ namespace Logic
 
             var colliderFactoryContainer = _systems.GetService<ColliderFactoryContainer>();
 
+            var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
+
+            var saucerConfig = _systems.GetService<SaucerConfig>();
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
                     _systems.GetService<ShipTransformEventHandlerContainer>(),
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
                     _systems.GetService<PlayerInputEventHandlerContainer>()))
+                .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem())
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
+                .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
                     _systems.GetService<ScoreEventHandlerContainer>()))
                 .AddRunSystem(new ExecuteInputCommandsSystem(_systems.GetService<InputCommandQueue>()), disableOnGameOverTag)
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())
+                .AddRunSystem(new CheckSaucerDirectionSystem())
                 .AddRunSystem(new CheckFireActionSystem())
                 .AddRunSystem(new ShootLaserSystem())
                 .AddRunSystem(new StartReloadingLaserSystem())
@@ -103,9 +113,13 @@ namespace Logic
                 .AddRunSystem(new DestroyBulletsSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
                 .AddRunSystem(new DestroyShipsSystem())
+                .AddRunSystem(new DestroySaucerSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
+                .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))
+                .AddRunSystem(new SpawnSaucerSystem(colliderFactoryContainer, collisionLayersContainer, 
+                    _systems.GetService<SaucerTransformHandlerContainer>()))
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
                     _systems.GetService<ComponentEventHandlerContainer>(), 
                     _systems.GetService<AsteroidTransformHandlerContainer>()))
@@ -121,6 +135,7 @@ namespace Logic
                 .OneFrame<TimerEndEvent>()
                 .OneFrame<CreateBulletEvent>()
                 .OneFrame<CreateAsteroidEvent>()
+                .OneFrame<CreateSaucerEvent>()
                 .OneFrame<ShootLaserEvent>()
                 .OneFrame<GameOverEvent>()
                 .OneFrame<DestroyEvent>()

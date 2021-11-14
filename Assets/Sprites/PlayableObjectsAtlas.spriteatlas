@@ -51,6 +51,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 6626303b7ca3cee4e9caf0e87e154769, type: 3}
   - {fileID: 21300000, guid: 7836501d23c7d794597efa865ddaf70b, type: 3}
   - {fileID: 21300000, guid: 1a48032d32a389f478cfe3056436ec5c, type: 3}
+  - {fileID: 21300000, guid: 779d03de0a6a777478be7a08b639de4c, type: 3}
   m_PackedSpriteNamesToIndex:
   - small_asteroid_2
   - small_asteroid
@@ -63,6 +64,7 @@ SpriteAtlas:
   - medium_asteroid_3
   - bullet
   - medium_asteroid
+  - saucer
   m_RenderDataMap: {}
   m_Tag: PlayableObjectsAtlas
   m_IsVariant: 0

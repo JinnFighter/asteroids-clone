@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using DataContainers;
 using Helpers;
 using Logic;
 using Logic.Components.Gameplay;
@@ -53,16 +55,19 @@ namespace UnityScripts.Startups
             var asteroidColliderFactory = new SpriteSizeColliderFactory();
 
             var bulletColliderFactory = new SpriteSizeColliderFactory();
+
+            var saucerColliderFactory = new SpriteSizeColliderFactory();
             
             colliderFactoryContainer.AddColliderFactory<Ship>(shipColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Bullet>(bulletColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Asteroid>(asteroidColliderFactory);
+            colliderFactoryContainer.AddColliderFactory<Saucer>(saucerColliderFactory);
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
 
             var gameObjectHandler =
                 new GameObjectTransformHandler(gameObjectHandlerContainer,
-                    new ShipObjectFactory(_prefabsContainer));
+                    new PrefabObjectFactory(_prefabsContainer.ShipPrefab));
             var transformPresenterHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
             gameObjectHandlerContainer.AddHandler(shipColliderFactory);
@@ -77,7 +82,7 @@ namespace UnityScripts.Startups
 
             var bulletGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
             var bulletGameObjectHandler = new GameObjectTransformHandler(bulletGameObjectHandlerContainer,
-                new BulletObjectFactory(_prefabsContainer));
+                new PrefabObjectFactory(_prefabsContainer.BulletPrefab));
             var bulletTransformHandlerContainer = _runtimeCore.GetService<BulletTransformHandlerContainer>();
             var transformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
             bulletGameObjectHandlerContainer.AddHandler(transformHandler);
@@ -86,7 +91,12 @@ namespace UnityScripts.Startups
             bulletTransformHandlerContainer.AddHandler(bulletGameObjectHandler);
             bulletTransformHandlerContainer.AddHandler(transformHandler);
 
-            var asteroidObjectFactory = new AsteroidObjectFactory(_prefabsContainer, randomizer);
+            var asteroidObjectFactory = new AsteroidObjectFactory(new List<IObjectSelector<GameObject>>
+            {
+                new GameObjectRandomSelector(_prefabsContainer.SmallAsteroidsPrefabs, randomizer),
+                new GameObjectRandomSelector(_prefabsContainer.MediumAsteroidsPrefabs, randomizer),
+                new GameObjectSingleSelector(_prefabsContainer.BigAsteroidPrefab)
+            });
             var asteroidGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
             var asteroidGameObjectHandler = new GameObjectTransformHandler(asteroidGameObjectHandlerContainer,
                 asteroidObjectFactory);
@@ -97,6 +107,17 @@ namespace UnityScripts.Startups
             
             asteroidTransformHandlerContainer.AddHandler(asteroidGameObjectHandler);
             asteroidTransformHandlerContainer.AddHandler(asteroidTransformHandler);
+            
+            var saucerGameObjectHandlerContainer = new GameObjectEventHandlerContainer();
+            var saucerGameObjectHandler = new GameObjectTransformHandler(saucerGameObjectHandlerContainer,
+                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab));
+            var saucerTransformHandlerContainer = _runtimeCore.GetService<SaucerTransformHandlerContainer>();
+            var saucerTransformHandler = new TransformPresenterEventHandler(transformPresenterFactory);
+            saucerGameObjectHandlerContainer.AddHandler(saucerTransformHandler);
+            saucerGameObjectHandlerContainer.AddHandler(saucerColliderFactory);
+            
+            saucerTransformHandlerContainer.AddHandler(saucerGameObjectHandler);
+            saucerTransformHandlerContainer.AddHandler(saucerTransformHandler);
 
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             eventListener.AddHandler(asteroidObjectFactory);

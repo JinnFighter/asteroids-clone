@@ -53,6 +53,7 @@ namespace Logic
                 .AddService(new ShipRigidBodyEventHandlerContainer())
                 .AddService(new BulletTransformHandlerContainer())
                 .AddService(new AsteroidTransformHandlerContainer())
+                .AddService(new SaucerTransformHandlerContainer())
                 .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)

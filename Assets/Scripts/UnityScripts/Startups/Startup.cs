@@ -110,7 +110,7 @@ namespace UnityScripts.Startups
             saucerGameObjectHandlerContainer.AddHandler(saucerColliderFactory);
             
             saucerTransformHandlerContainer.AddHandler(saucerGameObjectHandler);
-            saucerTransformHandlerContainer.AddHandler(transformHandler);
+            saucerTransformHandlerContainer.AddHandler(saucerTransformHandler);
 
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             eventListener.AddHandler(asteroidObjectFactory);

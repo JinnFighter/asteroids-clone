@@ -27,6 +27,7 @@ namespace UnityScripts.Startups
         public GameObject ScoreUiView;
         public GameObject GameOverScreen;
 
+        public GameObject LaserMagazineView;
         public GameObject LaserView;
 
         // Start is called before the first frame update
@@ -111,10 +112,12 @@ namespace UnityScripts.Startups
                 _runtimeCore.GetService<ScoreContainer>()));
 
             var laserHandlerContainer = _runtimeCore.GetService<LaserMagazineHandlerContainer>();
+            
+            laserHandlerContainer.AddHandler(new LaserEventHandler(LaserView.GetComponent<LaserView>()));
 
-            var laserEventHandler = new LaserEventHandler(LaserView.GetComponent<LaserView>());
-
-            laserHandlerContainer.AddHandler(laserEventHandler);
+            var laserTimerHandlerContainer = _runtimeCore.GetService<LaserTimerHandlerContainer>();
+            
+            laserTimerHandlerContainer.AddHandler(new TimerPresenterHandler(LaserMagazineView.GetComponent<TimerCircularView>()));
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

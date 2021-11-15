@@ -156,6 +156,7 @@ MonoBehaviour:
   ShipUiView: {fileID: 419103786}
   ScoreUiView: {fileID: 825528106}
   GameOverScreen: {fileID: 1320445843}
+  LaserMagazineView: {fileID: 886838740}
   LaserView: {fileID: 1711228215}
 --- !u!4 &114308410
 Transform:

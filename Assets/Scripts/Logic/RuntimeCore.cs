@@ -56,6 +56,7 @@ namespace Logic
                 .AddService(new AsteroidTransformHandlerContainer())
                 .AddService(new SaucerTransformHandlerContainer())
                 .AddService(new LaserMagazineHandlerContainer())
+                .AddService(new LaserTimerHandlerContainer())
                 .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)

@@ -9,7 +9,7 @@ namespace Helpers
             get => _startTime;
             set
             {
-                StartTime = value;
+                _startTime = value;
                 StartTimeChangedEvent?.Invoke(_startTime);
             }
         }
@@ -22,7 +22,7 @@ namespace Helpers
             set
             {
                 
-                CurrentTime = value > 0f ? value : 0f;
+                _currentTime = value > 0f ? value : 0f;
                 CurrentTimeChangedEvent?.Invoke(_currentTime);
             }
         }

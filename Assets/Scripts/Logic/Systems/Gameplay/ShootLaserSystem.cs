@@ -19,7 +19,7 @@ namespace Logic.Systems.Gameplay
                 {
                     magazine.Shoot();
                     var entity = filter.GetEntity(index);
-                    entity.AddComponent(new ShootLaserEvent());
+                    entity.AddComponent(new ShootEvent());
                 }
             }
         }

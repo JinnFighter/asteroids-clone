@@ -17,8 +17,11 @@ namespace Logic.Systems.Gameplay
                 var magazine = laser.AmmoMagazine;
                 if (magazine.CurrentAmmo < magazine.MaxAmmo)
                 {
-                    ref var timer = ref filter.Get2(index);
-                    timer.CurrentTime = 7f;
+                    var timer = filter.Get2(index);
+                    var gameplayTimer = timer.GameplayTimer;
+                    var time = 7f;
+                    gameplayTimer.StartTime = time;
+                    gameplayTimer.CurrentTime = time;
                     var entity = filter.GetEntity(index);
                     entity.AddComponent(new Counting());
                 }

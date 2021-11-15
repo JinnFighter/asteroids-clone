@@ -56,9 +56,12 @@ namespace Logic.Systems.Gameplay
                     { Direction = direction, Mass = _asteroidConfig.DefaultMass, Position = position, Stage = stage });
 
                 ref var asteroidConfig = ref filter.Get1(index);
-                ref var timer = ref filter.Get2(index);
-                
-                timer.CurrentTime = _randomizer.Range(asteroidConfig.MinTime, asteroidConfig.MaxTime);
+                var timer = filter.Get2(index);
+
+                var time = _randomizer.Range(asteroidConfig.MinTime, asteroidConfig.MaxTime);
+                var gameplayTimer = timer.GameplayTimer;
+                gameplayTimer.StartTime = time;
+                gameplayTimer.CurrentTime = time;
                 entity.AddComponent(new Counting());
             }
         }

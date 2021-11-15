@@ -20,9 +20,15 @@ namespace Logic.Systems.Gameplay
             var entity = world.CreateEntity();
             var asteroidCreatorConfig = new AsteroidCreatorConfig { MinTime = 1, MaxTime = 3 };
             entity.AddComponent(asteroidCreatorConfig);
+
+            var time = _randomizer.Range(asteroidCreatorConfig.MinTime, asteroidCreatorConfig.MaxTime);
+            var gameplayTimer = new GameplayTimer
+            {
+                StartTime = time,
+                CurrentTime = time
+            };
             
-            var timer = new Timer
-                { CurrentTime = _randomizer.Range(asteroidCreatorConfig.MinTime, asteroidCreatorConfig.MaxTime) };
+            var timer = new Timer { GameplayTimer = gameplayTimer };
             entity.AddComponent(timer);
             entity.AddComponent(new Counting());
         }

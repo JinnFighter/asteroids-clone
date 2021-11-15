@@ -22,16 +22,14 @@ namespace Logic.Systems.Time
             foreach (var index in filter)
             {
                 ref var timer = ref filter.Get1(index);
-                var nextTime = timer.CurrentTime - deltaTime;
-                if (nextTime <= 0.00000f)
+                var gameplayTimer = timer.GameplayTimer;
+                gameplayTimer.CurrentTime -= deltaTime;
+                if (gameplayTimer.CurrentTime <= 0f)
                 {
-                    nextTime = 0.00000f;
                     var entity = filter.GetEntity(index);
                     entity.AddComponent(new TimerEndEvent());
                     entity.RemoveComponent<Counting>();
                 }
-
-                timer.CurrentTime = nextTime;
             }
         }
     }

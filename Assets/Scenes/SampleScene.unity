@@ -1492,9 +1492,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ammoObjects:
-  - {fileID: 936911656}
-  - {fileID: 914454610}
   - {fileID: 606432075}
+  - {fileID: 914454610}
+  - {fileID: 936911656}
 --- !u!1 &1949155191
 GameObject:
   m_ObjectHideFlags: 0

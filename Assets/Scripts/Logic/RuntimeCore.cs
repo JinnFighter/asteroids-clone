@@ -80,6 +80,9 @@ namespace Logic
             var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
 
             var saucerConfig = _systems.GetService<SaucerConfig>();
+
+            var componentEventHandlerContainer = _systems.GetService<ComponentEventHandlerContainer>();
+            
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
@@ -87,7 +90,7 @@ namespace Logic
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
                     _systems.GetService<PlayerInputEventHandlerContainer>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
-                .AddInitSystem(new CreateLaserSystem())
+                .AddInitSystem(new CreateLaserSystem(componentEventHandlerContainer))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
@@ -97,7 +100,7 @@ namespace Logic
                 .AddRunSystem(new RotatePlayerShipSystem())
                 .AddRunSystem(new CheckSaucerDirectionSystem())
                 .AddRunSystem(new CheckFireActionSystem())
-                .AddRunSystem(new ShootLaserSystem())
+                .AddRunSystem(new ShootLaserSystem(componentEventHandlerContainer))
                 .AddRunSystem(new StartReloadingLaserSystem())
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()), disableOnGameOverTag)

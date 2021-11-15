@@ -2,11 +2,19 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
+using Logic.Events;
 
 namespace Logic.Systems.Gameplay
 {
     public class ShootLaserSystem : IEcsRunSystem
     {
+        private readonly ComponentEventHandlerContainer _componentEventHandlerContainer;
+
+        public ShootLaserSystem(ComponentEventHandlerContainer componentEventHandlerContainer)
+        {
+            _componentEventHandlerContainer = componentEventHandlerContainer;
+        }
+        
         public void Run(EcsWorld ecsWorld)
         {
             var filter = ecsWorld.GetFilter<Laser, LaserFireInputAction>();
@@ -18,7 +26,9 @@ namespace Logic.Systems.Gameplay
                 {
                     laser.CurrentAmmo--;
                     var entity = filter.GetEntity(index);
-                    entity.AddComponent(new ShootLaserEvent{ CurrentAmmo = laser.CurrentAmmo });
+                    var shootLaserEvent = new ShootLaserEvent { CurrentAmmo = laser.CurrentAmmo };
+                    _componentEventHandlerContainer.HandleEvent(ref shootLaserEvent);
+                    entity.AddComponent(shootLaserEvent);
                 }
             }
         }

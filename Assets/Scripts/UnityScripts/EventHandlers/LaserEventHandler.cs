@@ -23,6 +23,7 @@ namespace UnityScripts.EventHandlers
         {
             _laserModel = new LaserModel(context.CurrentAmmo);
             _laserPresenter = new LaserPresenter(_laserModel, _laserView);
+            _laserModel.UpdateAmmoCount(context.CurrentAmmo);
         }
     }
 }

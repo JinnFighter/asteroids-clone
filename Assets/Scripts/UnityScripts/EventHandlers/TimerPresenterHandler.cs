@@ -1,6 +1,7 @@
 using Helpers;
 using Logic.Events;
 using UnityScripts.Presentation.Models;
+using UnityScripts.Presentation.Presenters;
 using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.EventHandlers
@@ -19,6 +20,8 @@ namespace UnityScripts.EventHandlers
             var timerModel = new TimerModel(context.StartTime);
             context.StartTimeChangedEvent += timerModel.UpdateStartTime;
             context.CurrentTimeChangedEvent += timerModel.UpdateTime;
+
+            var presenter = new RadialTimerPresenter(timerModel, _timerView);
         }
     }
 }

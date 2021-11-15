@@ -29,7 +29,7 @@ namespace Logic.Systems.Gameplay
                 var entity = filter.GetEntity(index);
                 var laserAmmoMagazine = new LaserMagazine(0, 3);
                 _laserMagazineHandlerContainer.OnCreateEvent(laserAmmoMagazine);
-                var laser = new Laser { AmmoMagazine = laserAmmoMagazine };
+                var laser = new LaserGun { AmmoMagazine = laserAmmoMagazine };
                 entity.AddComponent(laser);
                 var gameplayTimer = new GameplayTimer { StartTime = 7f, CurrentTime = 7f };
                 _laserTimerHandlerContainer.OnCreateEvent(gameplayTimer);

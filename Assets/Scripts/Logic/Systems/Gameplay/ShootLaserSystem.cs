@@ -9,7 +9,7 @@ namespace Logic.Systems.Gameplay
     {
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<Laser, LaserFireInputAction>();
+            var filter = ecsWorld.GetFilter<LaserGun, LaserFireInputAction>();
 
             foreach (var index in filter)
             {

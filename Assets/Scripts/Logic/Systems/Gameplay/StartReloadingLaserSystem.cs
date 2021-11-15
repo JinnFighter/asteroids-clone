@@ -9,7 +9,7 @@ namespace Logic.Systems.Gameplay
     {
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<Laser, Timer>().Exclude<Counting>();
+            var filter = ecsWorld.GetFilter<LaserGun, Timer>().Exclude<Counting>();
 
             foreach (var index in filter)
             {

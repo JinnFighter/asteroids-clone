@@ -2,7 +2,7 @@ using Logic.Weapons;
 
 namespace Logic.Components.Gameplay
 {
-    public struct Laser
+    public struct LaserGun
     {
         public IAmmoMagazine AmmoMagazine;
     }

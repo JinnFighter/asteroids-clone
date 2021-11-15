@@ -156,6 +156,7 @@ MonoBehaviour:
   ShipUiView: {fileID: 419103786}
   ScoreUiView: {fileID: 825528106}
   GameOverScreen: {fileID: 1320445843}
+  LaserView: {fileID: 1711228215}
 --- !u!4 &114308410
 Transform:
   m_ObjectHideFlags: 0
@@ -1422,6 +1423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1711228216}
   - component: {fileID: 1711228217}
+  - component: {fileID: 1711228218}
   m_Layer: 5
   m_Name: LaserBullets
   m_TagString: Untagged
@@ -1477,6 +1479,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1711228218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711228215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0903e393c657f345af6dfcf6cddc150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ammoObjects:
+  - {fileID: 936911656}
+  - {fileID: 914454610}
+  - {fileID: 606432075}
 --- !u!1 &1949155191
 GameObject:
   m_ObjectHideFlags: 0

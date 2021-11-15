@@ -27,6 +27,8 @@ namespace UnityScripts.Startups
         public GameObject ScoreUiView;
         public GameObject GameOverScreen;
 
+        public GameObject LaserView;
+
         // Start is called before the first frame update
         void Start()
         {

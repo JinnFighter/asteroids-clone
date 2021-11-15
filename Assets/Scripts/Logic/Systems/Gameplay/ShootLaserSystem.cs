@@ -18,7 +18,7 @@ namespace Logic.Systems.Gameplay
                 {
                     laser.CurrentAmmo--;
                     var entity = filter.GetEntity(index);
-                    entity.AddComponent(new ShootLaserEvent());
+                    entity.AddComponent(new ShootLaserEvent{ CurrentAmmo = laser.CurrentAmmo });
                 }
             }
         }

@@ -9,12 +9,19 @@ namespace Logic.Systems.Gameplay
     {
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<Laser, ShootLaserEvent, Timer>().Exclude<Counting>();
+            var filter = ecsWorld.GetFilter<Laser, Timer>().Exclude<Counting>();
 
             foreach (var index in filter)
             {
-                var entity = filter.GetEntity(index);
-                entity.AddComponent(new Counting());
+                var laser = filter.Get1(index);
+                var magazine = laser.AmmoMagazine;
+                if (magazine.CurrentAmmo < magazine.MaxAmmo)
+                {
+                    ref var timer = ref filter.Get2(index);
+                    timer.CurrentTime = 7f;
+                    var entity = filter.GetEntity(index);
+                    entity.AddComponent(new Counting());
+                }
             }
         }
     }

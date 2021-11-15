@@ -9,11 +9,11 @@ namespace Logic.Systems.Gameplay
 {
     public class CreateLaserSystem : IEcsInitSystem
     {
-        private readonly ComponentEventHandlerContainer _componentEventHandlerContainer;
+        private readonly LaserMagazineHandlerContainer _laserMagazineHandlerContainer;
 
-        public CreateLaserSystem(ComponentEventHandlerContainer componentEventHandlerContainer)
+        public CreateLaserSystem(LaserMagazineHandlerContainer laserMagazineHandlerContainer)
         {
-            _componentEventHandlerContainer = componentEventHandlerContainer;
+            _laserMagazineHandlerContainer = laserMagazineHandlerContainer;
         }
         
         public void Init(EcsWorld world)
@@ -24,11 +24,10 @@ namespace Logic.Systems.Gameplay
             {
                 var entity = filter.GetEntity(index);
                 var laserAmmoMagazine = new LaserMagazine(0, 3);
-                var laser = new Laser { CurrentAmmo = 0, MaxAmmo = 3, AmmoMagazine = laserAmmoMagazine };
+                _laserMagazineHandlerContainer.OnCreateEvent(laserAmmoMagazine);
+                var laser = new Laser { AmmoMagazine = laserAmmoMagazine };
                 entity.AddComponent(laser);
-                _componentEventHandlerContainer.HandleEvent(ref laser);
-                entity.AddComponent(new Timer{ CurrentTime = 7f });
-                entity.AddComponent(new Counting());
+                entity.AddComponent(new Timer());
             }
         }
     }

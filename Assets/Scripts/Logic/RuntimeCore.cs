@@ -140,6 +140,7 @@ namespace Logic
                 .OneFrame<CreateAsteroidEvent>()
                 .OneFrame<CreateSaucerEvent>()
                 .OneFrame<ShootLaserEvent>()
+                .OneFrame<ReloadLaserEvent>()
                 .OneFrame<GameOverEvent>()
                 .OneFrame<DestroyEvent>()
                 .Init(_world);

@@ -117,6 +117,7 @@ namespace Logic
                 .AddRunSystem(new UpdateTimersSystem(timeContainer), disableOnGameOverTag)
                 .AddRunSystem(new FinishReloadingLaserSystem())
                 .AddRunSystem(new DestroyBulletsSystem())
+                .AddRunSystem(new DestroyLaserSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroySaucerSystem())

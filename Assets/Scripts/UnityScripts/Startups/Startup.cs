@@ -113,6 +113,7 @@ namespace UnityScripts.Startups
             var laserEventHandler = new LaserEventHandler(LaserView.GetComponent<LaserView>());
             componentEventListener.AddHandler<Laser>(laserEventHandler);
             componentEventListener.AddHandler<ShootLaserEvent>(laserEventHandler);
+            componentEventListener.AddHandler<ReloadLaserEvent>(laserEventHandler);
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

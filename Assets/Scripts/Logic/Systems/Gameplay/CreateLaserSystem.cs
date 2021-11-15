@@ -26,6 +26,7 @@ namespace Logic.Systems.Gameplay
                 entity.AddComponent(laser);
                 _componentEventHandlerContainer.HandleEvent(ref laser);
                 entity.AddComponent(new Timer{ CurrentTime = 7f });
+                entity.AddComponent(new Counting());
             }
         }
     }

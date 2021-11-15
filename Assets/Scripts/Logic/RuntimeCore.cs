@@ -112,7 +112,7 @@ namespace Logic
                 .AddRunSystem(new CheckAsteroidCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer), disableOnGameOverTag)
-                .AddRunSystem(new FinishReloadingLaserSystem())
+                .AddRunSystem(new FinishReloadingLaserSystem(componentEventHandlerContainer))
                 .AddRunSystem(new DestroyBulletsSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
                 .AddRunSystem(new DestroyShipsSystem())

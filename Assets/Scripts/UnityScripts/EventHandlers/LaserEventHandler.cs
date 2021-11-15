@@ -6,7 +6,7 @@ using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.EventHandlers
 {
-    public class LaserEventHandler : IComponentEventHandler<ShootLaserEvent>, IComponentEventHandler<Laser>
+    public class LaserEventHandler : IComponentEventHandler<ShootLaserEvent>, IComponentEventHandler<Laser>, IComponentEventHandler<ReloadLaserEvent>
     {
         private LaserModel _laserModel;
         private LaserPresenter _laserPresenter;
@@ -25,5 +25,7 @@ namespace UnityScripts.EventHandlers
             _laserPresenter = new LaserPresenter(_laserModel, _laserView);
             _laserModel.UpdateAmmoCount(context.CurrentAmmo);
         }
+
+        public void Handle(ref ReloadLaserEvent context) => _laserModel.UpdateAmmoCount(context.CurrentAmmo);
     }
 }

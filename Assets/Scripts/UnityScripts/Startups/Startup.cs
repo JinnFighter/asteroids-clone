@@ -110,6 +110,10 @@ namespace UnityScripts.Startups
             componentEventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
                 _runtimeCore.GetService<ScoreContainer>()));
 
+            var laserEventHandler = new LaserEventHandler(LaserView.GetComponent<LaserView>());
+            componentEventListener.AddHandler<Laser>(laserEventHandler);
+            componentEventListener.AddHandler<ShootLaserEvent>(laserEventHandler);
+
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             
             _runtimeCore.Init();

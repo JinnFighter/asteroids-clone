@@ -2,35 +2,24 @@ namespace UnityScripts.Presentation.Models
 {
     public class TimerModel
     {
-        private float _startTime;
 
-        public float StartTime
+        public float StartTime { get; private set; }
+
+        public float CurrentTime { get; private set; }
+
+        public TimerModel(float startTime)
         {
-            get => _startTime;
-            set
-            {
-                StartTime = value;
-                StartTimeChangedEvent?.Invoke(_startTime);
-            }
+            StartTime = startTime;
         }
-
-        private float _currentTime;
-
-        public float CurrentTime
-        {
-            get => _currentTime;
-            set
-            {
-
-                CurrentTime = value;
-                CurrentTimeChangedEvent?.Invoke(_currentTime);
-            }
-        }
-
-        public delegate void StartTimeChanged(float time);
-
-        public event StartTimeChanged StartTimeChangedEvent;
         
+        public void UpdateStartTime(float time) => StartTime = time;
+
+        public void UpdateTime(float time)
+        {
+            CurrentTime = time;
+            CurrentTimeChangedEvent?.Invoke(CurrentTime);
+        }
+
         public delegate void CurrentTimeChanged(float time);
 
         public event CurrentTimeChanged CurrentTimeChangedEvent;

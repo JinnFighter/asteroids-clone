@@ -5,14 +5,14 @@ namespace UnityScripts.Presentation.Presenters
 {
     public abstract class TimerPresenter
     {
-        private readonly TimerModel _timerModel;
-        private readonly ITimerView _timerView;
+        protected readonly TimerModel TimerModel;
+        protected readonly ITimerView TimerView;
 
         public TimerPresenter(TimerModel timerModel, ITimerView timerView)
         {
-            _timerModel = timerModel;
-            _timerModel.CurrentTimeChangedEvent += UpdateTime;
-            _timerView = timerView;
+            TimerModel = timerModel;
+            TimerModel.CurrentTimeChangedEvent += UpdateTime;
+            TimerView = timerView;
         }
 
         protected abstract void UpdateTime(float time);

@@ -1,7 +1,6 @@
-using Logic.Events;
 using Logic.Weapons;
 
-namespace UnityScripts.EventHandlers
+namespace Logic.Events
 {
     public class LaserMagazineHandlerContainer : GameEventHandlerContainer<LaserMagazine>
     {

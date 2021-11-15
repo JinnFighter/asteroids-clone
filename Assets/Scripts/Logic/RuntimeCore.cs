@@ -92,7 +92,8 @@ namespace Logic
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
                     _systems.GetService<PlayerInputEventHandlerContainer>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
-                .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer))
+                .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer, 
+                    _systems.GetService<LaserTimerHandlerContainer>()))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 

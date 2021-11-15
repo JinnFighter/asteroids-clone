@@ -1,5 +1,6 @@
 using Ecs;
 using Ecs.Interfaces;
+using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Components.Time;
 using Logic.Events;
@@ -10,10 +11,13 @@ namespace Logic.Systems.Gameplay
     public class CreateLaserSystem : IEcsInitSystem
     {
         private readonly LaserMagazineHandlerContainer _laserMagazineHandlerContainer;
+        private readonly LaserTimerHandlerContainer _laserTimerHandlerContainer;
 
-        public CreateLaserSystem(LaserMagazineHandlerContainer laserMagazineHandlerContainer)
+        public CreateLaserSystem(LaserMagazineHandlerContainer laserMagazineHandlerContainer, 
+            LaserTimerHandlerContainer laserTimerHandlerContainer)
         {
             _laserMagazineHandlerContainer = laserMagazineHandlerContainer;
+            _laserTimerHandlerContainer = laserTimerHandlerContainer;
         }
         
         public void Init(EcsWorld world)
@@ -27,7 +31,9 @@ namespace Logic.Systems.Gameplay
                 _laserMagazineHandlerContainer.OnCreateEvent(laserAmmoMagazine);
                 var laser = new Laser { AmmoMagazine = laserAmmoMagazine };
                 entity.AddComponent(laser);
-                entity.AddComponent(new Timer());
+                var gameplayTimer = new GameplayTimer { StartTime = 7f, CurrentTime = 7f };
+                _laserTimerHandlerContainer.OnCreateEvent(gameplayTimer);
+                entity.AddComponent(new Timer{ GameplayTimer = gameplayTimer });
             }
         }
     }

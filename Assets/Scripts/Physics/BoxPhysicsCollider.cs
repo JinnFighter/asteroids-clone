@@ -37,5 +37,9 @@ namespace Physics
 
             return !(d1.X > 0 || d1.Y > 0 || d2.X > 0 || d2.Y > 0);
         }
+
+        protected internal override bool HasCollisionWithRay(Vector2 position, RayPhysicsCollider other,
+            Vector2 otherPosition)
+            => other.HasCollisionRayAndBox(otherPosition, this, position);
     }
 }

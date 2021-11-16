@@ -1,6 +1,6 @@
 namespace Logic.Components.Gameplay
 {
-    public struct ShootEvent
+    public struct CreateLaserEvent
     {
     }
 }

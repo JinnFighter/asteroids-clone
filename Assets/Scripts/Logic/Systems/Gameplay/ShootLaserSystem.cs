@@ -9,17 +9,17 @@ namespace Logic.Systems.Gameplay
     {
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<LaserGun, LaserFireInputAction>();
+            var filter = ecsWorld.GetFilter<Ship, LaserGun, LaserFireInputAction>();
 
             foreach (var index in filter)
             {
-                ref var laser = ref filter.Get1(index);
-                var magazine = laser.AmmoMagazine;
+                var laserGun = filter.Get2(index);
+                var magazine = laserGun.AmmoMagazine;
                 if (magazine.CurrentAmmo > 0)
                 {
                     magazine.Shoot();
                     var entity = filter.GetEntity(index);
-                    entity.AddComponent(new ShootEvent());
+                    entity.AddComponent(new CreateLaserEvent());
                 }
             }
         }

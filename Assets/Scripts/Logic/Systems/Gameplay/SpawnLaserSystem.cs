@@ -4,7 +4,6 @@ using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
 using Logic.Components.Time;
-using Logic.Containers;
 using Logic.Events;
 using Physics;
 
@@ -49,7 +48,7 @@ namespace Logic.Systems.Gameplay
                     Collider = collider
                 });
                 
-                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 0.5f, CurrentTime = 0.5f} });
+                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 0.3f, CurrentTime = 0.3f } });
                 entity.AddComponent(new Counting());
             }
         }

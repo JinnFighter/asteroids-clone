@@ -48,7 +48,7 @@ namespace Logic.Systems.Gameplay
                     Collider = collider
                 });
                 
-                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 0.3f, CurrentTime = 0.3f } });
+                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 0.2f, CurrentTime = 0.2f } });
                 entity.AddComponent(new Counting());
             }
         }

@@ -27,6 +27,9 @@ namespace UnityScripts.Startups
         public GameObject ScoreUiView;
         public GameObject GameOverScreen;
 
+        public GameObject LaserMagazineView;
+        public GameObject LaserView;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -57,11 +60,14 @@ namespace UnityScripts.Startups
             var bulletColliderFactory = new SpriteSizeColliderFactory();
 
             var saucerColliderFactory = new SpriteSizeColliderFactory();
+
+            var laserColliderFactory = new SpriteSizeColliderFactory();
             
             colliderFactoryContainer.AddColliderFactory<Ship>(shipColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Bullet>(bulletColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Asteroid>(asteroidColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Saucer>(saucerColliderFactory);
+            colliderFactoryContainer.AddColliderFactory<Laser>(laserColliderFactory);
 
             var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
 
@@ -96,6 +102,10 @@ namespace UnityScripts.Startups
             CreateTransformHandlers(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
                 new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
                 transformPresenterFactory, saucerColliderFactory);
+            
+            CreateTransformHandlers(_runtimeCore.GetService<LaserTransformHandlerContainer>(), 
+                new PrefabObjectFactory(_prefabsContainer.LaserPrefab),
+                transformPresenterFactory, laserColliderFactory);
 
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             eventListener.AddHandler(asteroidObjectFactory);
@@ -107,6 +117,14 @@ namespace UnityScripts.Startups
             var componentEventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             componentEventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
                 _runtimeCore.GetService<ScoreContainer>()));
+
+            var laserHandlerContainer = _runtimeCore.GetService<LaserMagazineHandlerContainer>();
+            
+            laserHandlerContainer.AddHandler(new LaserEventHandler(LaserView.GetComponent<LaserView>()));
+
+            var laserTimerHandlerContainer = _runtimeCore.GetService<LaserTimerHandlerContainer>();
+            
+            laserTimerHandlerContainer.AddHandler(new TimerPresenterHandler(LaserMagazineView.GetComponent<TimerCircularView>()));
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

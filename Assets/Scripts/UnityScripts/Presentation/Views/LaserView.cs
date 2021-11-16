@@ -11,7 +11,7 @@ namespace UnityScripts.Presentation.Views
         void Start()
         {
             foreach (var ammoObject in _ammoObjects)
-                ammoObject.SetActive(true);
+                ammoObject.SetActive(false);
         }
 
         public void UpdateAmmoCount(int ammoCount)

@@ -58,9 +58,11 @@ namespace Logic.Systems.Gameplay
                 entity.AddComponent(new CreateSaucerEvent{ Position = position, TargetTransform = _targetTransformContainer.Transform });
 
                 ref var saucerSpawnerConfig = ref filter.Get1(index);
-                ref var timer = ref filter.Get2(index);
-
-                timer.CurrentTime = _randomizer.Range(saucerSpawnerConfig.MinTime, saucerSpawnerConfig.MaxTime);
+                var timer = filter.Get2(index);
+                var gameplayTimer = timer.GameplayTimer;
+                var time = _randomizer.Range(saucerSpawnerConfig.MinTime, saucerSpawnerConfig.MaxTime);
+                gameplayTimer.StartTime = time;
+                gameplayTimer.CurrentTime = time;
                 entity.AddComponent(new Counting());
             }
         }

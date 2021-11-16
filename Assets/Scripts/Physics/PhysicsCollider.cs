@@ -24,5 +24,8 @@ namespace Physics
         protected abstract bool HasCollisionInternal(Vector2 position, PhysicsCollider other, Vector2 otherPosition);
 
         protected internal abstract bool HasCollisionWithBox(Vector2 position, BoxPhysicsCollider other, Vector2 otherPosition);
+
+        protected internal abstract bool HasCollisionWithRay(Vector2 position, RayPhysicsCollider other,
+            Vector2 otherPosition);
     }
 }

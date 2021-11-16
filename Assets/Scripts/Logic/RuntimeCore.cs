@@ -38,6 +38,7 @@ namespace Logic
             colliderFactoryContainer.AddColliderFactory<Bullet>(new DefaultBulletColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Asteroid>(new DefaultAsteroidColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Saucer>(new DefaultShipColliderFactory());
+            colliderFactoryContainer.AddColliderFactory<Laser>(new DefaultLaserColliderFactory());
             
             _systems
                 .AddService(new GameFieldConfig(18, 10))
@@ -55,6 +56,9 @@ namespace Logic
                 .AddService(new BulletTransformHandlerContainer())
                 .AddService(new AsteroidTransformHandlerContainer())
                 .AddService(new SaucerTransformHandlerContainer())
+                .AddService(new LaserMagazineHandlerContainer())
+                .AddService(new LaserTimerHandlerContainer())
+                .AddService(new LaserTransformHandlerContainer())
                 .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)
@@ -80,6 +84,9 @@ namespace Logic
             var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
 
             var saucerConfig = _systems.GetService<SaucerConfig>();
+
+            var laserMagazineHandlerContainer = _systems.GetService<LaserMagazineHandlerContainer>();
+            
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
@@ -87,7 +94,8 @@ namespace Logic
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
                     _systems.GetService<PlayerInputEventHandlerContainer>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
-                .AddInitSystem(new CreateLaserSystem())
+                .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer, 
+                    _systems.GetService<LaserTimerHandlerContainer>()))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
@@ -110,7 +118,9 @@ namespace Logic
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer), disableOnGameOverTag)
                 .AddRunSystem(new FinishReloadingLaserSystem())
+                .AddRunSystem(new CreateDestroyLaserEventSystem())
                 .AddRunSystem(new DestroyBulletsSystem())
+                .AddRunSystem(new DestroyLaserSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroySaucerSystem())
@@ -125,6 +135,7 @@ namespace Logic
                     _systems.GetService<AsteroidTransformHandlerContainer>()))
                 .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, 
                     _systems.GetService<BulletTransformHandlerContainer>()))
+                .AddRunSystem(new SpawnLaserSystem(_systems.GetService<LaserTransformHandlerContainer>(), collisionLayersContainer))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
@@ -136,7 +147,7 @@ namespace Logic
                 .OneFrame<CreateBulletEvent>()
                 .OneFrame<CreateAsteroidEvent>()
                 .OneFrame<CreateSaucerEvent>()
-                .OneFrame<ShootLaserEvent>()
+                .OneFrame<CreateLaserEvent>()
                 .OneFrame<GameOverEvent>()
                 .OneFrame<DestroyEvent>()
                 .Init(_world);

@@ -156,6 +156,8 @@ MonoBehaviour:
   ShipUiView: {fileID: 419103786}
   ScoreUiView: {fileID: 825528106}
   GameOverScreen: {fileID: 1320445843}
+  LaserMagazineView: {fileID: 886838740}
+  LaserView: {fileID: 1711228215}
 --- !u!4 &114308410
 Transform:
   m_ObjectHideFlags: 0
@@ -195,6 +197,7 @@ MonoBehaviour:
   - {fileID: 8331448637192160725, guid: 3496f8eea3b5ce54086a91219673e5d8, type: 3}
   - {fileID: 6104130393657859919, guid: 40cfbc12af32151409c3b87baf921493, type: 3}
   BulletPrefab: {fileID: 8713258604528657353, guid: b4c9b22f2dfbebc41aba088d29ba015c, type: 3}
+  LaserPrefab: {fileID: 7960288843875725088, guid: c6c66eb033ae0244d949e91e049ad67c, type: 3}
   SaucerPrefab: {fileID: 2029620524765104477, guid: f908dffc68c620b44a1280bbaa1ee8aa, type: 3}
 --- !u!1 &419103786
 GameObject:
@@ -891,6 +894,7 @@ GameObject:
   - component: {fileID: 886838741}
   - component: {fileID: 886838743}
   - component: {fileID: 886838742}
+  - component: {fileID: 886838744}
   m_Layer: 5
   m_Name: RadialProgressBar
   m_TagString: Untagged
@@ -943,8 +947,8 @@ MonoBehaviour:
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillClockwise: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &886838743
@@ -955,6 +959,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 886838740}
   m_CullTransparentMesh: 1
+--- !u!114 &886838744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886838740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbcec0e8def8a1b488fc51a9e783ac08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &913001447
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,6 +1438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1711228216}
   - component: {fileID: 1711228217}
+  - component: {fileID: 1711228218}
   m_Layer: 5
   m_Name: LaserBullets
   m_TagString: Untagged
@@ -1477,6 +1494,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1711228218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711228215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0903e393c657f345af6dfcf6cddc150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ammoObjects:
+  - {fileID: 606432075}
+  - {fileID: 914454610}
+  - {fileID: 936911656}
 --- !u!1 &1949155191
 GameObject:
   m_ObjectHideFlags: 0

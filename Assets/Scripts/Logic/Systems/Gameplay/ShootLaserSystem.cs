@@ -2,6 +2,7 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
+using Logic.Components.Physics;
 
 namespace Logic.Systems.Gameplay
 {
@@ -9,16 +10,20 @@ namespace Logic.Systems.Gameplay
     {
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<Laser, LaserFireInputAction>();
+            var filter = ecsWorld.GetFilter<Ship, PhysicsBody, LaserGun, LaserFireInputAction>();
 
             foreach (var index in filter)
             {
-                ref var laser = ref filter.Get1(index);
-                if (laser.CurrentAmmo > 0)
+                var laserGun = filter.Get3(index);
+                var magazine = laserGun.AmmoMagazine;
+                if (magazine.CurrentAmmo > 0)
                 {
-                    laser.CurrentAmmo--;
+                    var physicsBody = filter.Get2(index);
+                    var transform = physicsBody.Transform;
+                    magazine.Shoot();
                     var entity = filter.GetEntity(index);
-                    entity.AddComponent(new ShootLaserEvent());
+                    entity.AddComponent(new CreateLaserEvent{ Position = transform.Position + transform.Direction * 0.25f,
+                        Rotation =  transform.Rotation, Direction = transform.Direction });
                 }
             }
         }

@@ -69,6 +69,21 @@ namespace Ecs
             return res;
         }
 
+        public EcsFilter<T, T1, T2, T3> GetFilter<T, T1, T2, T3>()
+            where T : struct
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+        {
+            var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1, T2, T3>)).Cast<EcsFilter<T, T1, T2, T3>>().ToList();
+            if (neededFilters.Any())
+                return neededFilters.First();
+            
+            var res = new EcsFilter<T, T1, T2, T3>(GetEntitiesForFilter<T, T1, T2, T3>());
+            _filters.Add(res);
+            return res;
+        }
+
         public IEnumerable<EcsEntity> GetEntitiesForFilter<T>() where T : struct 
             => _entities.Where(entity => entity.HasComponent<T>());
         
@@ -82,6 +97,17 @@ namespace Ecs
             where T1 : struct
             where T2 : struct
             => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>() && entity.HasComponent<T2>());
+        
+        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2, T3>() 
+            where T : struct
+            where T1 : struct
+            where T2 : struct
+            where T3 : struct
+            => _entities.Where(entity => entity.HasComponent<T>() 
+                                         && entity.HasComponent<T1>() 
+                                         && entity.HasComponent<T2>() 
+                                         && entity.HasComponent<T3>());
+        
 
         public void RemoveEmptyEntities()
         {

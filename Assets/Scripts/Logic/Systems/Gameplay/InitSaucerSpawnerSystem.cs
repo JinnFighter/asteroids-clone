@@ -22,8 +22,10 @@ namespace Logic.Systems.Gameplay
         {
             var entity = world.CreateEntity();
             entity.AddComponent(new SaucerSpawnerConfig{ MinTime = _saucerConfig.MinTime, MaxTime = _saucerConfig.MaxTime });
-            
-            entity.AddComponent(new Timer{ CurrentTime = _randomizer.Range(_saucerConfig.MinTime, _saucerConfig.MaxTime) });
+
+            var time = _randomizer.Range(_saucerConfig.MinTime, _saucerConfig.MaxTime);
+            var gameplayTimer = new GameplayTimer { StartTime = time, CurrentTime = time };
+            entity.AddComponent(new Timer{ GameplayTimer = gameplayTimer });
             entity.AddComponent(new Counting());
         }
     }

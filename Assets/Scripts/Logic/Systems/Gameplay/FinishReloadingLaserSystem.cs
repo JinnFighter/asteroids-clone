@@ -2,6 +2,7 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Time;
+using Logic.Events;
 
 namespace Logic.Systems.Gameplay
 {
@@ -9,19 +10,13 @@ namespace Logic.Systems.Gameplay
     {
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<Laser, Timer, TimerEndEvent>();
+            var filter = ecsWorld.GetFilter<LaserGun, Timer, TimerEndEvent>();
 
             foreach (var index in filter)
             {
                 ref var laser = ref filter.Get1(index);
-                laser.CurrentAmmo++;
-                if (laser.CurrentAmmo < laser.MaxAmmo)
-                {
-                    ref var timer = ref filter.Get2(index);
-                    timer.CurrentTime = 7f;
-                    var entity = filter.GetEntity(index);
-                    entity.AddComponent(new Counting());
-                }
+                var magazine = laser.AmmoMagazine;
+                magazine.Reload();
             }
         }
     }

@@ -197,6 +197,7 @@ MonoBehaviour:
   - {fileID: 8331448637192160725, guid: 3496f8eea3b5ce54086a91219673e5d8, type: 3}
   - {fileID: 6104130393657859919, guid: 40cfbc12af32151409c3b87baf921493, type: 3}
   BulletPrefab: {fileID: 8713258604528657353, guid: b4c9b22f2dfbebc41aba088d29ba015c, type: 3}
+  LaserPrefab: {fileID: 7960288843875725088, guid: c6c66eb033ae0244d949e91e049ad67c, type: 3}
   SaucerPrefab: {fileID: 2029620524765104477, guid: f908dffc68c620b44a1280bbaa1ee8aa, type: 3}
 --- !u!1 &419103786
 GameObject:

@@ -1,3 +1,4 @@
+using System;
 using Vector2 = Common.Vector2;
 
 namespace Physics
@@ -5,7 +6,19 @@ namespace Physics
     public class RayPhysicsCollider : PhysicsCollider
     {
         public Vector2 Position { get; private set; }
-        public Vector2 Direction { get; private set; }
+
+        private Vector2 _direction;
+        public Vector2 Direction
+        {
+            get => _direction;
+            private set => _direction = value.Normalized;
+        }
+
+        public RayPhysicsCollider(Vector2 position, Vector2 direction)
+        {
+            Position = position;
+            Direction = direction;
+        }
 
         public override void UpdatePosition(float x, float y)
         {
@@ -26,7 +39,27 @@ namespace Physics
 
         public bool HasCollisionRayAndBox(Vector2 position, BoxPhysicsCollider other, Vector2 otherPosition)
         {
-            return false;
+            float GetBestIntersection(float directionCoord, float minCoord, float maxCoord)
+            {
+                if (directionCoord > 0)
+                    return (minCoord - directionCoord) / directionCoord;
+                if (directionCoord < 0)
+                    return (maxCoord - directionCoord) / directionCoord;
+
+                return -1;
+            }
+
+            var bestX = GetBestIntersection(Direction.X, other.TopLeft.X, other.DownRight.X);
+            var bestY = GetBestIntersection(Direction.Y, other.TopLeft.Y, other.DownRight.Y);
+
+            var bestIntersection = Math.Max(bestX, bestY);
+            if (bestIntersection < 0f)
+                return false;
+
+            var intersection = Position + Direction * bestIntersection;
+            return !(intersection.X < other.TopLeft.X) && !(intersection.X > other.DownRight.X) 
+                                                       && !(intersection.Y < other.TopLeft.Y)
+                   && !(intersection.Y > other.DownRight.Y);
         }
     }
 }

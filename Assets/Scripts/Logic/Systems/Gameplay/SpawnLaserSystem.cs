@@ -13,15 +13,12 @@ namespace Logic.Systems.Gameplay
     public class SpawnLaserSystem : IEcsRunSystem
     {
         private readonly LaserTransformHandlerContainer _laserTransformHandlerContainer;
-        private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly CollisionLayersContainer _collisionLayersContainer;
 
         public SpawnLaserSystem(LaserTransformHandlerContainer laserTransformHandlerContainer,
-            ColliderFactoryContainer colliderFactoryContainer,
             CollisionLayersContainer collisionLayersContainer)
         {
             _laserTransformHandlerContainer = laserTransformHandlerContainer;
-            _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
         }
         
@@ -38,15 +35,13 @@ namespace Logic.Systems.Gameplay
                     { Position = laserEvent.Position, Rotation = 0f, Direction = laserEvent.Direction };
                 _laserTransformHandlerContainer.OnCreateEvent(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
-                var colliderFactory = _colliderFactoryContainer.GetFactory<Laser>();
-                var collider = colliderFactory.CreateCollider(bodyTransform.Position);
+                var collider = new RayPhysicsCollider(laserEvent.Position, laserEvent.Direction);
                 bodyTransform.PositionChangedEvent += collider.UpdatePosition;
                 var targetCollisionLayers = collider.TargetCollisionLayers;
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
                 targetCollisionLayers.Add(_collisionLayersContainer.GetData("saucers"));
-                targetCollisionLayers.Add(_collisionLayersContainer.GetData("bullets"));
-                
+
                 entity.AddComponent(new PhysicsBody
                 {
                     Transform = bodyTransform,
@@ -54,7 +49,7 @@ namespace Logic.Systems.Gameplay
                     Collider = collider
                 });
                 
-                entity.AddComponent(new Timer{GameplayTimer = new GameplayTimer{ StartTime = 0.5f, CurrentTime = 0.5f} });
+                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 0.5f, CurrentTime = 0.5f} });
                 entity.AddComponent(new Counting());
             }
         }

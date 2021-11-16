@@ -32,7 +32,7 @@ namespace Logic.Systems.Gameplay
                 var entity = ecsWorld.CreateEntity();
                 entity.AddComponent(new Laser());
                 var bodyTransform = new BodyTransform
-                    { Position = laserEvent.Position, Rotation = 0f, Direction = laserEvent.Direction };
+                    { Position = laserEvent.Position, Rotation = laserEvent.Rotation, Direction = laserEvent.Direction };
                 _laserTransformHandlerContainer.OnCreateEvent(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 var collider = new RayPhysicsCollider(laserEvent.Position, laserEvent.Direction);

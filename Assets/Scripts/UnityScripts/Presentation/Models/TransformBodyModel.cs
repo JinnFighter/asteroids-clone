@@ -20,11 +20,11 @@ namespace UnityScripts.Presentation.Models
 
         public event IDestroyable.OnDestroyEvent DestroyEvent;
 
-        public TransformBodyModel(float x, float y)
+        public TransformBodyModel(float x, float y, float rotation)
         {
             X = x;
             Y = y;
-            Rotation = 0f;
+            Rotation = rotation;
         }
 
         public void UpdatePosition(float x, float y)

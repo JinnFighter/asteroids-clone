@@ -23,7 +23,7 @@ namespace Logic.Systems.Gameplay
                     magazine.Shoot();
                     var entity = filter.GetEntity(index);
                     entity.AddComponent(new CreateLaserEvent{ Position = transform.Position + transform.Direction * 0.25f,
-                        Direction = transform.Direction });
+                        Rotation =  transform.Rotation, Direction = transform.Direction });
                 }
             }
         }

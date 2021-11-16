@@ -9,7 +9,7 @@ namespace UnityScripts.Factories
     {
         public TransformBodyPresenter CreatePresenter(BodyTransform transform, ITransformBodyView view)
         {
-            var physicsBodyModel = new TransformBodyModel(transform.Position.X, transform.Position.Y);
+            var physicsBodyModel = new TransformBodyModel(transform.Position.X, transform.Position.Y, transform.Rotation);
             transform.PositionChangedEvent += physicsBodyModel.UpdatePosition;
             transform.RotationChangedEvent += physicsBodyModel.UpdateRotation;
             transform.DestroyEvent += physicsBodyModel.Destroy;

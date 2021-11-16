@@ -39,27 +39,19 @@ namespace Physics
 
         public bool HasCollisionRayAndBox(Vector2 position, BoxPhysicsCollider other, Vector2 otherPosition)
         {
-            float GetBestIntersection(float directionCoord, float minCoord, float maxCoord)
-            {
-                if (directionCoord > 0)
-                    return (minCoord - directionCoord) / directionCoord;
-                if (directionCoord < 0)
-                    return (maxCoord - directionCoord) / directionCoord;
+            var point1 = other.TopLeft - Direction;
+            var point2 = other.DownRight - Direction;
 
-                return -1;
-            }
+            var t1 = new Vector2(point1.X * Direction.X, point1.Y * Direction.Y);
+            var t2 = new Vector2(point2.X * Direction.X, point2.Y * Direction.Y);
 
-            var bestX = GetBestIntersection(Direction.X, other.TopLeft.X, other.DownRight.X);
-            var bestY = GetBestIntersection(Direction.Y, other.TopLeft.Y, other.DownRight.Y);
+            var tmin = Math.Min(t1.X, t2.X);
+            var tmax = Math.Max(t1.X, t2.X);
 
-            var bestIntersection = Math.Max(bestX, bestY);
-            if (bestIntersection < 0f)
-                return false;
+            tmin = Math.Max(tmin, Math.Min(t1.Y, t2.Y));
+            tmax = Math.Min(tmax, Math.Max(t1.Y, t2.Y));
 
-            var intersection = Position + Direction * bestIntersection;
-            return !(intersection.X < other.TopLeft.X) && !(intersection.X > other.DownRight.X) 
-                                                       && !(intersection.Y < other.TopLeft.Y)
-                   && !(intersection.Y > other.DownRight.Y);
+            return tmax >= tmin;
         }
     }
 }

@@ -137,7 +137,6 @@ namespace Logic
                     _systems.GetService<BulletTransformHandlerContainer>()))
                 .AddRunSystem(new SpawnLaserSystem(_systems.GetService<LaserTransformHandlerContainer>(), collisionLayersContainer))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
-                .OneFrame<MovementInputAction>()
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
                 .OneFrame<LaserFireInputAction>()

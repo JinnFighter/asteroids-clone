@@ -24,7 +24,7 @@ public class @AsteroidsCloneInputActionAsset : IInputActionCollection, IDisposab
                     ""id"": ""9dc3ee15-6c11-4e71-9643-9ff3d082d927"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Look"",

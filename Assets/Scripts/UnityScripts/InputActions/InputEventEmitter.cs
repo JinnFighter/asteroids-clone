@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logic.Components.Input;
 using Logic.Services;
 using UnityEngine.InputSystem;
 using UnityScripts.Containers;
@@ -9,7 +10,8 @@ namespace UnityScripts.InputActions
     public class InputEventEmitter
     {
         private readonly AsteroidsCloneInputActionAsset _inputActionAsset;
-        private readonly Dictionary<Guid, IInputActionConverter> _inputActionConverters;
+        private readonly Dictionary<Guid, IInputActionConverter> _startedInputActionConverters;
+        private readonly Dictionary<Guid, IInputActionConverter> _performedInputActionConverters;
         private readonly InputActionVisitor _inputActionVisitor;
 
         public InputEventEmitter(PlayerEntitiesDataContainer container, InputCommandQueue inputCommandQueue)
@@ -18,25 +20,36 @@ namespace UnityScripts.InputActions
 
             _inputActionAsset = new AsteroidsCloneInputActionAsset();
 
-            _inputActionConverters = new Dictionary<Guid, IInputActionConverter>();
+            _startedInputActionConverters = new Dictionary<Guid, IInputActionConverter>();
+            _performedInputActionConverters = new Dictionary<Guid, IInputActionConverter>();
             var playerActions = _inputActionAsset.Player;
-            _inputActionConverters.Add(playerActions.Look.id, new LookInputActionConverter());
-            _inputActionConverters.Add(playerActions.Move.id, new MovementInputActionConverter());
-            _inputActionConverters.Add(playerActions.Fire.id, new FireInputActionConverter());
-            _inputActionConverters.Add(playerActions.LaserFire.id, new LaserFireInputActionConverter());
+            
+            _startedInputActionConverters.Add(playerActions.Move.id, new MovementInputActionConverter());
+            
+            _performedInputActionConverters.Add(playerActions.Look.id, new LookInputActionConverter());
+            _performedInputActionConverters.Add(playerActions.Move.id, new RemoveEventInputActionConverter<MovementInputAction>());
+            _performedInputActionConverters.Add(playerActions.Fire.id, new FireInputActionConverter());
+            _performedInputActionConverters.Add(playerActions.LaserFire.id, new LaserFireInputActionConverter());
         }
-
-        private void CreatePerformedInputEvent(InputAction.CallbackContext context)
+        
+        private void CreateEvent(InputAction action,
+            IReadOnlyDictionary<Guid, IInputActionConverter> converters)
         {
-            var action = context.action;
-            if(_inputActionConverters.TryGetValue(action.id, out var inputActionConverter))
+            if(converters.TryGetValue(action.id, out var inputActionConverter))
                 inputActionConverter.AcceptConverter(_inputActionVisitor, action);
         }
+
+        private void CreateStartedInputEvent(InputAction.CallbackContext context) =>
+            CreateEvent(context.action, _startedInputActionConverters);
+
+        private void CreatePerformedInputEvent(InputAction.CallbackContext context) =>
+            CreateEvent(context.action, _performedInputActionConverters);
 
         public void ListenToInputEvents(InputActionMap actionMap)
         {
             foreach (var action in actionMap)
             {
+                action.started += CreateStartedInputEvent;
                 action.performed += CreatePerformedInputEvent;
                 action.Enable();
             }

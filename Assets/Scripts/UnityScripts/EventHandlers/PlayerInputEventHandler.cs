@@ -3,7 +3,7 @@ using Logic.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityScripts.Containers;
-using UnityScripts.EventEmitters;
+using UnityScripts.InputActions;
 
 namespace UnityScripts.EventHandlers
 {

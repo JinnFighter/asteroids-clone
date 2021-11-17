@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Logic.Services;
 using UnityEngine.InputSystem;
 using UnityScripts.Containers;
-using UnityScripts.InputActions;
 
-namespace UnityScripts.EventEmitters
+namespace UnityScripts.InputActions
 {
     public class InputEventEmitter
     {

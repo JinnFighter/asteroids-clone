@@ -10,7 +10,6 @@ using UnityEngine;
 using UnityScripts.Containers;
 using UnityScripts.EventHandlers;
 using UnityScripts.Factories;
-using UnityScripts.InputActions;
 using UnityScripts.Presentation.Screens;
 using UnityScripts.Presentation.Views;
 using UnityScripts.Services;
@@ -39,16 +38,8 @@ namespace UnityScripts.Startups
             _runtimeCore.Setup();
 
             var randomizer = _runtimeCore.GetService<IRandomizer>();
-            var playerEntitiesContainer = new PlayerEntitiesDataContainer();
-            var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, 
-                _runtimeCore.GetService<InputCommandQueue>());
 
-            var playerHandlerContainer = _runtimeCore.GetService<PlayerInputEventHandlerContainer>();
-            var playerInputHandler = new PlayerInputEventHandler(playerEntitiesContainer, inputEventEmitter);
-            playerHandlerContainer.AddHandler(playerInputHandler);
-            
             var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            gameObjectHandlerContainer.AddHandler(playerInputHandler);
 
             var transformPresenterFactory = new TransformPresenterFactory();
 
@@ -69,6 +60,10 @@ namespace UnityScripts.Startups
             colliderFactoryContainer.AddColliderFactory<Asteroid>(asteroidColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Saucer>(saucerColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Laser>(laserColliderFactory);
+            
+            _runtimeCore.AddInitSystem(new InitPlayerInputHandlersSystem(
+                _runtimeCore.GetService<InputCommandQueue>(), 
+                _runtimeCore.GetService<PlayerInputEventHandlerContainer>(), gameObjectHandlerContainer));
             
             _runtimeCore.AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, 
                 _runtimeCore.GetService<ShipTransformEventHandlerContainer>(), _prefabsContainer,

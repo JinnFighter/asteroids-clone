@@ -103,9 +103,9 @@ namespace UnityScripts.Startups
             eventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
                 _runtimeCore.GetService<ScoreContainer>()));
 
-            var laserHandlerContainer = _runtimeCore.GetService<LaserMagazineHandlerContainer>();
-            
-            laserHandlerContainer.AddHandler(new LaserEventHandler(LaserView.GetComponent<LaserView>()));
+            _runtimeCore.AddInitSystem(new InitLaserHandlersSystem(
+                _runtimeCore.GetService<LaserMagazineHandlerContainer>(), 
+                LaserView.GetComponent<LaserView>()));
 
             var laserTimerHandlerContainer = _runtimeCore.GetService<LaserTimerHandlerContainer>();
             

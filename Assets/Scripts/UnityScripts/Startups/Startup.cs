@@ -97,13 +97,10 @@ namespace UnityScripts.Startups
             
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             _runtimeCore.AddInitSystem(new InitAsteroidHandlerSystem(eventListener, asteroidObjectFactory));
+            _runtimeCore.AddInitSystem(new InitScoreHandlersSystem(
+                _runtimeCore.GetService<ScoreEventHandlerContainer>(), ScoreUiView.GetComponent<ScoreView>()));
 
-            var scoreEventListener = _runtimeCore.GetService<ScoreEventHandlerContainer>();
-            scoreEventListener.AddHandler(new ScorePresenterEventHandler(new ScorePresenterFactory(), 
-                ScoreUiView.GetComponent<ScoreView>()));
-
-            var componentEventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
-            componentEventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
+            eventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
                 _runtimeCore.GetService<ScoreContainer>()));
 
             var laserHandlerContainer = _runtimeCore.GetService<LaserMagazineHandlerContainer>();

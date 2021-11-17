@@ -1,5 +1,6 @@
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.Gameplay;
 using Logic.Events;
 using Logic.Services;
 using UnityScripts.Containers;
@@ -11,15 +12,16 @@ namespace UnityScripts.Startups.InitSystems
     public class InitPlayerInputHandlersSystem : IEcsInitSystem
     {
         private readonly InputCommandQueue _inputCommandQueue;
-        private readonly PlayerInputEventHandlerContainer _playerInputHandlerContainer;
+        private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
         private readonly GameObjectEventHandlerContainer _gameObjectHandlerContainer;
+        
 
         public InitPlayerInputHandlersSystem(InputCommandQueue inputCommandQueue,
-            PlayerInputEventHandlerContainer playerInputHandlerContainer,
+            PlayerInputHandlerKeeper playerInputHandlerKeeper,
             GameObjectEventHandlerContainer gameObjectHandlerContainer)
         {
             _inputCommandQueue = inputCommandQueue;
-            _playerInputHandlerContainer = playerInputHandlerContainer;
+            _playerInputHandlerKeeper = playerInputHandlerKeeper;
             _gameObjectHandlerContainer = gameObjectHandlerContainer;
         }
         
@@ -29,7 +31,7 @@ namespace UnityScripts.Startups.InitSystems
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, _inputCommandQueue);
             
             var playerInputHandler = new PlayerInputEventHandler(playerEntitiesContainer, inputEventEmitter);
-            _playerInputHandlerContainer.AddHandler(playerInputHandler);
+            _playerInputHandlerKeeper.AddHandlerContainer<Ship>(playerInputHandler);
             _gameObjectHandlerContainer.AddHandler(playerInputHandler);
         }
     }

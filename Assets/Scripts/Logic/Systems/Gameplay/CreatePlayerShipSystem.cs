@@ -16,19 +16,19 @@ namespace Logic.Systems.Gameplay
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly ShipTransformEventHandlerContainer _transformEventHandlerContainer;
         private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
-        private readonly PlayerInputEventHandlerContainer _playerInputEventHandler;
+        private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
 
         public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
             ShipTransformEventHandlerContainer transformEventHandlerContainer, 
             ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer,
-            PlayerInputEventHandlerContainer playerInputEventHandler)
+            PlayerInputHandlerKeeper playerInputHandlerKeeper)
         {
             _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
             _transformEventHandlerContainer = transformEventHandlerContainer;
             _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
-            _playerInputEventHandler = playerInputEventHandler;
+            _playerInputHandlerKeeper = playerInputHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
@@ -57,7 +57,7 @@ namespace Logic.Systems.Gameplay
             entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
 
             var inputEventReceiver = new PlayerInputReceiver(entity);
-            _playerInputEventHandler.OnCreateEvent(inputEventReceiver);
+            _playerInputHandlerKeeper.HandleEvent<Ship>(inputEventReceiver);
         }
     }
 }

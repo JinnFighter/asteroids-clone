@@ -51,7 +51,6 @@ namespace Logic
                 .AddService(new ColliderFactoryContainer())
                 .AddService(new TransformHandlerKeeper())
                 .AddService(new PlayerInputHandlerKeeper())
-                .AddService(new PlayerInputEventHandlerContainer())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
                 .AddService(new ShipTransformEventHandlerContainer())
@@ -95,7 +94,7 @@ namespace Logic
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
                     _systems.GetService<ShipTransformEventHandlerContainer>(),
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
-                    _systems.GetService<PlayerInputEventHandlerContainer>()))
+                    _systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer, 
                     _systems.GetService<LaserTimerHandlerContainer>()))

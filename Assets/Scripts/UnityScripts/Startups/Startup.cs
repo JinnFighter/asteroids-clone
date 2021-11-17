@@ -66,7 +66,7 @@ namespace UnityScripts.Startups
             _runtimeCore
                 .AddInitSystem(new InitPlayerInputHandlersSystem(
                 _runtimeCore.GetService<InputCommandQueue>(), 
-                _runtimeCore.GetService<PlayerInputEventHandlerContainer>(), gameObjectHandlerContainer))
+                _runtimeCore.GetService<PlayerInputHandlerKeeper>(), gameObjectHandlerContainer))
                 .AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, 
                 _runtimeCore.GetService<ShipTransformEventHandlerContainer>(), _prefabsContainer,
                 transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()))

@@ -3,26 +3,21 @@ using Ecs.Interfaces;
 using Helpers;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
-using Logic.Components.Physics;
 using Logic.Components.Time;
-using Logic.Containers;
-using Logic.Events;
+using Logic.Factories;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class SpawnBulletSystem : IEcsRunSystem
     {
-        private readonly ColliderFactoryContainer _colliderFactoryContainer;
-        private readonly CollisionLayersContainer _collisionLayersContainer;
-        private readonly TransformHandlerKeeper _transformHandlerKeeper;
+        private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
+        private readonly IColliderFactory _colliderFactory;
 
-        public SpawnBulletSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
-            TransformHandlerKeeper transformHandlerKeeper)
+        public SpawnBulletSystem(IPhysicsBodyBuilder physicsBodyBuilder, IColliderFactory colliderFactory)
         {
-            _colliderFactoryContainer = colliderFactoryContainer;
-            _collisionLayersContainer = collisionLayersContainer;
-            _transformHandlerKeeper = transformHandlerKeeper;
+            _physicsBodyBuilder = physicsBodyBuilder;
+            _colliderFactory = colliderFactory;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -36,26 +31,18 @@ namespace Logic.Systems.Gameplay
 
                 entity.AddComponent(new Bullet());
 
-                var bodyTransform = new BodyTransform
-                    { Position = createBulletEvent.Position, Rotation = 0f, Direction = createBulletEvent.Direction };
-                _transformHandlerKeeper.HandleEvent<Bullet>(bodyTransform);
-                var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
-                rigidBody.Velocity += createBulletEvent.Velocity;
-                var colliderFactory = _colliderFactoryContainer.GetFactory<Bullet>();
-                var collider = colliderFactory.CreateCollider(bodyTransform.Position);
-                bodyTransform.PositionChangedEvent += collider.UpdatePosition;
-                var targetCollisionLayers = collider.TargetCollisionLayers;
-                targetCollisionLayers.Add(_collisionLayersContainer.GetData("asteroids"));
-                targetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
-                targetCollisionLayers.Add(_collisionLayersContainer.GetData("saucers"));
+                var position = createBulletEvent.Position;
+                _physicsBodyBuilder.Reset();
+                _physicsBodyBuilder.AddTransform<Bullet>(new BodyTransform
+                    { Position = position, Rotation = 0f, Direction = createBulletEvent.Direction });
                 
-                
-                entity.AddComponent(new PhysicsBody
-                {
-                    Transform = bodyTransform,
-                    RigidBody = rigidBody,
-                    Collider = collider
-                });
+                _physicsBodyBuilder.AddRigidBody<Bullet>(new PhysicsRigidBody { Mass = 1f, Velocity = createBulletEvent.Velocity, UseGravity = false });
+                _physicsBodyBuilder.AddCollider(_colliderFactory.CreateCollider(position));
+                _physicsBodyBuilder.AddTargetCollisionLayer("asteroids");
+                _physicsBodyBuilder.AddTargetCollisionLayer("ships");
+                _physicsBodyBuilder.AddTargetCollisionLayer("saucers");
+
+                entity.AddComponent(_physicsBodyBuilder.GetResult());
             
                 entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
                 entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 4f, CurrentTime = 4f }});

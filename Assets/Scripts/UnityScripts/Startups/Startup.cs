@@ -38,8 +38,6 @@ namespace UnityScripts.Startups
 
             var randomizer = _runtimeCore.GetService<IRandomizer>();
 
-            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-
             var transformPresenterFactory = new TransformPresenterFactory();
 
             var colliderFactoryContainer = _runtimeCore.GetService<ColliderFactoryContainer>();
@@ -66,24 +64,27 @@ namespace UnityScripts.Startups
             var rigidBodyHandlerKeeper = _runtimeCore.GetService<RigidBodyHandlerKeeper>();
             var timerHandlerKeeper = _runtimeCore.GetService<TimerHandlerKeeper>();
             var ammoMagazineHandlerKeeper = _runtimeCore.GetService<AmmoMagazineHandlerKeeper>();
+            var gameObjectHandlerKeeper = new GameObjectHandlerKeeper();
 
             _runtimeCore
                 .AddInitSystem(new InitPlayerInputHandlersSystem(
                 _runtimeCore.GetService<InputCommandQueue>(), 
-                _runtimeCore.GetService<PlayerInputHandlerKeeper>(), gameObjectHandlerContainer))
-                .AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, transformHandlerKeeper, _prefabsContainer,
-                transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()))
+                _runtimeCore.GetService<PlayerInputHandlerKeeper>(), gameObjectHandlerKeeper))
+                .AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerKeeper, transformHandlerKeeper, 
+                    _prefabsContainer, transformPresenterFactory, shipColliderFactory, 
+                    ShipUiView.GetComponent<UiTransformBodyView>()))
                 .AddInitSystem(new InitShipRigidBodyHandlersSystem(rigidBodyHandlerKeeper, 
                     ShipUiView.GetComponent<UiPhysicsRigidBodyView>()))
-                .AddInitSystem(new InitTransformHandlersSystem<Bullet>(transformHandlerKeeper,
+                .AddInitSystem(new InitTransformHandlersSystem<Bullet>(gameObjectHandlerKeeper, transformHandlerKeeper,
                 new PrefabObjectFactory(_prefabsContainer.BulletPrefab), transformPresenterFactory, bulletColliderFactory))
-                .AddInitSystem(new InitTransformHandlersSystem<Asteroid>(transformHandlerKeeper, asteroidObjectFactory, 
-                    transformPresenterFactory, asteroidColliderFactory))
+                .AddInitSystem(new InitTransformHandlersSystem<Asteroid>(gameObjectHandlerKeeper, transformHandlerKeeper, 
+                    asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory))
                 .AddInitSystem(new InitAsteroidHandlerSystem(eventListener, asteroidObjectFactory))
-                .AddInitSystem(new InitTransformHandlersSystem<Saucer>(transformHandlerKeeper, 
+                .AddInitSystem(new InitTransformHandlersSystem<Saucer>(gameObjectHandlerKeeper, transformHandlerKeeper, 
                 new PrefabObjectFactory(_prefabsContainer.SaucerPrefab), transformPresenterFactory, saucerColliderFactory))
                 .AddInitSystem(new InitLaserTransformHandlersSystem(
-                transformHandlerKeeper, new PrefabObjectFactory(_prefabsContainer.LaserPrefab), transformPresenterFactory))
+                transformHandlerKeeper, new PrefabObjectFactory(_prefabsContainer.LaserPrefab), 
+                transformPresenterFactory, gameObjectHandlerKeeper))
                 .AddInitSystem(new InitScoreHandlersSystem(
                     _runtimeCore.GetService<ScoreEventHandlerContainer>(), ScoreUiView.GetComponent<ScoreView>()))
                 .AddInitSystem(new InitGameOverScreenHandlerSystem(eventListener, GameOverScreen.GetComponent<GameOverScreen>(), 

@@ -13,16 +13,15 @@ namespace UnityScripts.Startups.InitSystems
     {
         private readonly InputCommandQueue _inputCommandQueue;
         private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
-        private readonly GameObjectEventHandlerContainer _gameObjectHandlerContainer;
-        
+        private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
 
         public InitPlayerInputHandlersSystem(InputCommandQueue inputCommandQueue,
             PlayerInputHandlerKeeper playerInputHandlerKeeper,
-            GameObjectEventHandlerContainer gameObjectHandlerContainer)
+            GameObjectHandlerKeeper gameObjectHandlerKeeper)
         {
             _inputCommandQueue = inputCommandQueue;
             _playerInputHandlerKeeper = playerInputHandlerKeeper;
-            _gameObjectHandlerContainer = gameObjectHandlerContainer;
+            _gameObjectHandlerKeeper = gameObjectHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
@@ -32,7 +31,7 @@ namespace UnityScripts.Startups.InitSystems
             
             var playerInputHandler = new PlayerInputEventHandler(playerEntitiesContainer, inputEventEmitter);
             _playerInputHandlerKeeper.AddHandler<Ship>(playerInputHandler);
-            _gameObjectHandlerContainer.AddHandler(playerInputHandler);
+            _gameObjectHandlerKeeper.AddHandler<Ship>(playerInputHandler);
         }
     }
 }

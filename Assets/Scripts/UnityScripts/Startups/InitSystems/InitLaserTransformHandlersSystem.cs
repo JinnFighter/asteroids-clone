@@ -12,21 +12,22 @@ namespace UnityScripts.Startups.InitSystems
         private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly IGameObjectFactory _gameObjectFactory;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
+        private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
 
         public InitLaserTransformHandlersSystem(TransformHandlerKeeper transformHandlerKeeper,
-            IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory)
+            IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory, GameObjectHandlerKeeper gameObjectHandlerKeeper)
         {
             _transformHandlerKeeper = transformHandlerKeeper;
             _gameObjectFactory = gameObjectFactory;
             _transformPresenterFactory = transformPresenterFactory;
+            _gameObjectHandlerKeeper = gameObjectHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
         {
-            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var gameObjectHandler = new GameObjectTransformHandler(gameObjectHandlerContainer, _gameObjectFactory);
+            var gameObjectHandler = new GameObjectTransformHandler<Laser>(_gameObjectHandlerKeeper, _gameObjectFactory);
             var transformPresenterEventHandler = new TransformPresenterEventHandler(_transformPresenterFactory);
-            gameObjectHandlerContainer.AddHandler(transformPresenterEventHandler);
+            _gameObjectHandlerKeeper.AddHandler<Laser>(transformPresenterEventHandler);
 
             _transformHandlerKeeper.AddHandler<Laser>(gameObjectHandler);
             _transformHandlerKeeper.AddHandler<Laser>(transformPresenterEventHandler);

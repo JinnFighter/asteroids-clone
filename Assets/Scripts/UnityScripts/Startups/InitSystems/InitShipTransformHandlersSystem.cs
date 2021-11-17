@@ -12,21 +12,20 @@ namespace UnityScripts.Startups.InitSystems
 {
     public class InitShipTransformHandlersSystem : IEcsInitSystem
     {
-        private readonly GameObjectEventHandlerContainer _gameObjectHandlerContainer;
         private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly PrefabsContainer _prefabsContainer;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private readonly IEventHandler<GameObject> _colliderFactoryHandler;
         private readonly ITransformBodyView _transformBodyView;
+        private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
 
-        public InitShipTransformHandlersSystem(GameObjectEventHandlerContainer gameObjectHandlerContainer, 
-            TransformHandlerKeeper transformHandlerKeeper,
+        public InitShipTransformHandlersSystem(GameObjectHandlerKeeper gameObjectHandlerKeeper, TransformHandlerKeeper transformHandlerKeeper,
             PrefabsContainer prefabsContainer,
             ITransformPresenterFactory transformPresenterFactory,
             IEventHandler<GameObject> colliderFactoryHandler,
             ITransformBodyView view)
         {
-            _gameObjectHandlerContainer = gameObjectHandlerContainer;
+            _gameObjectHandlerKeeper = gameObjectHandlerKeeper;
             _transformHandlerKeeper = transformHandlerKeeper;
             _prefabsContainer = prefabsContainer;
             _transformPresenterFactory = transformPresenterFactory;
@@ -36,11 +35,11 @@ namespace UnityScripts.Startups.InitSystems
         
         public void Init(EcsWorld world)
         {
-            var gameObjectHandler = new GameObjectTransformHandler(_gameObjectHandlerContainer,
+            var gameObjectHandler = new GameObjectTransformHandler<Ship>(_gameObjectHandlerKeeper,
                     new PrefabObjectFactory(_prefabsContainer.ShipPrefab));
             var transformPresenterHandler = new TransformPresenterEventHandler(_transformPresenterFactory);
-            _gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
-            _gameObjectHandlerContainer.AddHandler(_colliderFactoryHandler);
+            _gameObjectHandlerKeeper.AddHandler<Ship>(transformPresenterHandler);
+            _gameObjectHandlerKeeper.AddHandler<Ship>(_colliderFactoryHandler);
             
             _transformHandlerKeeper.AddHandler<Ship>(gameObjectHandler);
             _transformHandlerKeeper.AddHandler<Ship>(transformPresenterHandler);

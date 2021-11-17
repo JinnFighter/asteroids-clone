@@ -1,4 +1,5 @@
 using Ecs;
+using Ecs.Interfaces;
 using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
@@ -163,6 +164,8 @@ namespace Logic
             
             timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
+
+        public void AddInitSystem(IEcsInitSystem initSystem) => _systems.AddInitSystem(initSystem);
 
         public void AddService<T>(in T service) => _systems.AddService(service);
 

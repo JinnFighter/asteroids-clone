@@ -7,18 +7,18 @@ using Physics;
 
 namespace Logic.Systems.Gameplay
 {
-    public class CheckAsteroidCollisionsSystem : IEcsRunSystem
+    public class CheckSaucerCollisionsSystem : IEcsRunSystem 
     {
         private readonly CollisionsContainer _collisionsContainer;
 
-        public CheckAsteroidCollisionsSystem(CollisionsContainer collisionsContainer)
+        public CheckSaucerCollisionsSystem(CollisionsContainer collisionsContainer)
         {
             _collisionsContainer = collisionsContainer;
         }
 
         public void Run(EcsWorld ecsWorld)
         {
-            var filter = ecsWorld.GetFilter<Asteroid, PhysicsBody>();
+            var filter = ecsWorld.GetFilter<Saucer, PhysicsBody>();
             foreach (var index in filter)
             {
                 var physicsBody = filter.Get2(index);

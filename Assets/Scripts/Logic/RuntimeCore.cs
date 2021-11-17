@@ -55,7 +55,6 @@ namespace Logic
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
                 .AddService(new LaserMagazineHandlerContainer())
-                .AddService(new LaserTimerHandlerContainer())
                 .AddService(new TimerHandlerKeeper())
                 .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
@@ -86,14 +85,14 @@ namespace Logic
             var laserMagazineHandlerContainer = _systems.GetService<LaserMagazineHandlerContainer>();
             var transformHandlerKeeper = _systems.GetService<TransformHandlerKeeper>();
             var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
+            var timerHandlerKeeper = _systems.GetService<TimerHandlerKeeper>();
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
                     transformHandlerKeeper, rigidBodyHandlerKeeper, _systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
-                .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer, 
-                    _systems.GetService<LaserTimerHandlerContainer>()))
+                .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer, timerHandlerKeeper))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 

@@ -64,6 +64,7 @@ namespace UnityScripts.Startups
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             var transformHandlerKeeper = _runtimeCore.GetService<TransformHandlerKeeper>();
             var rigidBodyHandlerKeeper = _runtimeCore.GetService<RigidBodyHandlerKeeper>();
+            var timerHandlerKeeper = _runtimeCore.GetService<TimerHandlerKeeper>();
 
             _runtimeCore
                 .AddInitSystem(new InitPlayerInputHandlersSystem(
@@ -89,8 +90,8 @@ namespace UnityScripts.Startups
                 .AddInitSystem(new InitLaserHandlersSystem(
                 _runtimeCore.GetService<LaserMagazineHandlerContainer>(), 
                 LaserView.GetComponent<LaserView>()))
-                .AddInitSystem(new InitLaserTimerHandlersSystem(
-                _runtimeCore.GetService<LaserTimerHandlerContainer>(), LaserMagazineView.GetComponent<TimerCircularView>()))
+                .AddInitSystem(new InitLaserTimerHandlersSystem(timerHandlerKeeper, 
+                    LaserMagazineView.GetComponent<TimerCircularView>()))
                 .AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter())
                 
                 .Init();

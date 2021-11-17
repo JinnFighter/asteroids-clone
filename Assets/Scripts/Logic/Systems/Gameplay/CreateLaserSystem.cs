@@ -11,13 +11,13 @@ namespace Logic.Systems.Gameplay
     public class CreateLaserSystem : IEcsInitSystem
     {
         private readonly LaserMagazineHandlerContainer _laserMagazineHandlerContainer;
-        private readonly LaserTimerHandlerContainer _laserTimerHandlerContainer;
+        private readonly TimerHandlerKeeper _timerHandlerKeeper;
 
         public CreateLaserSystem(LaserMagazineHandlerContainer laserMagazineHandlerContainer, 
-            LaserTimerHandlerContainer laserTimerHandlerContainer)
+            TimerHandlerKeeper timerHandlerKeeper)
         {
             _laserMagazineHandlerContainer = laserMagazineHandlerContainer;
-            _laserTimerHandlerContainer = laserTimerHandlerContainer;
+            _timerHandlerKeeper = timerHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
@@ -32,7 +32,7 @@ namespace Logic.Systems.Gameplay
                 var laser = new LaserGun { AmmoMagazine = laserAmmoMagazine };
                 entity.AddComponent(laser);
                 var gameplayTimer = new GameplayTimer { StartTime = 7f, CurrentTime = 7f };
-                _laserTimerHandlerContainer.OnCreateEvent(gameplayTimer);
+                _timerHandlerKeeper.HandleEvent<LaserGun>(gameplayTimer);
                 entity.AddComponent(new Timer{ GameplayTimer = gameplayTimer });
             }
         }

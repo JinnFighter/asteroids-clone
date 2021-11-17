@@ -22,7 +22,7 @@ namespace Logic.Systems.Gameplay
                 var lookInputAction = filter.Get3(index);
                 var lookAtPoint = lookInputAction.LookAtPoint;
                 var nextDirection = (lookAtPoint - position).Normalized;
-                var angle = (float)(Math.Atan2(nextDirection.Y, nextDirection.X) * 180 / Math.PI);
+                var angle = position.GetRotationAngle(lookAtPoint);
                 var entity = filter.GetEntity(index);
                 if (angle != 0f)
                 {

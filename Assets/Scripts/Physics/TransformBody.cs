@@ -4,7 +4,7 @@ using Common.Interfaces;
 
 namespace Physics
 {
-    public class BodyTransform : IDestroyable
+    public class TransformBody : IDestroyable
     {
         private Vector2 _position;
         public Vector2 Position

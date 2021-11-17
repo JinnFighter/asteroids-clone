@@ -6,6 +6,6 @@ namespace UnityScripts.Factories
 {
     public interface ITransformPresenterFactory
     {
-        TransformBodyPresenter CreatePresenter(BodyTransform transform, ITransformBodyView view);
+        TransformBodyPresenter CreatePresenter(TransformBody transform, ITransformBodyView view);
     }
 }

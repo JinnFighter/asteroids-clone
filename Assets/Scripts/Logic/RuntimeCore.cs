@@ -86,11 +86,14 @@ namespace Logic
             var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
             var timerHandlerKeeper = _systems.GetService<TimerHandlerKeeper>();
             var ammoMagazineHandlerKeeper = _systems.GetService<AmmoMagazineHandlerKeeper>();
+
+            var physicsBodyBuilder =
+                new PhysicsBodyBuilder(transformHandlerKeeper, rigidBodyHandlerKeeper, collisionLayersContainer);
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
-                .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    transformHandlerKeeper, rigidBodyHandlerKeeper, _systems.GetService<PlayerInputHandlerKeeper>()))
+                .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, physicsBodyBuilder))
+                .AddInitSystem(new CreatePlayerInputReceiverSystem(_systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem(ammoMagazineHandlerKeeper, timerHandlerKeeper))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
@@ -127,11 +130,11 @@ namespace Logic
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))
-                .AddRunSystem(new SpawnSaucerSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
-                .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<ComponentEventHandlerContainer>(), transformHandlerKeeper))
-                .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
-                .AddRunSystem(new SpawnLaserSystem(transformHandlerKeeper, collisionLayersContainer))
+                .AddRunSystem(new SpawnSaucerSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Saucer>()))
+                .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer.GetFactory<Asteroid>(),
+                    _systems.GetService<ComponentEventHandlerContainer>(), physicsBodyBuilder))
+                .AddRunSystem(new SpawnBulletSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Bullet>()))
+                .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

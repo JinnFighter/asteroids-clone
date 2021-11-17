@@ -6,7 +6,7 @@ using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.EventHandlers
 {
-    public class TransformPresenterEventHandler : IEventHandler<BodyTransform>, IEventHandler<GameObject>
+    public class TransformPresenterEventHandler : IEventHandler<TransformBody>, IEventHandler<GameObject>
     {
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private ITransformBodyView _transformBodyView;
@@ -16,7 +16,7 @@ namespace UnityScripts.EventHandlers
             _transformPresenterFactory = factory;
         }
         
-        public void Handle(BodyTransform context) => _transformPresenterFactory.CreatePresenter(context, _transformBodyView);
+        public void Handle(TransformBody context) => _transformPresenterFactory.CreatePresenter(context, _transformBodyView);
 
         public void Handle(GameObject context) => _transformBodyView = context.GetComponent<TransformBodyView>();
     }

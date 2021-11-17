@@ -69,5 +69,11 @@ namespace Common
             var cos = Math.Cos(radians);
             return new Vector2((float)(cos * X - sin * Y), (float)(sin * X + cos * Y));
         }
+
+        public float GetRotationAngle(Vector2 other)
+        {
+            var nextDirection = (other - this).Normalized;
+            return (float)(Math.Atan2(nextDirection.Y, nextDirection.X) * 180 / Math.PI);
+        }
     }
 }

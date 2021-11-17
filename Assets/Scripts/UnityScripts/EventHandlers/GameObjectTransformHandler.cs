@@ -4,7 +4,7 @@ using UnityScripts.Factories;
 
 namespace UnityScripts.EventHandlers
 {
-    public class GameObjectTransformHandler<T> : IEventHandler<BodyTransform> where T : struct
+    public class GameObjectTransformHandler<T> : IEventHandler<TransformBody> where T : struct
     {
         private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
         private readonly IGameObjectFactory _gameObjectFactory;
@@ -15,7 +15,7 @@ namespace UnityScripts.EventHandlers
             _gameObjectFactory = gameObjectFactory;
         }
     
-        public void Handle(BodyTransform context)
+        public void Handle(TransformBody context)
         {
             var gameObject = _gameObjectFactory.CreateGameObject(context.Position);
             _gameObjectHandlerKeeper.HandleEvent<T>(gameObject);

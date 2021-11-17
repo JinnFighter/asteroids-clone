@@ -4,6 +4,6 @@ namespace Logic.Components.Gameplay
 {
     public struct Saucer
     {
-        public BodyTransform TargetTransform;
+        public TransformBody Target;
     }
 }

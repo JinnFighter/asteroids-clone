@@ -3,26 +3,20 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
-using Logic.Components.Physics;
-using Logic.Containers;
-using Logic.Events;
+using Logic.Factories;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class SpawnSaucerSystem : IEcsRunSystem
     {
-        private readonly ColliderFactoryContainer _colliderFactoryContainer;
-        private readonly CollisionLayersContainer _collisionLayersContainer;
-        private readonly TransformHandlerKeeper _transformHandlerKeeper;
+        private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
+        private readonly IColliderFactory _colliderFactory;
 
-        public SpawnSaucerSystem(ColliderFactoryContainer colliderFactoryContainer,
-            CollisionLayersContainer collisionLayersContainer,
-            TransformHandlerKeeper transformHandlerKeeper)
+        public SpawnSaucerSystem(IPhysicsBodyBuilder physicsBodyBuilder, IColliderFactory colliderFactory)
         {
-            _colliderFactoryContainer = colliderFactoryContainer;
-            _collisionLayersContainer = collisionLayersContainer;
-            _transformHandlerKeeper = transformHandlerKeeper;
+            _physicsBodyBuilder = physicsBodyBuilder;
+            _colliderFactory = colliderFactory;
         }
 
         public void Run(EcsWorld ecsWorld)
@@ -34,26 +28,18 @@ namespace Logic.Systems.Gameplay
                 var createSaucerEvent = filter.Get1(index);
                 var entity = ecsWorld.CreateEntity();
                 
-                entity.AddComponent(new Saucer{ TargetTransform = createSaucerEvent.TargetTransform });
+                entity.AddComponent(new Saucer{ Target = createSaucerEvent.Target });
 
-                var bodyTransform = new BodyTransform
-                    { Position = createSaucerEvent.Position, Rotation = 0f, Direction = Vector2.Zero };
-                _transformHandlerKeeper.HandleEvent<Saucer>(bodyTransform);
-                var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
-                var colliderFactory = _colliderFactoryContainer.GetFactory<Saucer>();
-                var collider = colliderFactory.CreateCollider(bodyTransform.Position);
-                bodyTransform.PositionChangedEvent += collider.UpdatePosition;
-                var collisionLayers = collider.CollisionLayers;
-                collisionLayers.Add(_collisionLayersContainer.GetData("saucers"));
-                var targetCollisionLayers = collider.TargetCollisionLayers;
-                targetCollisionLayers.Add(_collisionLayersContainer.GetData("ships"));
+                var position = createSaucerEvent.Position;
+                _physicsBodyBuilder.Reset();
+                _physicsBodyBuilder.AddTransform<Saucer>(new TransformBody
+                    { Position = createSaucerEvent.Position, Rotation = 0f, Direction = Vector2.Zero });
+                _physicsBodyBuilder.AddRigidBody<Saucer>(new PhysicsRigidBody { Mass = 1f, UseGravity = false });
+                _physicsBodyBuilder.AddCollider(_colliderFactory.CreateCollider(position));
+                _physicsBodyBuilder.AddCollisionLayer("saucers");
+                _physicsBodyBuilder.AddTargetCollisionLayer("ships");
                 
-                entity.AddComponent(new PhysicsBody
-                {
-                    Transform = bodyTransform,
-                    RigidBody = rigidBody,
-                    Collider = collider
-                });
+                entity.AddComponent(_physicsBodyBuilder.GetResult());
 
                 entity.AddComponent(new Wrappable { IsWrappingX = false, IsWrappingY = false });
             }

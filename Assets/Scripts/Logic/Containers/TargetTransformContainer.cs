@@ -4,6 +4,6 @@ namespace Logic.Containers
 {
     public class TargetTransformContainer
     {
-        public BodyTransform Transform;
+        public TransformBody Transform;
     }
 }

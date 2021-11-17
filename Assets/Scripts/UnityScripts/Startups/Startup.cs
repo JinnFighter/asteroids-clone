@@ -73,19 +73,15 @@ namespace UnityScripts.Startups
                 .AddInitSystem(new InitShipRigidBodyHandlersSystem(
                 _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>(),
                 ShipUiView.GetComponent<UiPhysicsRigidBodyView>()))
-                .AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
-                new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
-                transformPresenterFactory, bulletColliderFactory))
-                .AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<AsteroidTransformHandlerContainer>(), 
-                asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory))
+                .AddInitSystem(new InitTransformHandlersSystem<Bullet>(transformHandlerKeeper,
+                new PrefabObjectFactory(_prefabsContainer.BulletPrefab), transformPresenterFactory, bulletColliderFactory))
+                .AddInitSystem(new InitTransformHandlersSystem<Asteroid>(transformHandlerKeeper, asteroidObjectFactory, 
+                    transformPresenterFactory, asteroidColliderFactory))
                 .AddInitSystem(new InitAsteroidHandlerSystem(eventListener, asteroidObjectFactory))
-                .AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
-                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
-                transformPresenterFactory, saucerColliderFactory))
+                .AddInitSystem(new InitTransformHandlersSystem<Saucer>(transformHandlerKeeper, 
+                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab), transformPresenterFactory, saucerColliderFactory))
                 .AddInitSystem(new InitLaserTransformHandlersSystem(
-                _runtimeCore.GetService<LaserTransformHandlerContainer>(), 
-                new PrefabObjectFactory(_prefabsContainer.LaserPrefab),
-                transformPresenterFactory))
+                transformHandlerKeeper, new PrefabObjectFactory(_prefabsContainer.LaserPrefab), transformPresenterFactory))
                 .AddInitSystem(new InitScoreHandlersSystem(
                     _runtimeCore.GetService<ScoreEventHandlerContainer>(), ScoreUiView.GetComponent<ScoreView>()))
                 .AddInitSystem(new InitGameOverScreenHandlerSystem(eventListener, GameOverScreen.GetComponent<GameOverScreen>(), 

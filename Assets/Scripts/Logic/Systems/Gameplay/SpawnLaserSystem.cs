@@ -11,13 +11,13 @@ namespace Logic.Systems.Gameplay
 {
     public class SpawnLaserSystem : IEcsRunSystem
     {
-        private readonly LaserTransformHandlerContainer _laserTransformHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly CollisionLayersContainer _collisionLayersContainer;
 
-        public SpawnLaserSystem(LaserTransformHandlerContainer laserTransformHandlerContainer,
+        public SpawnLaserSystem(TransformHandlerKeeper transformHandlerKeeper,
             CollisionLayersContainer collisionLayersContainer)
         {
-            _laserTransformHandlerContainer = laserTransformHandlerContainer;
+            _transformHandlerKeeper = transformHandlerKeeper;
             _collisionLayersContainer = collisionLayersContainer;
         }
         
@@ -32,7 +32,7 @@ namespace Logic.Systems.Gameplay
                 entity.AddComponent(new Laser());
                 var bodyTransform = new BodyTransform
                     { Position = laserEvent.Position, Rotation = laserEvent.Rotation, Direction = laserEvent.Direction };
-                _laserTransformHandlerContainer.OnCreateEvent(bodyTransform);
+                _transformHandlerKeeper.HandleEvent<Laser>(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 var collider = new RayPhysicsCollider(laserEvent.Position, laserEvent.Direction);
                 bodyTransform.PositionChangedEvent += collider.UpdatePosition;

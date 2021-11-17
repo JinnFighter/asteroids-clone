@@ -14,15 +14,15 @@ namespace Logic.Systems.Gameplay
     {
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly CollisionLayersContainer _collisionLayersContainer;
-        private readonly SaucerTransformHandlerContainer _saucerTransformHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
 
         public SpawnSaucerSystem(ColliderFactoryContainer colliderFactoryContainer,
             CollisionLayersContainer collisionLayersContainer,
-            SaucerTransformHandlerContainer saucerTransformHandlerContainer)
+            TransformHandlerKeeper transformHandlerKeeper)
         {
             _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
-            _saucerTransformHandlerContainer = saucerTransformHandlerContainer;
+            _transformHandlerKeeper = transformHandlerKeeper;
         }
 
         public void Run(EcsWorld ecsWorld)
@@ -38,7 +38,7 @@ namespace Logic.Systems.Gameplay
 
                 var bodyTransform = new BodyTransform
                     { Position = createSaucerEvent.Position, Rotation = 0f, Direction = Vector2.Zero };
-                _saucerTransformHandlerContainer.OnCreateEvent(bodyTransform);
+                _transformHandlerKeeper.HandleEvent<Saucer>(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 var colliderFactory = _colliderFactoryContainer.GetFactory<Saucer>();
                 var collider = colliderFactory.CreateCollider(bodyTransform.Position);

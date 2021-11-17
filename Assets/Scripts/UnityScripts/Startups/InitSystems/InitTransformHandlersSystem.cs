@@ -7,18 +7,18 @@ using UnityScripts.Factories;
 
 namespace UnityScripts.Startups.InitSystems
 {
-    public class InitTransformHandlersSystem : IEcsInitSystem
+    public class InitTransformHandlersSystem<T> : IEcsInitSystem  where T : struct
     {
-        private readonly TransformEventHandlerContainer _transformHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly IGameObjectFactory _gameObjectFactory;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private readonly IEventHandler<GameObject> _colliderFactoryHandler;
         
-        public InitTransformHandlersSystem(TransformEventHandlerContainer transformHandlerContainer,
+        public InitTransformHandlersSystem(TransformHandlerKeeper transformHandlerKeeper,
             IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory,
             IEventHandler<GameObject> colliderFactoryHandler)
         {
-            _transformHandlerContainer = transformHandlerContainer;
+            _transformHandlerKeeper = transformHandlerKeeper;
             _gameObjectFactory = gameObjectFactory;
             _transformPresenterFactory = transformPresenterFactory;
             _colliderFactoryHandler = colliderFactoryHandler;
@@ -32,8 +32,8 @@ namespace UnityScripts.Startups.InitSystems
             gameObjectHandlerContainer.AddHandler(transformPresenterEventHandler);
             gameObjectHandlerContainer.AddHandler(_colliderFactoryHandler);
             
-            _transformHandlerContainer.AddHandler(gameObjectHandler);
-            _transformHandlerContainer.AddHandler(transformPresenterEventHandler);
+            _transformHandlerKeeper.AddHandler<T>(gameObjectHandler);
+            _transformHandlerKeeper.AddHandler<T>(transformPresenterEventHandler);
         }
     }
 }

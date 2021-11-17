@@ -131,14 +131,11 @@ namespace Logic
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))
-                .AddRunSystem(new SpawnSaucerSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<SaucerTransformHandlerContainer>()))
+                .AddRunSystem(new SpawnSaucerSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<ComponentEventHandlerContainer>(), 
-                    _systems.GetService<AsteroidTransformHandlerContainer>()))
-                .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<BulletTransformHandlerContainer>()))
-                .AddRunSystem(new SpawnLaserSystem(_systems.GetService<LaserTransformHandlerContainer>(), collisionLayersContainer))
+                    _systems.GetService<ComponentEventHandlerContainer>(), transformHandlerKeeper))
+                .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
+                .AddRunSystem(new SpawnLaserSystem(transformHandlerKeeper, collisionLayersContainer))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

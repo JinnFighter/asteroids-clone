@@ -10,14 +10,14 @@ namespace Logic.Systems.Gameplay
 {
     public class CreateLaserSystem : IEcsInitSystem
     {
-        private readonly LaserMagazineHandlerContainer _laserMagazineHandlerContainer;
-        private readonly LaserTimerHandlerContainer _laserTimerHandlerContainer;
+        private readonly AmmoMagazineHandlerKeeper _ammoMagazineHandlerKeeper;
+        private readonly TimerHandlerKeeper _timerHandlerKeeper;
 
-        public CreateLaserSystem(LaserMagazineHandlerContainer laserMagazineHandlerContainer, 
-            LaserTimerHandlerContainer laserTimerHandlerContainer)
+        public CreateLaserSystem(AmmoMagazineHandlerKeeper ammoMagazineHandlerKeeper,
+            TimerHandlerKeeper timerHandlerKeeper)
         {
-            _laserMagazineHandlerContainer = laserMagazineHandlerContainer;
-            _laserTimerHandlerContainer = laserTimerHandlerContainer;
+            _ammoMagazineHandlerKeeper = ammoMagazineHandlerKeeper;
+            _timerHandlerKeeper = timerHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
@@ -28,11 +28,11 @@ namespace Logic.Systems.Gameplay
             {
                 var entity = filter.GetEntity(index);
                 var laserAmmoMagazine = new LaserMagazine(0, 3);
-                _laserMagazineHandlerContainer.OnCreateEvent(laserAmmoMagazine);
+                _ammoMagazineHandlerKeeper.HandleEvent<LaserGun>(laserAmmoMagazine);
                 var laser = new LaserGun { AmmoMagazine = laserAmmoMagazine };
                 entity.AddComponent(laser);
                 var gameplayTimer = new GameplayTimer { StartTime = 7f, CurrentTime = 7f };
-                _laserTimerHandlerContainer.OnCreateEvent(gameplayTimer);
+                _timerHandlerKeeper.HandleEvent<LaserGun>(gameplayTimer);
                 entity.AddComponent(new Timer{ GameplayTimer = gameplayTimer });
             }
         }

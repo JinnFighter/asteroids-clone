@@ -1,5 +1,6 @@
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.Gameplay;
 using Logic.Events;
 using UnityScripts.EventHandlers;
 using UnityScripts.Presentation.Views;
@@ -8,17 +9,16 @@ namespace UnityScripts.Startups.InitSystems
 {
     public class InitLaserTimerHandlersSystem : IEcsInitSystem
     {
-        private readonly LaserTimerHandlerContainer _laserTimerHandlerContainer;
+        private readonly TimerHandlerKeeper _timerHandlerKeeper;
         private readonly ITimerView _timerView;
 
-        public InitLaserTimerHandlersSystem(LaserTimerHandlerContainer laserTimerHandlerContainer,
-            ITimerView timerView)
+        public InitLaserTimerHandlersSystem(TimerHandlerKeeper timerHandlerKeeper, ITimerView timerView)
         {
-            _laserTimerHandlerContainer = laserTimerHandlerContainer;
+            _timerHandlerKeeper = timerHandlerKeeper;
             _timerView = timerView;
         }
 
         public void Init(EcsWorld world) => 
-            _laserTimerHandlerContainer.AddHandler(new TimerPresenterHandler(_timerView));
+            _timerHandlerKeeper.AddHandler<LaserGun>(new TimerPresenterHandler(_timerView));
     }
 }

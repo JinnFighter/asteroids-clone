@@ -4,21 +4,21 @@ using UnityScripts.Factories;
 
 namespace UnityScripts.EventHandlers
 {
-    public class GameObjectTransformHandler : IEventHandler<BodyTransform>
+    public class GameObjectTransformHandler<T> : IEventHandler<BodyTransform> where T : struct
     {
-        private readonly GameObjectEventHandlerContainer _gameObjectEventHandlerContainer;
+        private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
         private readonly IGameObjectFactory _gameObjectFactory;
 
-        public GameObjectTransformHandler(GameObjectEventHandlerContainer container, IGameObjectFactory gameObjectFactory)
+        public GameObjectTransformHandler(GameObjectHandlerKeeper gameObjectHandlerKeeper, IGameObjectFactory gameObjectFactory)
         {
-            _gameObjectEventHandlerContainer = container;
+            _gameObjectHandlerKeeper = gameObjectHandlerKeeper;
             _gameObjectFactory = gameObjectFactory;
         }
     
         public void Handle(BodyTransform context)
         {
             var gameObject = _gameObjectFactory.CreateGameObject(context.Position);
-            _gameObjectEventHandlerContainer.OnCreateEvent(gameObject);
+            _gameObjectHandlerKeeper.HandleEvent<T>(gameObject);
         }
     }
 }

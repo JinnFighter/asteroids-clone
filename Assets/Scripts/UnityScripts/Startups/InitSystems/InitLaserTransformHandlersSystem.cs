@@ -1,5 +1,6 @@
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.Gameplay;
 using Logic.Events;
 using UnityScripts.EventHandlers;
 using UnityScripts.Factories;
@@ -8,27 +9,28 @@ namespace UnityScripts.Startups.InitSystems
 {
     public class InitLaserTransformHandlersSystem : IEcsInitSystem
     {
-        private readonly TransformEventHandlerContainer _transformHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly IGameObjectFactory _gameObjectFactory;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
+        private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
 
-        public InitLaserTransformHandlersSystem(TransformEventHandlerContainer transformHandlerContainer,
-            IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory)
+        public InitLaserTransformHandlersSystem(TransformHandlerKeeper transformHandlerKeeper,
+            IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory, GameObjectHandlerKeeper gameObjectHandlerKeeper)
         {
-            _transformHandlerContainer = transformHandlerContainer;
+            _transformHandlerKeeper = transformHandlerKeeper;
             _gameObjectFactory = gameObjectFactory;
             _transformPresenterFactory = transformPresenterFactory;
+            _gameObjectHandlerKeeper = gameObjectHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
         {
-            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var gameObjectHandler = new GameObjectTransformHandler(gameObjectHandlerContainer, _gameObjectFactory);
+            var gameObjectHandler = new GameObjectTransformHandler<Laser>(_gameObjectHandlerKeeper, _gameObjectFactory);
             var transformPresenterEventHandler = new TransformPresenterEventHandler(_transformPresenterFactory);
-            gameObjectHandlerContainer.AddHandler(transformPresenterEventHandler);
+            _gameObjectHandlerKeeper.AddHandler<Laser>(transformPresenterEventHandler);
 
-            _transformHandlerContainer.AddHandler(gameObjectHandler);
-            _transformHandlerContainer.AddHandler(transformPresenterEventHandler);
+            _transformHandlerKeeper.AddHandler<Laser>(gameObjectHandler);
+            _transformHandlerKeeper.AddHandler<Laser>(transformPresenterEventHandler);
         }
     }
 }

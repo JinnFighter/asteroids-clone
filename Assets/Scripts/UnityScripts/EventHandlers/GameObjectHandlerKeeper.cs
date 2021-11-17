@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace UnityScripts.EventHandlers
 {
-    public class GameObjectEventHandlerContainer : GameEventHandlerContainer<GameObject>
+    public class GameObjectHandlerKeeper : HandlerKeeper<GameObject>
     {
     }
 }

@@ -1,5 +1,6 @@
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.Gameplay;
 using Logic.Events;
 using Logic.Services;
 using UnityScripts.Containers;
@@ -11,16 +12,16 @@ namespace UnityScripts.Startups.InitSystems
     public class InitPlayerInputHandlersSystem : IEcsInitSystem
     {
         private readonly InputCommandQueue _inputCommandQueue;
-        private readonly PlayerInputEventHandlerContainer _playerInputHandlerContainer;
-        private readonly GameObjectEventHandlerContainer _gameObjectHandlerContainer;
+        private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
+        private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
 
         public InitPlayerInputHandlersSystem(InputCommandQueue inputCommandQueue,
-            PlayerInputEventHandlerContainer playerInputHandlerContainer,
-            GameObjectEventHandlerContainer gameObjectHandlerContainer)
+            PlayerInputHandlerKeeper playerInputHandlerKeeper,
+            GameObjectHandlerKeeper gameObjectHandlerKeeper)
         {
             _inputCommandQueue = inputCommandQueue;
-            _playerInputHandlerContainer = playerInputHandlerContainer;
-            _gameObjectHandlerContainer = gameObjectHandlerContainer;
+            _playerInputHandlerKeeper = playerInputHandlerKeeper;
+            _gameObjectHandlerKeeper = gameObjectHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
@@ -29,8 +30,8 @@ namespace UnityScripts.Startups.InitSystems
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, _inputCommandQueue);
             
             var playerInputHandler = new PlayerInputEventHandler(playerEntitiesContainer, inputEventEmitter);
-            _playerInputHandlerContainer.AddHandler(playerInputHandler);
-            _gameObjectHandlerContainer.AddHandler(playerInputHandler);
+            _playerInputHandlerKeeper.AddHandler<Ship>(playerInputHandler);
+            _gameObjectHandlerKeeper.AddHandler<Ship>(playerInputHandler);
         }
     }
 }

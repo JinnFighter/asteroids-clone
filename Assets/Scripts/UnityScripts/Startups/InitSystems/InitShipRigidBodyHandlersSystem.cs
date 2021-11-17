@@ -1,5 +1,6 @@
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.Gameplay;
 using Logic.Events;
 using UnityScripts.EventHandlers;
 using UnityScripts.Factories;
@@ -9,18 +10,18 @@ namespace UnityScripts.Startups.InitSystems
 {
     public class InitShipRigidBodyHandlersSystem : IEcsInitSystem
     {
-        private readonly ShipRigidBodyEventHandlerContainer _shipRigidBodyHandlerContainer;
+        private readonly RigidBodyHandlerKeeper _rigidBodyHandlerKeeper;
         private readonly IPhysicsRigidBodyView _rigidBodyView;
 
-        public InitShipRigidBodyHandlersSystem(ShipRigidBodyEventHandlerContainer rigidBodyHandlerContainer,
+        public InitShipRigidBodyHandlersSystem(RigidBodyHandlerKeeper rigidBodyHandlerKeeper,
             IPhysicsRigidBodyView rigidBodyView)
         {
-            _shipRigidBodyHandlerContainer = rigidBodyHandlerContainer;
+            _rigidBodyHandlerKeeper = rigidBodyHandlerKeeper;
             _rigidBodyView = rigidBodyView;
         }
         
         public void Init(EcsWorld world) 
-            => _shipRigidBodyHandlerContainer.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(),
+            => _rigidBodyHandlerKeeper.AddHandler<Ship>(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(),
                 _rigidBodyView));
     }
 }

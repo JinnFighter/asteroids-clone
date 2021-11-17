@@ -1,8 +1,10 @@
 using Ecs;
 using Ecs.Interfaces;
+using Helpers;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Components.Physics;
+using Logic.Components.Time;
 using Logic.Containers;
 using Logic.Events;
 using Physics;
@@ -13,14 +15,14 @@ namespace Logic.Systems.Gameplay
     {
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly CollisionLayersContainer _collisionLayersContainer;
-        private readonly BulletTransformHandlerContainer _bulletTransformHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
 
         public SpawnBulletSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
-            BulletTransformHandlerContainer bulletTransformHandlerContainer)
+            TransformHandlerKeeper transformHandlerKeeper)
         {
             _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
-            _bulletTransformHandlerContainer = bulletTransformHandlerContainer;
+            _transformHandlerKeeper = transformHandlerKeeper;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -36,7 +38,7 @@ namespace Logic.Systems.Gameplay
 
                 var bodyTransform = new BodyTransform
                     { Position = createBulletEvent.Position, Rotation = 0f, Direction = createBulletEvent.Direction };
-                _bulletTransformHandlerContainer.OnCreateEvent(bodyTransform);
+                _transformHandlerKeeper.HandleEvent<Bullet>(bodyTransform);
                 var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
                 rigidBody.Velocity += createBulletEvent.Velocity;
                 var colliderFactory = _colliderFactoryContainer.GetFactory<Bullet>();
@@ -56,6 +58,8 @@ namespace Logic.Systems.Gameplay
                 });
             
                 entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
+                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 4f, CurrentTime = 4f }});
+                entity.AddComponent(new Counting());
             }
         }
     }

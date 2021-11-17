@@ -7,18 +7,20 @@ using UnityScripts.Factories;
 
 namespace UnityScripts.Startups.InitSystems
 {
-    public class InitTransformHandlersSystem : IEcsInitSystem
+    public class InitTransformHandlersSystem<T> : IEcsInitSystem  where T : struct
     {
-        private readonly TransformEventHandlerContainer _transformHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly IGameObjectFactory _gameObjectFactory;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private readonly IEventHandler<GameObject> _colliderFactoryHandler;
+        private readonly GameObjectHandlerKeeper _gameObjectHandlerKeeper;
         
-        public InitTransformHandlersSystem(TransformEventHandlerContainer transformHandlerContainer,
+        public InitTransformHandlersSystem(GameObjectHandlerKeeper gameObjectHandlerKeeper, TransformHandlerKeeper transformHandlerKeeper,
             IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory,
             IEventHandler<GameObject> colliderFactoryHandler)
         {
-            _transformHandlerContainer = transformHandlerContainer;
+            _gameObjectHandlerKeeper = gameObjectHandlerKeeper;
+            _transformHandlerKeeper = transformHandlerKeeper;
             _gameObjectFactory = gameObjectFactory;
             _transformPresenterFactory = transformPresenterFactory;
             _colliderFactoryHandler = colliderFactoryHandler;
@@ -26,14 +28,13 @@ namespace UnityScripts.Startups.InitSystems
         
         public void Init(EcsWorld world)
         {
-            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var gameObjectHandler = new GameObjectTransformHandler(gameObjectHandlerContainer, _gameObjectFactory);
+            var gameObjectHandler = new GameObjectTransformHandler<T>(_gameObjectHandlerKeeper, _gameObjectFactory);
             var transformPresenterEventHandler = new TransformPresenterEventHandler(_transformPresenterFactory);
-            gameObjectHandlerContainer.AddHandler(transformPresenterEventHandler);
-            gameObjectHandlerContainer.AddHandler(_colliderFactoryHandler);
+            _gameObjectHandlerKeeper.AddHandler<T>(transformPresenterEventHandler);
+            _gameObjectHandlerKeeper.AddHandler<T>(_colliderFactoryHandler);
             
-            _transformHandlerContainer.AddHandler(gameObjectHandler);
-            _transformHandlerContainer.AddHandler(transformPresenterEventHandler);
+            _transformHandlerKeeper.AddHandler<T>(gameObjectHandler);
+            _transformHandlerKeeper.AddHandler<T>(transformPresenterEventHandler);
         }
     }
 }

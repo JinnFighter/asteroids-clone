@@ -14,21 +14,21 @@ namespace Logic.Systems.Gameplay
     public class CreatePlayerShipSystem : IEcsInitSystem
     {
         private readonly CollisionLayersContainer _collisionLayersContainer;
-        private readonly ShipTransformEventHandlerContainer _transformEventHandlerContainer;
-        private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
-        private readonly PlayerInputEventHandlerContainer _playerInputEventHandler;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
+        private readonly RigidBodyHandlerKeeper _rigidBodyHandlerKeeper;
+        private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
 
         public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
-            ShipTransformEventHandlerContainer transformEventHandlerContainer, 
-            ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer,
-            PlayerInputEventHandlerContainer playerInputEventHandler)
+            TransformHandlerKeeper transformHandlerKeeper,
+            RigidBodyHandlerKeeper rigidBodyHandlerKeeper,
+            PlayerInputHandlerKeeper playerInputHandlerKeeper)
         {
             _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
-            _transformEventHandlerContainer = transformEventHandlerContainer;
-            _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
-            _playerInputEventHandler = playerInputEventHandler;
+            _transformHandlerKeeper = transformHandlerKeeper;
+            _rigidBodyHandlerKeeper = rigidBodyHandlerKeeper;
+            _playerInputHandlerKeeper = playerInputHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
@@ -38,9 +38,9 @@ namespace Logic.Systems.Gameplay
             entity.AddComponent(new Ship{ Speed = 2f });
 
             var transform = new BodyTransform { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
-            _transformEventHandlerContainer.OnCreateEvent(transform);
+            _transformHandlerKeeper.HandleEvent<Ship>(transform);
             var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
-            _rigidBodyEventHandlerRigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
+            _rigidBodyHandlerKeeper.HandleEvent<Ship>(rigidBody);
             var colliderFactory = _colliderFactoryContainer.GetFactory<Ship>();
             var collider = colliderFactory.CreateCollider(transform.Position);
             transform.PositionChangedEvent += collider.UpdatePosition;
@@ -57,7 +57,7 @@ namespace Logic.Systems.Gameplay
             entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
 
             var inputEventReceiver = new PlayerInputReceiver(entity);
-            _playerInputEventHandler.OnCreateEvent(inputEventReceiver);
+            _playerInputHandlerKeeper.HandleEvent<Ship>(inputEventReceiver);
         }
     }
 }

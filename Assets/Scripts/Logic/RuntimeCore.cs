@@ -49,17 +49,13 @@ namespace Logic
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())
-                .AddService(new PlayerInputEventHandlerContainer())
+                .AddService(new TransformHandlerKeeper())
+                .AddService(new RigidBodyHandlerKeeper())
+                .AddService(new PlayerInputHandlerKeeper())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
-                .AddService(new ShipTransformEventHandlerContainer())
-                .AddService(new ShipRigidBodyEventHandlerContainer())
-                .AddService(new BulletTransformHandlerContainer())
-                .AddService(new AsteroidTransformHandlerContainer())
-                .AddService(new SaucerTransformHandlerContainer())
-                .AddService(new LaserMagazineHandlerContainer())
-                .AddService(new LaserTimerHandlerContainer())
-                .AddService(new LaserTransformHandlerContainer())
+                .AddService(new AmmoMagazineHandlerKeeper())
+                .AddService(new TimerHandlerKeeper())
                 .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)
@@ -85,18 +81,18 @@ namespace Logic
             var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
 
             var saucerConfig = _systems.GetService<SaucerConfig>();
-
-            var laserMagazineHandlerContainer = _systems.GetService<LaserMagazineHandlerContainer>();
+            
+            var transformHandlerKeeper = _systems.GetService<TransformHandlerKeeper>();
+            var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
+            var timerHandlerKeeper = _systems.GetService<TimerHandlerKeeper>();
+            var ammoMagazineHandlerKeeper = _systems.GetService<AmmoMagazineHandlerKeeper>();
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<ShipTransformEventHandlerContainer>(),
-                    _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
-                    _systems.GetService<PlayerInputEventHandlerContainer>()))
+                    transformHandlerKeeper, rigidBodyHandlerKeeper, _systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
-                .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer, 
-                    _systems.GetService<LaserTimerHandlerContainer>()))
+                .AddInitSystem(new CreateLaserSystem(ammoMagazineHandlerKeeper, timerHandlerKeeper))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
@@ -121,6 +117,7 @@ namespace Logic
                 .AddRunSystem(new UpdateTimersSystem(timeContainer), disableOnGameOverTag)
                 .AddRunSystem(new FinishReloadingLaserSystem())
                 .AddRunSystem(new CreateDestroyLaserEventSystem())
+                .AddRunSystem(new CreateDestroyBulletEventSystem())
                 .AddRunSystem(new DestroyBulletsSystem())
                 .AddRunSystem(new DestroyLaserSystem())
                 .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
@@ -130,14 +127,11 @@ namespace Logic
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))
-                .AddRunSystem(new SpawnSaucerSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<SaucerTransformHandlerContainer>()))
+                .AddRunSystem(new SpawnSaucerSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<ComponentEventHandlerContainer>(), 
-                    _systems.GetService<AsteroidTransformHandlerContainer>()))
-                .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<BulletTransformHandlerContainer>()))
-                .AddRunSystem(new SpawnLaserSystem(_systems.GetService<LaserTransformHandlerContainer>(), collisionLayersContainer))
+                    _systems.GetService<ComponentEventHandlerContainer>(), transformHandlerKeeper))
+                .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
+                .AddRunSystem(new SpawnLaserSystem(transformHandlerKeeper, collisionLayersContainer))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

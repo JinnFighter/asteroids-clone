@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace UnityScripts.Containers
 {
-    public class PrefabsContainer : MonoBehaviour
+    [CreateAssetMenu]
+    public class PrefabsContainer : ScriptableObject
     {
         public GameObject ShipPrefab;
 

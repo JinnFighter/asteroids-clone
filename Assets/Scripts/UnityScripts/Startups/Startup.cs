@@ -21,7 +21,7 @@ namespace UnityScripts.Startups
     {
         private RuntimeCore _runtimeCore;
         
-        private PrefabsContainer _prefabsContainer;
+        [SerializeField]private PrefabsContainer _prefabsContainer;
 
         public GameObject ShipUiView;
         public GameObject ScoreUiView;
@@ -33,7 +33,6 @@ namespace UnityScripts.Startups
         // Start is called before the first frame update
         void Start()
         {
-            _prefabsContainer = GetComponent<PrefabsContainer>();
             _runtimeCore = new RuntimeCore();
             _runtimeCore.Setup();
 

@@ -24,5 +24,11 @@ namespace UnityScripts.InputActions
 
             _inputCommandQueue.Enqueue(command);
         }
+        
+        public void RemoveEvent<T>(object sender) where T : struct
+        {
+            if (_playerEntitiesContainer.TryGetValue(sender, out var entity))
+                _inputCommandQueue.Enqueue(new RemoveEventFromPlayerInputReceiverCommand<T>(entity));
+        }
     }
 }

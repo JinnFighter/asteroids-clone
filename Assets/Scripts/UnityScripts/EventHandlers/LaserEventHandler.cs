@@ -6,10 +6,9 @@ using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.EventHandlers
 {
-    public class LaserEventHandler : IEventHandler<LaserMagazine>
+    public class LaserEventHandler : IEventHandler<AmmoMagazine>
     {
         private LaserModel _laserModel;
-        private LaserPresenter _laserPresenter;
         private readonly ILaserView _laserView;
 
         public LaserEventHandler(ILaserView laserView)
@@ -17,11 +16,11 @@ namespace UnityScripts.EventHandlers
             _laserView = laserView;
         }
 
-        public void Handle(LaserMagazine context)
+        public void Handle(AmmoMagazine context)
         {
             _laserModel = new LaserModel(context.CurrentAmmo);
             context.AmmoChangedEvent += _laserModel.UpdateAmmoCount;
-            _laserPresenter = new LaserPresenter(_laserModel, _laserView);
+            var presenter = new LaserPresenter(_laserModel, _laserView);
         }
     }
 }

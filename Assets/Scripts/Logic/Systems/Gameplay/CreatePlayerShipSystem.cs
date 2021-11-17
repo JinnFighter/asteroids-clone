@@ -15,19 +15,19 @@ namespace Logic.Systems.Gameplay
     {
         private readonly CollisionLayersContainer _collisionLayersContainer;
         private readonly TransformHandlerKeeper _transformHandlerKeeper;
-        private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
+        private readonly RigidBodyHandlerKeeper _rigidBodyHandlerKeeper;
         private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
 
         public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
             TransformHandlerKeeper transformHandlerKeeper,
-            ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer,
+            RigidBodyHandlerKeeper rigidBodyHandlerKeeper,
             PlayerInputHandlerKeeper playerInputHandlerKeeper)
         {
             _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
             _transformHandlerKeeper = transformHandlerKeeper;
-            _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
+            _rigidBodyHandlerKeeper = rigidBodyHandlerKeeper;
             _playerInputHandlerKeeper = playerInputHandlerKeeper;
         }
         
@@ -40,7 +40,7 @@ namespace Logic.Systems.Gameplay
             var transform = new BodyTransform { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
             _transformHandlerKeeper.HandleEvent<Ship>(transform);
             var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
-            _rigidBodyEventHandlerRigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
+            _rigidBodyHandlerKeeper.HandleEvent<Ship>(rigidBody);
             var colliderFactory = _colliderFactoryContainer.GetFactory<Ship>();
             var collider = colliderFactory.CreateCollider(transform.Position);
             transform.PositionChangedEvent += collider.UpdatePosition;

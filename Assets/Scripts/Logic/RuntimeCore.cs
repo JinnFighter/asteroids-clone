@@ -54,7 +54,6 @@ namespace Logic
                 .AddService(new PlayerInputHandlerKeeper())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
-                .AddService(new ShipRigidBodyEventHandlerContainer())
                 .AddService(new LaserMagazineHandlerContainer())
                 .AddService(new LaserTimerHandlerContainer())
                 .AddService(new TargetTransformContainer())
@@ -85,13 +84,12 @@ namespace Logic
 
             var laserMagazineHandlerContainer = _systems.GetService<LaserMagazineHandlerContainer>();
             var transformHandlerKeeper = _systems.GetService<TransformHandlerKeeper>();
+            var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    transformHandlerKeeper,
-                    _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
-                    _systems.GetService<PlayerInputHandlerKeeper>()))
+                    transformHandlerKeeper, rigidBodyHandlerKeeper, _systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem(laserMagazineHandlerContainer, 
                     _systems.GetService<LaserTimerHandlerContainer>()))

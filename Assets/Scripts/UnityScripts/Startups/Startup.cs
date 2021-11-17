@@ -63,6 +63,7 @@ namespace UnityScripts.Startups
             
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             var transformHandlerKeeper = _runtimeCore.GetService<TransformHandlerKeeper>();
+            var rigidBodyHandlerKeeper = _runtimeCore.GetService<RigidBodyHandlerKeeper>();
 
             _runtimeCore
                 .AddInitSystem(new InitPlayerInputHandlersSystem(
@@ -70,9 +71,8 @@ namespace UnityScripts.Startups
                 _runtimeCore.GetService<PlayerInputHandlerKeeper>(), gameObjectHandlerContainer))
                 .AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, transformHandlerKeeper, _prefabsContainer,
                 transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()))
-                .AddInitSystem(new InitShipRigidBodyHandlersSystem(
-                _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>(),
-                ShipUiView.GetComponent<UiPhysicsRigidBodyView>()))
+                .AddInitSystem(new InitShipRigidBodyHandlersSystem(rigidBodyHandlerKeeper, 
+                    ShipUiView.GetComponent<UiPhysicsRigidBodyView>()))
                 .AddInitSystem(new InitTransformHandlersSystem<Bullet>(transformHandlerKeeper,
                 new PrefabObjectFactory(_prefabsContainer.BulletPrefab), transformPresenterFactory, bulletColliderFactory))
                 .AddInitSystem(new InitTransformHandlersSystem<Asteroid>(transformHandlerKeeper, asteroidObjectFactory, 

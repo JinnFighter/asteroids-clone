@@ -106,10 +106,9 @@ namespace UnityScripts.Startups
             _runtimeCore.AddInitSystem(new InitLaserHandlersSystem(
                 _runtimeCore.GetService<LaserMagazineHandlerContainer>(), 
                 LaserView.GetComponent<LaserView>()));
-
-            var laserTimerHandlerContainer = _runtimeCore.GetService<LaserTimerHandlerContainer>();
             
-            laserTimerHandlerContainer.AddHandler(new TimerPresenterHandler(LaserMagazineView.GetComponent<TimerCircularView>()));
+            _runtimeCore.AddInitSystem(new InitLaserTimerHandlersSystem(
+                _runtimeCore.GetService<LaserTimerHandlerContainer>(), LaserMagazineView.GetComponent<TimerCircularView>()));
 
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             

@@ -17,8 +17,8 @@ namespace Logic.Systems.Gameplay
                 var ship = filter.Get1(index);
                 ref var physicsBody = ref filter.Get2(index);
                 var rigidBody = physicsBody.RigidBody;
-                var movementAction = filter.Get3(index);
-                rigidBody.Force += movementAction.Direction * ship.Speed;
+                var transform = physicsBody.Transform;
+                rigidBody.Force += transform.Direction * ship.Speed;
             }
         }
     }

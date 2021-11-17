@@ -33,6 +33,8 @@ namespace Logic.Systems.Physics
                 rigidBody.Velocity += rigidBody.Force / rigidBody.Mass * deltaTime;
                 
                 physicsBody.Transform.Position += rigidBody.Velocity * deltaTime;
+                
+                rigidBody.Force = Vector2.Zero;
             }
         }
     }

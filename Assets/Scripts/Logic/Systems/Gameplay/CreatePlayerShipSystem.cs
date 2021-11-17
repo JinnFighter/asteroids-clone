@@ -35,7 +35,7 @@ namespace Logic.Systems.Gameplay
         {
             var entity = world.CreateEntity();
             
-            entity.AddComponent(new Ship{ Speed = 1f });
+            entity.AddComponent(new Ship{ Speed = 2f });
 
             var transform = new BodyTransform { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
             _transformEventHandlerContainer.OnCreateEvent(transform);

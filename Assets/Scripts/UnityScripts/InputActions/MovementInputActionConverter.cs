@@ -1,5 +1,4 @@
 using Logic.Components.Input;
-using UnityEngine;
 using InputAction = UnityEngine.InputSystem.InputAction;
 
 namespace UnityScripts.InputActions
@@ -8,8 +7,7 @@ namespace UnityScripts.InputActions
     {
         public void AcceptConverter(InputActionVisitor visitor, InputAction inputAction)
         {
-            var direction = inputAction.ReadValue<Vector2>();
-            var res = new MovementInputAction { Direction = new Common.Vector2(direction.x, direction.y) };
+            var res = new MovementInputAction();
             visitor.AttachEvent(inputAction.actionMap, res);
         }
     }

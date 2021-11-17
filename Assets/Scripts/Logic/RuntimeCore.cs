@@ -49,6 +49,7 @@ namespace Logic
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())
+                .AddService(new TransformHandlerKeeper())
                 .AddService(new PlayerInputEventHandlerContainer())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())

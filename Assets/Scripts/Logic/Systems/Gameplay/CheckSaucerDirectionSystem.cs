@@ -22,6 +22,12 @@ namespace Logic.Systems.Gameplay
                 saucerTransform.Direction = nextDirection;
                 var rigidBody = physicsBody.RigidBody;
                 rigidBody.Force += saucerTransform.Direction;
+                var angle = saucerTransform.Position.GetRotationAngle(targetTransform.Position);
+                if (angle != 0f)
+                {
+                    var entity = filter.GetEntity(index);
+                    entity.AddComponent(new RotateEvent{ Angle = angle - saucerTransform.Rotation });
+                }
             }
         }
     }

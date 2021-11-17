@@ -73,26 +73,27 @@ namespace UnityScripts.Startups
                 _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>(),
                 ShipUiView.GetComponent<UiPhysicsRigidBodyView>()));
             
-            CreateTransformHandlers(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
+            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
                 new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
-                transformPresenterFactory, bulletColliderFactory);
-            
+                transformPresenterFactory, bulletColliderFactory));
+
             var asteroidObjectFactory = new AsteroidObjectFactory(new List<IObjectSelector<GameObject>>
             {
                 new GameObjectRandomSelector(_prefabsContainer.SmallAsteroidsPrefabs, randomizer),
                 new GameObjectRandomSelector(_prefabsContainer.MediumAsteroidsPrefabs, randomizer),
                 new GameObjectSingleSelector(_prefabsContainer.BigAsteroidPrefab)
             });
-            CreateTransformHandlers(_runtimeCore.GetService<AsteroidTransformHandlerContainer>(), 
-                asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory);
-
-            CreateTransformHandlers(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
-                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
-                transformPresenterFactory, saucerColliderFactory);
             
-            CreateTransformHandlers(_runtimeCore.GetService<LaserTransformHandlerContainer>(), 
+            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<AsteroidTransformHandlerContainer>(), 
+                asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory));
+            
+            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
+                new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
+                transformPresenterFactory, saucerColliderFactory));
+            
+            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<LaserTransformHandlerContainer>(), 
                 new PrefabObjectFactory(_prefabsContainer.LaserPrefab),
-                transformPresenterFactory, laserColliderFactory);
+                transformPresenterFactory, laserColliderFactory));
 
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             eventListener.AddHandler(asteroidObjectFactory);
@@ -116,20 +117,6 @@ namespace UnityScripts.Startups
             _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
             
             _runtimeCore.Init();
-        }
-
-        private void CreateTransformHandlers(TransformEventHandlerContainer transformHandlerContainer, 
-            IGameObjectFactory gameObjectFactory, ITransformPresenterFactory transformPresenterFactory, 
-            IEventHandler<GameObject> colliderFactoryHandler)
-        {
-            var gameObjectHandlerContainer = new GameObjectEventHandlerContainer();
-            var gameObjectHandler = new GameObjectTransformHandler(gameObjectHandlerContainer, gameObjectFactory);
-            var transformPresenterEventHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            gameObjectHandlerContainer.AddHandler(transformPresenterEventHandler);
-            gameObjectHandlerContainer.AddHandler(colliderFactoryHandler);
-            
-            transformHandlerContainer.AddHandler(gameObjectHandler);
-            transformHandlerContainer.AddHandler(transformPresenterEventHandler);
         }
 
         // Update is called once per frame

@@ -56,6 +56,7 @@ namespace Logic
                 .AddService(new ComponentEventHandlerContainer())
                 .AddService(new LaserMagazineHandlerContainer())
                 .AddService(new LaserTimerHandlerContainer())
+                .AddService(new TimerHandlerKeeper())
                 .AddService(new TargetTransformContainer())
                 .AddService(new ScoreContainer())
                 .AddService(timeContainer)

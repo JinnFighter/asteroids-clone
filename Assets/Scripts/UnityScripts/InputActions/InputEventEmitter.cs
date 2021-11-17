@@ -26,7 +26,7 @@ namespace UnityScripts.InputActions
             _inputActionConverters.Add(playerActions.LaserFire.id, new LaserFireInputActionConverter());
         }
 
-        private void CreateInputEvent(InputAction.CallbackContext context)
+        private void CreatePerformedInputEvent(InputAction.CallbackContext context)
         {
             var action = context.action;
             if(_inputActionConverters.TryGetValue(action.id, out var inputActionConverter))
@@ -37,7 +37,7 @@ namespace UnityScripts.InputActions
         {
             foreach (var action in actionMap)
             {
-                action.performed += CreateInputEvent;
+                action.performed += CreatePerformedInputEvent;
                 action.Enable();
             }
         }

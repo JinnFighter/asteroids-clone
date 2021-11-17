@@ -86,11 +86,14 @@ namespace Logic
             var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
             var timerHandlerKeeper = _systems.GetService<TimerHandlerKeeper>();
             var ammoMagazineHandlerKeeper = _systems.GetService<AmmoMagazineHandlerKeeper>();
+
+            var physicsBodyBuilder =
+                new PhysicsBodyBuilder(transformHandlerKeeper, rigidBodyHandlerKeeper, collisionLayersContainer);
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
-                .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    transformHandlerKeeper, rigidBodyHandlerKeeper, _systems.GetService<PlayerInputHandlerKeeper>()))
+                .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, physicsBodyBuilder, 
+                    _systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem(ammoMagazineHandlerKeeper, timerHandlerKeeper))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))

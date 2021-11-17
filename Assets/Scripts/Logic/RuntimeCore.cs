@@ -104,7 +104,7 @@ namespace Logic
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())
                 .AddRunSystem(new CheckSaucerDirectionSystem())
-                .AddRunSystem(new CheckFireActionSystem())
+                .AddRunSystem(new CheckBulletFireActionSystem())
                 .AddRunSystem(new ShootLaserSystem())
                 .AddRunSystem(new StartReloadingLaserSystem())
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,

@@ -6,7 +6,7 @@ using Logic.Components.Physics;
 
 namespace Logic.Systems.Gameplay
 {
-    public class CheckFireActionSystem : IEcsRunSystem
+    public class CheckBulletFireActionSystem : IEcsRunSystem
     {
         public void Run(EcsWorld ecsWorld)
         {

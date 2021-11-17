@@ -12,6 +12,7 @@ namespace UnityScripts.InputActions
         private readonly AsteroidsCloneInputActionAsset _inputActionAsset;
         private readonly Dictionary<Guid, IInputActionConverter> _startedInputActionConverters;
         private readonly Dictionary<Guid, IInputActionConverter> _performedInputActionConverters;
+        private readonly Dictionary<Guid, IInputActionConverter> _cancelledInputActionConverters;
         private readonly InputActionVisitor _inputActionVisitor;
 
         public InputEventEmitter(PlayerEntitiesDataContainer container, InputCommandQueue inputCommandQueue)
@@ -22,6 +23,7 @@ namespace UnityScripts.InputActions
 
             _startedInputActionConverters = new Dictionary<Guid, IInputActionConverter>();
             _performedInputActionConverters = new Dictionary<Guid, IInputActionConverter>();
+            _cancelledInputActionConverters = new Dictionary<Guid, IInputActionConverter>();
             var playerActions = _inputActionAsset.Player;
             
             _startedInputActionConverters.Add(playerActions.Move.id, new MovementInputActionConverter());
@@ -44,6 +46,9 @@ namespace UnityScripts.InputActions
 
         private void CreatePerformedInputEvent(InputAction.CallbackContext context) =>
             CreateEvent(context.action, _performedInputActionConverters);
+        
+        private void CreateCancelledInputEvent(InputAction.CallbackContext context) =>
+            CreateEvent(context.action, _cancelledInputActionConverters);
 
         public void ListenToInputEvents(InputActionMap actionMap)
         {
@@ -51,6 +56,8 @@ namespace UnityScripts.InputActions
             {
                 action.started += CreateStartedInputEvent;
                 action.performed += CreatePerformedInputEvent;
+                action.canceled += CreateCancelledInputEvent;
+                
                 action.Enable();
             }
         }

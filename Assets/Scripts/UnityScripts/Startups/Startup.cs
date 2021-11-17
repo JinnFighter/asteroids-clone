@@ -46,13 +46,9 @@ namespace UnityScripts.Startups
             var colliderFactoryContainer = _runtimeCore.GetService<ColliderFactoryContainer>();
 
             var shipColliderFactory = new SpriteSizeColliderFactory();
-
             var asteroidColliderFactory = new SpriteSizeColliderFactory();
-
             var bulletColliderFactory = new SpriteSizeColliderFactory();
-
             var saucerColliderFactory = new SpriteSizeColliderFactory();
-
             var laserColliderFactory = new SpriteSizeColliderFactory();
             
             colliderFactoryContainer.AddColliderFactory<Ship>(shipColliderFactory);
@@ -100,7 +96,7 @@ namespace UnityScripts.Startups
             _runtimeCore.AddInitSystem(new InitScoreHandlersSystem(
                 _runtimeCore.GetService<ScoreEventHandlerContainer>(), ScoreUiView.GetComponent<ScoreView>()));
 
-            eventListener.AddHandler(new ShowGameOverScreenEventHandler(GameOverScreen.GetComponent<GameOverScreen>(), 
+            _runtimeCore.AddInitSystem(new InitGameOverScreenHandlerSystem(eventListener, GameOverScreen.GetComponent<GameOverScreen>(), 
                 _runtimeCore.GetService<ScoreContainer>()));
 
             _runtimeCore.AddInitSystem(new InitLaserHandlersSystem(

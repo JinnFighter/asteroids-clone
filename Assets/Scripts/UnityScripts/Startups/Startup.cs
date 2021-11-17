@@ -94,10 +94,10 @@ namespace UnityScripts.Startups
             _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<LaserTransformHandlerContainer>(), 
                 new PrefabObjectFactory(_prefabsContainer.LaserPrefab),
                 transformPresenterFactory, laserColliderFactory));
-
-            var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
-            eventListener.AddHandler(asteroidObjectFactory);
             
+            var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
+            _runtimeCore.AddInitSystem(new InitAsteroidHandlerSystem(eventListener, asteroidObjectFactory));
+
             var scoreEventListener = _runtimeCore.GetService<ScoreEventHandlerContainer>();
             scoreEventListener.AddHandler(new ScorePresenterEventHandler(new ScorePresenterFactory(), 
                 ScoreUiView.GetComponent<ScoreView>()));

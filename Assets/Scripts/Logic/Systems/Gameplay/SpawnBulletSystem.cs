@@ -58,7 +58,7 @@ namespace Logic.Systems.Gameplay
                 });
             
                 entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
-                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 3f, CurrentTime = 3f }});
+                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 4f, CurrentTime = 4f }});
                 entity.AddComponent(new Counting());
             }
         }

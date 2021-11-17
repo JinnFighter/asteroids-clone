@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Logic.Events
 {
-    public abstract class HandlerContainerWrapper<T>
+    public abstract class HandlerKeeper<T>
     {
         private readonly Dictionary<Type, GameEventHandlerContainer<T>> _dictionary;
 
-        public HandlerContainerWrapper()
+        public HandlerKeeper()
         {
             _dictionary = new Dictionary<Type, GameEventHandlerContainer<T>>();
         }

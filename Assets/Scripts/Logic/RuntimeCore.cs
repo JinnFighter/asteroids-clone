@@ -134,7 +134,7 @@ namespace Logic
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
                     _systems.GetService<ComponentEventHandlerContainer>(), transformHandlerKeeper))
                 .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
-                .AddRunSystem(new SpawnLaserSystem(transformHandlerKeeper, collisionLayersContainer))
+                .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

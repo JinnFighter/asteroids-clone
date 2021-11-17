@@ -54,23 +54,7 @@ namespace UnityScripts.Startups
             colliderFactoryContainer.AddColliderFactory<Bullet>(bulletColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Asteroid>(asteroidColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Saucer>(saucerColliderFactory);
-
-            _runtimeCore.AddInitSystem(new InitPlayerInputHandlersSystem(
-                _runtimeCore.GetService<InputCommandQueue>(), 
-                _runtimeCore.GetService<PlayerInputEventHandlerContainer>(), gameObjectHandlerContainer));
             
-            _runtimeCore.AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, 
-                _runtimeCore.GetService<ShipTransformEventHandlerContainer>(), _prefabsContainer,
-                transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()));
-            
-            _runtimeCore.AddInitSystem(new InitShipRigidBodyHandlersSystem(
-                _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>(),
-                ShipUiView.GetComponent<UiPhysicsRigidBodyView>()));
-            
-            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
-                new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
-                transformPresenterFactory, bulletColliderFactory));
-
             var asteroidObjectFactory = new AsteroidObjectFactory(new List<IObjectSelector<GameObject>>
             {
                 new GameObjectRandomSelector(_prefabsContainer.SmallAsteroidsPrefabs, randomizer),
@@ -78,36 +62,43 @@ namespace UnityScripts.Startups
                 new GameObjectSingleSelector(_prefabsContainer.BigAsteroidPrefab)
             });
             
-            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<AsteroidTransformHandlerContainer>(), 
-                asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory));
-            
-            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
+            var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
+
+            _runtimeCore
+                .AddInitSystem(new InitPlayerInputHandlersSystem(
+                _runtimeCore.GetService<InputCommandQueue>(), 
+                _runtimeCore.GetService<PlayerInputEventHandlerContainer>(), gameObjectHandlerContainer))
+                .AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, 
+                _runtimeCore.GetService<ShipTransformEventHandlerContainer>(), _prefabsContainer,
+                transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()))
+                .AddInitSystem(new InitShipRigidBodyHandlersSystem(
+                _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>(),
+                ShipUiView.GetComponent<UiPhysicsRigidBodyView>()))
+                .AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
+                new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
+                transformPresenterFactory, bulletColliderFactory))
+                .AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<AsteroidTransformHandlerContainer>(), 
+                asteroidObjectFactory, transformPresenterFactory, asteroidColliderFactory))
+                .AddInitSystem(new InitAsteroidHandlerSystem(eventListener, asteroidObjectFactory))
+                .AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<SaucerTransformHandlerContainer>(), 
                 new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
-                transformPresenterFactory, saucerColliderFactory));
-            
-            _runtimeCore.AddInitSystem(new InitLaserTransformHandlersSystem(
+                transformPresenterFactory, saucerColliderFactory))
+                .AddInitSystem(new InitLaserTransformHandlersSystem(
                 _runtimeCore.GetService<LaserTransformHandlerContainer>(), 
                 new PrefabObjectFactory(_prefabsContainer.LaserPrefab),
-                transformPresenterFactory));
-            
-            var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
-            _runtimeCore.AddInitSystem(new InitAsteroidHandlerSystem(eventListener, asteroidObjectFactory));
-            _runtimeCore.AddInitSystem(new InitScoreHandlersSystem(
-                _runtimeCore.GetService<ScoreEventHandlerContainer>(), ScoreUiView.GetComponent<ScoreView>()));
-
-            _runtimeCore.AddInitSystem(new InitGameOverScreenHandlerSystem(eventListener, GameOverScreen.GetComponent<GameOverScreen>(), 
-                _runtimeCore.GetService<ScoreContainer>()));
-
-            _runtimeCore.AddInitSystem(new InitLaserHandlersSystem(
+                transformPresenterFactory))
+                .AddInitSystem(new InitScoreHandlersSystem(
+                    _runtimeCore.GetService<ScoreEventHandlerContainer>(), ScoreUiView.GetComponent<ScoreView>()))
+                .AddInitSystem(new InitGameOverScreenHandlerSystem(eventListener, GameOverScreen.GetComponent<GameOverScreen>(), 
+                _runtimeCore.GetService<ScoreContainer>()))
+                .AddInitSystem(new InitLaserHandlersSystem(
                 _runtimeCore.GetService<LaserMagazineHandlerContainer>(), 
-                LaserView.GetComponent<LaserView>()));
-            
-            _runtimeCore.AddInitSystem(new InitLaserTimerHandlersSystem(
-                _runtimeCore.GetService<LaserTimerHandlerContainer>(), LaserMagazineView.GetComponent<TimerCircularView>()));
-
-            _runtimeCore.AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter());
-            
-            _runtimeCore.Init();
+                LaserView.GetComponent<LaserView>()))
+                .AddInitSystem(new InitLaserTimerHandlersSystem(
+                _runtimeCore.GetService<LaserTimerHandlerContainer>(), LaserMagazineView.GetComponent<TimerCircularView>()))
+                .AddService<IDeltaTimeCounter>(new UnityDeltaTimeCounter())
+                
+                .Init();
         }
 
         // Update is called once per frame

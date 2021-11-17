@@ -165,9 +165,17 @@ namespace Logic
             timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
 
-        public void AddInitSystem(IEcsInitSystem initSystem) => _systems.AddInitSystem(initSystem);
+        public RuntimeCore AddInitSystem(IEcsInitSystem initSystem)
+        {
+            _systems.AddInitSystem(initSystem);
+            return this;
+        }
 
-        public void AddService<T>(in T service) => _systems.AddService(service);
+        public RuntimeCore AddService<T>(in T service)
+        {
+            _systems.AddService(service);
+            return this;
+        }
 
         public T GetService<T>() => _systems.GetService<T>();
 

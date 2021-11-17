@@ -14,6 +14,7 @@ using UnityScripts.InputActions;
 using UnityScripts.Presentation.Screens;
 using UnityScripts.Presentation.Views;
 using UnityScripts.Services;
+using UnityScripts.Startups.InitSystems;
 
 namespace UnityScripts.Startups
 {
@@ -68,21 +69,12 @@ namespace UnityScripts.Startups
             colliderFactoryContainer.AddColliderFactory<Asteroid>(asteroidColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Saucer>(saucerColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Laser>(laserColliderFactory);
-
-            var shipTransformEventHandlerContainer = _runtimeCore.GetService<ShipTransformEventHandlerContainer>();
-
-            var gameObjectHandler =
-                new GameObjectTransformHandler(gameObjectHandlerContainer,
-                    new PrefabObjectFactory(_prefabsContainer.ShipPrefab));
-            var transformPresenterHandler = new TransformPresenterEventHandler(transformPresenterFactory);
-            gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
-            gameObjectHandlerContainer.AddHandler(shipColliderFactory);
             
-            shipTransformEventHandlerContainer.AddHandler(gameObjectHandler);
-            shipTransformEventHandlerContainer.AddHandler(transformPresenterHandler);
-            shipTransformEventHandlerContainer.AddHandler(new ShipUiTransformEventHandler(transformPresenterFactory, 
-                ShipUiView.GetComponent<UiTransformBodyView>()));
-            
+            _runtimeCore.AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, 
+                _runtimeCore.GetService<ShipTransformEventHandlerContainer>(), _prefabsContainer,
+                transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()));
+
+
             var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
             shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));
 

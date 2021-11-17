@@ -27,7 +27,7 @@ namespace Logic.Systems.Gameplay
             entity.AddComponent(new Ship{ Speed = 2f });
 
             _physicsBodyBuilder.Reset();
-            var transform = new BodyTransform { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
+            var transform = new TransformBody { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
             _physicsBodyBuilder.AddTransform<Ship>(transform);
             _physicsBodyBuilder.AddRigidBody<Ship>(new PhysicsRigidBody { Mass = 1f, UseGravity = false });
             var colliderFactory = _colliderFactoryContainer.GetFactory<Ship>();

@@ -28,11 +28,11 @@ namespace Logic.Systems.Gameplay
                 var createSaucerEvent = filter.Get1(index);
                 var entity = ecsWorld.CreateEntity();
                 
-                entity.AddComponent(new Saucer{ TargetTransform = createSaucerEvent.TargetTransform });
+                entity.AddComponent(new Saucer{ Target = createSaucerEvent.Target });
 
                 var position = createSaucerEvent.Position;
                 _physicsBodyBuilder.Reset();
-                _physicsBodyBuilder.AddTransform<Saucer>(new BodyTransform
+                _physicsBodyBuilder.AddTransform<Saucer>(new TransformBody
                     { Position = createSaucerEvent.Position, Rotation = 0f, Direction = Vector2.Zero });
                 _physicsBodyBuilder.AddRigidBody<Saucer>(new PhysicsRigidBody { Mass = 1f, UseGravity = false });
                 _physicsBodyBuilder.AddCollider(_colliderFactory.CreateCollider(position));

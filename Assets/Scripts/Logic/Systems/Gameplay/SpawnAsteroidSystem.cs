@@ -37,7 +37,7 @@ namespace Logic.Systems.Gameplay
                 _physicsBodyBuilder.Reset();
                 var position = createAsteroidEvent.Position;
                 var velocity = createAsteroidEvent.Direction.Normalized * (createAsteroidEvent.Mass - 3 * createAsteroidEvent.Stage);
-                _physicsBodyBuilder.AddTransform<Asteroid>(new BodyTransform
+                _physicsBodyBuilder.AddTransform<Asteroid>(new TransformBody
                     { Position = position, Rotation = 0f, Direction = velocity });
                 _physicsBodyBuilder.AddRigidBody<Asteroid>(new PhysicsRigidBody { Mass = createAsteroidEvent.Mass, 
                     Velocity = velocity, UseGravity = false });

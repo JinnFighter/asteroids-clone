@@ -24,10 +24,10 @@ namespace Logic.Factories
             _physicsBody = new PhysicsBody();
         }
 
-        public void AddTransform<T>(BodyTransform bodyTransform) where T : struct
+        public void AddTransform<T>(TransformBody transformBody) where T : struct
         {
-            _physicsBody.Transform = bodyTransform;
-            _transformHandlerKeeper.HandleEvent<T>(bodyTransform);
+            _physicsBody.Transform = transformBody;
+            _transformHandlerKeeper.HandleEvent<T>(transformBody);
         }
 
         public void AddRigidBody<T>(PhysicsRigidBody rigidBody) where T : struct

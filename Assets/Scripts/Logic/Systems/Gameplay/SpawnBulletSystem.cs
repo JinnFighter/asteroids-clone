@@ -33,7 +33,7 @@ namespace Logic.Systems.Gameplay
 
                 var position = createBulletEvent.Position;
                 _physicsBodyBuilder.Reset();
-                _physicsBodyBuilder.AddTransform<Bullet>(new BodyTransform
+                _physicsBodyBuilder.AddTransform<Bullet>(new TransformBody
                     { Position = position, Rotation = 0f, Direction = createBulletEvent.Direction });
                 
                 _physicsBodyBuilder.AddRigidBody<Bullet>(new PhysicsRigidBody { Mass = 1f, Velocity = createBulletEvent.Velocity, UseGravity = false });

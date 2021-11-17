@@ -6,6 +6,6 @@ namespace Logic.Components.Gameplay
     public struct CreateSaucerEvent
     {
         public Vector2 Position;
-        public BodyTransform TargetTransform;
+        public TransformBody Target;
     }
 }

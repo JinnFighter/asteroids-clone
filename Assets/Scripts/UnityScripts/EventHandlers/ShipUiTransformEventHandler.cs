@@ -5,7 +5,7 @@ using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.EventHandlers
 {
-    public class ShipUiTransformEventHandler : IEventHandler<BodyTransform>
+    public class ShipUiTransformEventHandler : IEventHandler<TransformBody>
     {
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private readonly ITransformBodyView _view;
@@ -16,6 +16,6 @@ namespace UnityScripts.EventHandlers
             _view = view;
         }
         
-        public void Handle(BodyTransform context) => _transformPresenterFactory.CreatePresenter(context, _view);
+        public void Handle(TransformBody context) => _transformPresenterFactory.CreatePresenter(context, _view);
     }
 }

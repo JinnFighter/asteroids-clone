@@ -55,7 +55,7 @@ namespace Logic.Systems.Gameplay
 
                 var position = new Vector2(x, y);
 
-                entity.AddComponent(new CreateSaucerEvent{ Position = position, TargetTransform = _targetTransformContainer.Transform });
+                entity.AddComponent(new CreateSaucerEvent{ Position = position, Target = _targetTransformContainer.Transform });
 
                 ref var saucerSpawnerConfig = ref filter.Get1(index);
                 var timer = filter.Get2(index);

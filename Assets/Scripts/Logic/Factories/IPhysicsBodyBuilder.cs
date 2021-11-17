@@ -6,7 +6,7 @@ namespace Logic.Factories
     public interface IPhysicsBodyBuilder
     {
         void Reset();
-        void AddTransform<T>(BodyTransform bodyTransform) where T : struct;
+        void AddTransform<T>(TransformBody transformBody) where T : struct;
         void AddRigidBody<T>(PhysicsRigidBody rigidBody) where T : struct;
         void AddCollider(PhysicsCollider collider);
         void AddCollisionLayer(string tag);

@@ -28,7 +28,7 @@ namespace Logic.Systems.Gameplay
                 entity.AddComponent(new Laser());
                 
                 _physicsBodyBuilder.Reset();
-                var transform = new BodyTransform
+                var transform = new TransformBody
                     { Position = laserEvent.Position, Rotation = laserEvent.Rotation, Direction = laserEvent.Direction };
                 _physicsBodyBuilder.AddTransform<Laser>(transform);
                 _physicsBodyBuilder.AddRigidBody<Laser>(new PhysicsRigidBody { Mass = 1f, UseGravity = false });

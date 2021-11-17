@@ -4,25 +4,20 @@ using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
 using Logic.Containers;
-using Logic.Events;
 using Logic.Factories;
-using Logic.Input;
 using Physics;
 
 namespace Logic.Systems.Gameplay
 {
     public class CreatePlayerShipSystem : IEcsInitSystem
     {
-        private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
 
-        public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, IPhysicsBodyBuilder physicsBodyBuilder,
-            PlayerInputHandlerKeeper playerInputHandlerKeeper)
+        public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, IPhysicsBodyBuilder physicsBodyBuilder)
         {
             _colliderFactoryContainer = colliderFactoryContainer;
             _physicsBodyBuilder = physicsBodyBuilder;
-            _playerInputHandlerKeeper = playerInputHandlerKeeper;
         }
         
         public void Init(EcsWorld world)
@@ -44,9 +39,6 @@ namespace Logic.Systems.Gameplay
             entity.AddComponent(_physicsBodyBuilder.GetResult());
             
             entity.AddComponent(new Wrappable{ IsWrappingX = false, IsWrappingY = false });
-
-            var inputEventReceiver = new PlayerInputReceiver(entity);
-            _playerInputHandlerKeeper.HandleEvent<Ship>(inputEventReceiver);
         }
     }
 }

@@ -92,8 +92,8 @@ namespace Logic
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
-                .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, physicsBodyBuilder, 
-                    _systems.GetService<PlayerInputHandlerKeeper>()))
+                .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, physicsBodyBuilder))
+                .AddInitSystem(new CreatePlayerInputReceiverSystem(_systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserSystem(ammoMagazineHandlerKeeper, timerHandlerKeeper))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))

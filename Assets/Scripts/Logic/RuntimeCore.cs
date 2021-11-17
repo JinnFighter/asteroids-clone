@@ -131,8 +131,8 @@ namespace Logic
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))
                 .AddRunSystem(new SpawnSaucerSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
-                .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<ComponentEventHandlerContainer>(), transformHandlerKeeper))
+                .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer.GetFactory<Asteroid>(),
+                    _systems.GetService<ComponentEventHandlerContainer>(), physicsBodyBuilder))
                 .AddRunSystem(new SpawnBulletSystem(colliderFactoryContainer, collisionLayersContainer, transformHandlerKeeper))
                 .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))

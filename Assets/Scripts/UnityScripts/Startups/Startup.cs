@@ -68,11 +68,11 @@ namespace UnityScripts.Startups
             _runtimeCore.AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, 
                 _runtimeCore.GetService<ShipTransformEventHandlerContainer>(), _prefabsContainer,
                 transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()));
-
-
-            var shipRigidbodyListener = _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>();
-            shipRigidbodyListener.AddHandler(new ShipUiRigidBodyEventHandler(new RigidBodyPresenterFactory(), ShipUiView));
-
+            
+            _runtimeCore.AddInitSystem(new InitShipRigidBodyHandlersSystem(
+                _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>(),
+                ShipUiView.GetComponent<UiPhysicsRigidBodyView>()));
+            
             CreateTransformHandlers(_runtimeCore.GetService<BulletTransformHandlerContainer>(),
                 new PrefabObjectFactory(_prefabsContainer.BulletPrefab),
                 transformPresenterFactory, bulletColliderFactory);

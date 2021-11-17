@@ -10,16 +10,14 @@ namespace UnityScripts.EventHandlers
     {
         private readonly IRigidBodyPresenterFactory _rigidBodyPresenterFactory;
         private readonly GameObject _uiGameObject;
+        private readonly IPhysicsRigidBodyView _rigidBodyView;
 
-        public ShipUiRigidBodyEventHandler(IRigidBodyPresenterFactory rigidBodyPresenterFactory, GameObject uiGameObject)
+        public ShipUiRigidBodyEventHandler(IRigidBodyPresenterFactory rigidBodyPresenterFactory, IPhysicsRigidBodyView rigidBodyView)
         {
             _rigidBodyPresenterFactory = rigidBodyPresenterFactory;
-            _uiGameObject = uiGameObject;
+            _rigidBodyView = rigidBodyView;
         }
         
-        public void Handle(PhysicsRigidBody context)
-        {
-            var presenter = _rigidBodyPresenterFactory.CreatePresenter(context, _uiGameObject.GetComponent<UiPhysicsRigidBodyView>());
-        }
+        public void Handle(PhysicsRigidBody context) => _rigidBodyPresenterFactory.CreatePresenter(context, _rigidBodyView);
     }
 }

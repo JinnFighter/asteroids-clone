@@ -18,7 +18,7 @@ namespace Logic.Events
                 handlerContainer.OnCreateEvent(context);
         }
 
-        public void AddHandlerContainer<C>(IEventHandler<T> handler) where C : struct
+        public void AddHandler<C>(IEventHandler<T> handler) where C : struct
         {
             GameEventHandlerContainer<T> handlerContainer;
             var key = typeof(C);

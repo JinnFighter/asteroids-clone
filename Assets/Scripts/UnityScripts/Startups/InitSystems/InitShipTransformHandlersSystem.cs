@@ -42,9 +42,9 @@ namespace UnityScripts.Startups.InitSystems
             _gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
             _gameObjectHandlerContainer.AddHandler(_colliderFactoryHandler);
             
-            _transformHandlerKeeper.AddHandlerContainer<Ship>(gameObjectHandler);
-            _transformHandlerKeeper.AddHandlerContainer<Ship>(transformPresenterHandler);
-            _transformHandlerKeeper.AddHandlerContainer<Ship>(new ShipUiTransformEventHandler(_transformPresenterFactory, 
+            _transformHandlerKeeper.AddHandler<Ship>(gameObjectHandler);
+            _transformHandlerKeeper.AddHandler<Ship>(transformPresenterHandler);
+            _transformHandlerKeeper.AddHandler<Ship>(new ShipUiTransformEventHandler(_transformPresenterFactory, 
                 _transformBodyView));
         }
     }

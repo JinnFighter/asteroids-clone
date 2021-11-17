@@ -31,7 +31,7 @@ namespace UnityScripts.Startups.InitSystems
             var inputEventEmitter = new InputEventEmitter(playerEntitiesContainer, _inputCommandQueue);
             
             var playerInputHandler = new PlayerInputEventHandler(playerEntitiesContainer, inputEventEmitter);
-            _playerInputHandlerKeeper.AddHandlerContainer<Ship>(playerInputHandler);
+            _playerInputHandlerKeeper.AddHandler<Ship>(playerInputHandler);
             _gameObjectHandlerContainer.AddHandler(playerInputHandler);
         }
     }

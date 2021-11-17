@@ -29,9 +29,10 @@ namespace UnityScripts.InputActions
             _startedInputActionConverters.Add(playerActions.Move.id, new MovementInputActionConverter());
             
             _performedInputActionConverters.Add(playerActions.Look.id, new LookInputActionConverter());
-            _performedInputActionConverters.Add(playerActions.Move.id, new RemoveEventInputActionConverter<MovementInputAction>());
             _performedInputActionConverters.Add(playerActions.Fire.id, new FireInputActionConverter());
             _performedInputActionConverters.Add(playerActions.LaserFire.id, new LaserFireInputActionConverter());
+            
+            _cancelledInputActionConverters.Add(playerActions.Move.id, new RemoveEventInputActionConverter<MovementInputAction>());
         }
         
         private void CreateEvent(InputAction action,

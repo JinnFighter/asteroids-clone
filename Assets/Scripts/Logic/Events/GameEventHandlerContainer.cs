@@ -6,7 +6,7 @@ namespace Logic.Events
     {
         private readonly List<IEventHandler<T>> _eventHandlers;
 
-        protected GameEventHandlerContainer()
+        public GameEventHandlerContainer()
         {
             _eventHandlers = new List<IEventHandler<T>>();
         }

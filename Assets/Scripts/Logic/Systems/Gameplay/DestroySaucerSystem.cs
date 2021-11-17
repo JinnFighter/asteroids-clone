@@ -14,6 +14,8 @@ namespace Logic.Systems.Gameplay
             {
                 var entity = filter.GetEntity(index);
                 entity.RemoveComponent<Saucer>();
+
+                entity.AddComponent(new UpdateScoreEvent { Score = 50 });
             }
         }
     }

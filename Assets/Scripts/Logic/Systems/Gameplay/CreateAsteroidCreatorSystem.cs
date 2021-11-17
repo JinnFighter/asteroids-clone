@@ -18,7 +18,7 @@ namespace Logic.Systems.Gameplay
         public void Init(EcsWorld world)
         {
             var entity = world.CreateEntity();
-            var asteroidCreatorConfig = new AsteroidCreatorConfig { MinTime = 1, MaxTime = 3 };
+            var asteroidCreatorConfig = new AsteroidCreatorConfig { MinTime = 3, MaxTime = 5 };
             entity.AddComponent(asteroidCreatorConfig);
 
             var time = _randomizer.Range(asteroidCreatorConfig.MinTime, asteroidCreatorConfig.MaxTime);

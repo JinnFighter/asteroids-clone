@@ -1,4 +1,5 @@
 using Ecs;
+using Ecs.Interfaces;
 using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Components.Input;
@@ -115,6 +116,7 @@ namespace Logic
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckBulletCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckAsteroidCollisionsSystem(collisionsContainer))
+                .AddRunSystem(new CheckSaucerCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new ClearCollisionsContainerSystem(collisionsContainer))
                 .AddRunSystem(new UpdateTimersSystem(timeContainer), disableOnGameOverTag)
                 .AddRunSystem(new FinishReloadingLaserSystem())
@@ -164,7 +166,17 @@ namespace Logic
             timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
 
-        public void AddService<T>(in T service) => _systems.AddService(service);
+        public RuntimeCore AddInitSystem(IEcsInitSystem initSystem)
+        {
+            _systems.AddInitSystem(initSystem);
+            return this;
+        }
+
+        public RuntimeCore AddService<T>(in T service)
+        {
+            _systems.AddService(service);
+            return this;
+        }
 
         public T GetService<T>() => _systems.GetService<T>();
 

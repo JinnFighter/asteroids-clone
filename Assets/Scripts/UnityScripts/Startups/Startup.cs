@@ -62,13 +62,13 @@ namespace UnityScripts.Startups
             });
             
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
+            var transformHandlerKeeper = _runtimeCore.GetService<TransformHandlerKeeper>();
 
             _runtimeCore
                 .AddInitSystem(new InitPlayerInputHandlersSystem(
                 _runtimeCore.GetService<InputCommandQueue>(), 
                 _runtimeCore.GetService<PlayerInputHandlerKeeper>(), gameObjectHandlerContainer))
-                .AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, 
-                _runtimeCore.GetService<ShipTransformEventHandlerContainer>(), _prefabsContainer,
+                .AddInitSystem(new InitShipTransformHandlersSystem(gameObjectHandlerContainer, transformHandlerKeeper, _prefabsContainer,
                 transformPresenterFactory, shipColliderFactory, ShipUiView.GetComponent<UiTransformBodyView>()))
                 .AddInitSystem(new InitShipRigidBodyHandlersSystem(
                 _runtimeCore.GetService<ShipRigidBodyEventHandlerContainer>(),

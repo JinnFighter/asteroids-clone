@@ -53,7 +53,6 @@ namespace Logic
                 .AddService(new PlayerInputHandlerKeeper())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
-                .AddService(new ShipTransformEventHandlerContainer())
                 .AddService(new ShipRigidBodyEventHandlerContainer())
                 .AddService(new BulletTransformHandlerContainer())
                 .AddService(new AsteroidTransformHandlerContainer())
@@ -88,11 +87,12 @@ namespace Logic
             var saucerConfig = _systems.GetService<SaucerConfig>();
 
             var laserMagazineHandlerContainer = _systems.GetService<LaserMagazineHandlerContainer>();
+            var transformHandlerKeeper = _systems.GetService<TransformHandlerKeeper>();
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, collisionLayersContainer, 
-                    _systems.GetService<ShipTransformEventHandlerContainer>(),
+                    transformHandlerKeeper,
                     _systems.GetService<ShipRigidBodyEventHandlerContainer>(),
                     _systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))

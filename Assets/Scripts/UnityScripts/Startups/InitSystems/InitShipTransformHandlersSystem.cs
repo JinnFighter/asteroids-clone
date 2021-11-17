@@ -1,5 +1,6 @@
 using Ecs;
 using Ecs.Interfaces;
+using Logic.Components.Gameplay;
 using Logic.Events;
 using UnityEngine;
 using UnityScripts.Containers;
@@ -12,21 +13,21 @@ namespace UnityScripts.Startups.InitSystems
     public class InitShipTransformHandlersSystem : IEcsInitSystem
     {
         private readonly GameObjectEventHandlerContainer _gameObjectHandlerContainer;
-        private readonly ShipTransformEventHandlerContainer _shipTransformHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly PrefabsContainer _prefabsContainer;
         private readonly ITransformPresenterFactory _transformPresenterFactory;
         private readonly IEventHandler<GameObject> _colliderFactoryHandler;
         private readonly ITransformBodyView _transformBodyView;
 
         public InitShipTransformHandlersSystem(GameObjectEventHandlerContainer gameObjectHandlerContainer, 
-            ShipTransformEventHandlerContainer shipTransformHandlerContainer,
+            TransformHandlerKeeper transformHandlerKeeper,
             PrefabsContainer prefabsContainer,
             ITransformPresenterFactory transformPresenterFactory,
             IEventHandler<GameObject> colliderFactoryHandler,
             ITransformBodyView view)
         {
             _gameObjectHandlerContainer = gameObjectHandlerContainer;
-            _shipTransformHandlerContainer = shipTransformHandlerContainer;
+            _transformHandlerKeeper = transformHandlerKeeper;
             _prefabsContainer = prefabsContainer;
             _transformPresenterFactory = transformPresenterFactory;
             _colliderFactoryHandler = colliderFactoryHandler;
@@ -41,9 +42,9 @@ namespace UnityScripts.Startups.InitSystems
             _gameObjectHandlerContainer.AddHandler(transformPresenterHandler);
             _gameObjectHandlerContainer.AddHandler(_colliderFactoryHandler);
             
-            _shipTransformHandlerContainer.AddHandler(gameObjectHandler);
-            _shipTransformHandlerContainer.AddHandler(transformPresenterHandler);
-            _shipTransformHandlerContainer.AddHandler(new ShipUiTransformEventHandler(_transformPresenterFactory, 
+            _transformHandlerKeeper.AddHandlerContainer<Ship>(gameObjectHandler);
+            _transformHandlerKeeper.AddHandlerContainer<Ship>(transformPresenterHandler);
+            _transformHandlerKeeper.AddHandlerContainer<Ship>(new ShipUiTransformEventHandler(_transformPresenterFactory, 
                 _transformBodyView));
         }
     }

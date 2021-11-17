@@ -14,19 +14,19 @@ namespace Logic.Systems.Gameplay
     public class CreatePlayerShipSystem : IEcsInitSystem
     {
         private readonly CollisionLayersContainer _collisionLayersContainer;
-        private readonly ShipTransformEventHandlerContainer _transformEventHandlerContainer;
+        private readonly TransformHandlerKeeper _transformHandlerKeeper;
         private readonly ShipRigidBodyEventHandlerContainer _rigidBodyEventHandlerRigidBodyEventHandlerContainer;
         private readonly PlayerInputHandlerKeeper _playerInputHandlerKeeper;
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
 
         public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, CollisionLayersContainer collisionLayersContainer, 
-            ShipTransformEventHandlerContainer transformEventHandlerContainer, 
+            TransformHandlerKeeper transformHandlerKeeper,
             ShipRigidBodyEventHandlerContainer rigidBodyEventHandlerContainer,
             PlayerInputHandlerKeeper playerInputHandlerKeeper)
         {
             _colliderFactoryContainer = colliderFactoryContainer;
             _collisionLayersContainer = collisionLayersContainer;
-            _transformEventHandlerContainer = transformEventHandlerContainer;
+            _transformHandlerKeeper = transformHandlerKeeper;
             _rigidBodyEventHandlerRigidBodyEventHandlerContainer = rigidBodyEventHandlerContainer;
             _playerInputHandlerKeeper = playerInputHandlerKeeper;
         }
@@ -38,7 +38,7 @@ namespace Logic.Systems.Gameplay
             entity.AddComponent(new Ship{ Speed = 2f });
 
             var transform = new BodyTransform { Position = Vector2.Zero, Rotation = 0f, Direction = new Vector2(0, 1) };
-            _transformEventHandlerContainer.OnCreateEvent(transform);
+            _transformHandlerKeeper.HandleEvent<Ship>(transform);
             var rigidBody = new PhysicsRigidBody { Mass = 1f, UseGravity = false };
             _rigidBodyEventHandlerRigidBodyEventHandlerContainer.OnCreateEvent(rigidBody);
             var colliderFactory = _colliderFactoryContainer.GetFactory<Ship>();

@@ -49,14 +49,12 @@ namespace UnityScripts.Startups
             var asteroidColliderFactory = new SpriteSizeColliderFactory();
             var bulletColliderFactory = new SpriteSizeColliderFactory();
             var saucerColliderFactory = new SpriteSizeColliderFactory();
-            var laserColliderFactory = new SpriteSizeColliderFactory();
-            
+
             colliderFactoryContainer.AddColliderFactory<Ship>(shipColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Bullet>(bulletColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Asteroid>(asteroidColliderFactory);
             colliderFactoryContainer.AddColliderFactory<Saucer>(saucerColliderFactory);
-            colliderFactoryContainer.AddColliderFactory<Laser>(laserColliderFactory);
-            
+
             _runtimeCore.AddInitSystem(new InitPlayerInputHandlersSystem(
                 _runtimeCore.GetService<InputCommandQueue>(), 
                 _runtimeCore.GetService<PlayerInputEventHandlerContainer>(), gameObjectHandlerContainer));
@@ -87,9 +85,10 @@ namespace UnityScripts.Startups
                 new PrefabObjectFactory(_prefabsContainer.SaucerPrefab),
                 transformPresenterFactory, saucerColliderFactory));
             
-            _runtimeCore.AddInitSystem(new InitTransformHandlersSystem(_runtimeCore.GetService<LaserTransformHandlerContainer>(), 
+            _runtimeCore.AddInitSystem(new InitLaserTransformHandlersSystem(
+                _runtimeCore.GetService<LaserTransformHandlerContainer>(), 
                 new PrefabObjectFactory(_prefabsContainer.LaserPrefab),
-                transformPresenterFactory, laserColliderFactory));
+                transformPresenterFactory));
             
             var eventListener = _runtimeCore.GetService<ComponentEventHandlerContainer>();
             _runtimeCore.AddInitSystem(new InitAsteroidHandlerSystem(eventListener, asteroidObjectFactory));

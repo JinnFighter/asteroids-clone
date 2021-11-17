@@ -54,6 +54,7 @@ namespace Logic
                 .AddService(new PlayerInputHandlerKeeper())
                 .AddService(new ScoreEventHandlerContainer())
                 .AddService(new ComponentEventHandlerContainer())
+                .AddService(new AmmoMagazineHandlerKeeper())
                 .AddService(new LaserMagazineHandlerContainer())
                 .AddService(new TimerHandlerKeeper())
                 .AddService(new TargetTransformContainer())

@@ -6,6 +6,7 @@ namespace Physics
 {
     public abstract class PhysicsCollider
     {
+        public Vector2 Position { get; protected set; }
         public HashSet<int> CollisionLayers { get; } // layers collider is on
         public HashSet<int> TargetCollisionLayers { get; } // layers collider checks collision with
 

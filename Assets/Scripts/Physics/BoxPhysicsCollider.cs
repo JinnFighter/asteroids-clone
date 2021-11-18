@@ -19,6 +19,7 @@ namespace Physics
 
         public override void UpdatePosition(float x, float y)
         {
+            Position = new Vector2(x, y);
             var halfWidth = Width / 2;
             var halfHeight = Height / 2;
             TopLeft = new Vector2(x - halfWidth, y - halfHeight);

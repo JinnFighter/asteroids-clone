@@ -51,6 +51,7 @@ namespace Logic
                 .AddService(new SaucerConfig())
                 .AddService(new LaserConfig{ ReloadTime = 7f, LaserLifeTime = 0.2f })
                 .AddService(new BulletConfig{ LifeTime = 4f })
+                .AddService(new ScoreConfig{ AsteroidScore = 10, SaucerScore = 50 })
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())

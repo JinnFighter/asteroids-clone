@@ -52,9 +52,10 @@ namespace Physics
         public int GetBoxIndex(BoxPhysicsCollider boxCollider)
         {
             var index = -1;
-            
-            var colliderMin = boxCollider.TopLeft;
-            var colliderMax = boxCollider.DownRight;
+
+            var rectangle = boxCollider.Rectangle;
+            var colliderMin = rectangle.Min;
+            var colliderMax = rectangle.Max;
             
             var isInTop = colliderMin.Y >= _bounds.Min.Y && colliderMax.Y <= _bounds.Position.Y;
             var isInBottom = colliderMin.Y > _bounds.Position.Y && colliderMax.Y <= _bounds.Max.Y;

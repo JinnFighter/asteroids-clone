@@ -40,8 +40,8 @@ namespace Physics
 
         public bool HasCollisionRayAndBox(BoxPhysicsCollider other)
         {
-            var point1 = other.TopLeft - Direction;
-            var point2 = other.DownRight - Direction;
+            var point1 = other.Rectangle.Min - Direction;
+            var point2 = other.Rectangle.Max - Direction;
 
             var t1 = new Vector2(point1.X * Direction.X, point1.Y * Direction.Y);
             var t2 = new Vector2(point2.X * Direction.X, point2.Y * Direction.Y);

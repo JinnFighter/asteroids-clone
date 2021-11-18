@@ -15,7 +15,7 @@ namespace Logic.Events
         public void HandleEvent<C>(T context) where C : struct
         {
             if(_dictionary.TryGetValue(typeof(C), out var handlerContainer))
-                handlerContainer.OnCreateEvent(context);
+                handlerContainer.HandleEvent(context);
         }
 
         public void AddHandler<C>(IEventHandler<T> handler) where C : struct

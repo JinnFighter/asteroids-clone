@@ -19,7 +19,7 @@ namespace Logic.Systems.Gameplay
         public void Init(EcsWorld world)
         {
             _scoreContainer.UpdateScore(0);
-            _scoreEventHandlerContainer.OnCreateEvent(_scoreContainer);
+            _scoreEventHandlerContainer.HandleEvent(_scoreContainer);
         }
     }
 }

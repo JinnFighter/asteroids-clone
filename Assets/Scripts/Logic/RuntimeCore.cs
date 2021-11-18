@@ -143,6 +143,7 @@ namespace Logic
                 .AddRunSystem(new SpawnBulletSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Bullet>()))
                 .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
+                .AddOnDestroySystem(new DestroyTransformSystem())
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()
                 .OneFrame<LaserFireInputAction>()

@@ -93,6 +93,8 @@ namespace Logic
 
             var physicsBodyBuilder =
                 new PhysicsBodyBuilder(transformHandlerKeeper, rigidBodyHandlerKeeper, collisionLayersContainer);
+
+            var quadTree = _systems.GetService<QuadTree>();
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
@@ -115,7 +117,8 @@ namespace Logic
                     _systems.GetService<PhysicsConfiguration>()), disableOnGameOverTag)
                 .AddRunSystem(new RotatePhysicsBodiesSystem(), disableOnGameOverTag)
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig), disableOnGameOverTag)
-                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer, _systems.GetService<QuadTree>()), disableOnGameOverTag)
+                .AddRunSystem(new FillQuadTreeSystem(quadTree), disableOnGameOverTag)
+                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer, quadTree), disableOnGameOverTag)
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckBulletCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckAsteroidCollisionsSystem(collisionsContainer))

@@ -46,6 +46,7 @@ namespace Logic
             _systems
                 .AddService(gameFieldConfig)
                 .AddService(physicsConfiguration)
+                .AddService(new ShipConfig{ GunPositionOffset = 0.5f })
                 .AddService(new AsteroidConfig{ DefaultMass = 10f, MinRespawnTime = 3, MaxRespawnTime = 5, 
                     MinAngle = 15, MaxAngle = 165, MinStage = 1, MaxStage = 4, VelocityCoefficient = 3f })
                 .AddService(new SaucerConfig())

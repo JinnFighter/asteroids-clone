@@ -42,6 +42,7 @@ namespace Logic.Systems.Gameplay
                 _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.AsteroidsLayer);
                 _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.ShipsLayer);
                 _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.SaucersLayer);
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.BulletsLayer);
 
                 entity.AddComponent(_physicsBodyBuilder.GetResult());
                 

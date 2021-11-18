@@ -4,8 +4,9 @@ namespace Common
 {
     public class Geometry
     {
-        public static bool HasIntersectionRayAndRectangle(Vector2 direction, Rectangle rectangle)
+        public static bool HasIntersectionRayAndRectangle(Ray ray, Rectangle rectangle)
         {
+            var direction = ray.Direction;
             var point1 = rectangle.Min - direction;
             var point2 = rectangle.Max - direction;
 

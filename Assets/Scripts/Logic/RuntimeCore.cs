@@ -48,7 +48,7 @@ namespace Logic
                 .AddService(physicsConfiguration)
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new SaucerConfig())
-                .AddService(new LaserConfig())
+                .AddService(new LaserConfig{ ReloadTime = 7f, LaserLifeTime = 0.2f })
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())
@@ -86,6 +86,7 @@ namespace Logic
             var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
 
             var saucerConfig = _systems.GetService<SaucerConfig>();
+            var laserConfig = _systems.GetService<LaserConfig>();
             
             var transformHandlerKeeper = _systems.GetService<TransformHandlerKeeper>();
             var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
@@ -102,7 +103,7 @@ namespace Logic
                 .AddInitSystem(new CreatePlayerShipSystem(colliderFactoryContainer, physicsBodyBuilder))
                 .AddInitSystem(new CreatePlayerInputReceiverSystem(_systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
-                .AddInitSystem(new CreateLaserSystem(ammoMagazineHandlerKeeper, timerHandlerKeeper))
+                .AddInitSystem(new CreateLaserGunSystem(laserConfig, ammoMagazineHandlerKeeper, timerHandlerKeeper))
                 .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
                 .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
@@ -113,7 +114,7 @@ namespace Logic
                 .AddRunSystem(new CheckSaucerDirectionSystem())
                 .AddRunSystem(new CheckBulletFireActionSystem())
                 .AddRunSystem(new ShootLaserSystem())
-                .AddRunSystem(new StartReloadingLaserSystem())
+                .AddRunSystem(new StartReloadingLaserSystem(laserConfig))
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()), disableOnGameOverTag)
                 .AddRunSystem(new RotatePhysicsBodiesSystem(), disableOnGameOverTag)
@@ -142,7 +143,7 @@ namespace Logic
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer.GetFactory<Asteroid>(),
                     _systems.GetService<ComponentEventHandlerContainer>(), physicsBodyBuilder))
                 .AddRunSystem(new SpawnBulletSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Bullet>()))
-                .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder))
+                .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder, laserConfig))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<LookInputAction>()
                 .OneFrame<FireInputAction>()

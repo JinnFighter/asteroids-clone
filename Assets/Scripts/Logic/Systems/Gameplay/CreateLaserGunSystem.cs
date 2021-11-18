@@ -3,19 +3,22 @@ using Ecs.Interfaces;
 using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Components.Time;
+using Logic.Config;
 using Logic.Events;
 using Logic.Weapons;
 
 namespace Logic.Systems.Gameplay
 {
-    public class CreateLaserSystem : IEcsInitSystem
+    public class CreateLaserGunSystem : IEcsInitSystem
     {
+        private readonly LaserConfig _laserConfig;
         private readonly AmmoMagazineHandlerKeeper _ammoMagazineHandlerKeeper;
         private readonly TimerHandlerKeeper _timerHandlerKeeper;
 
-        public CreateLaserSystem(AmmoMagazineHandlerKeeper ammoMagazineHandlerKeeper,
+        public CreateLaserGunSystem(LaserConfig laserConfig, AmmoMagazineHandlerKeeper ammoMagazineHandlerKeeper,
             TimerHandlerKeeper timerHandlerKeeper)
         {
+            _laserConfig = laserConfig;
             _ammoMagazineHandlerKeeper = ammoMagazineHandlerKeeper;
             _timerHandlerKeeper = timerHandlerKeeper;
         }
@@ -31,7 +34,7 @@ namespace Logic.Systems.Gameplay
                 _ammoMagazineHandlerKeeper.HandleEvent<LaserGun>(laserAmmoMagazine);
                 var laser = new LaserGun { AmmoMagazine = laserAmmoMagazine };
                 entity.AddComponent(laser);
-                var gameplayTimer = new GameplayTimer { StartTime = 7f, CurrentTime = 7f };
+                var gameplayTimer = new GameplayTimer { StartTime = _laserConfig.ReloadTime, CurrentTime = _laserConfig.ReloadTime };
                 _timerHandlerKeeper.HandleEvent<LaserGun>(gameplayTimer);
                 entity.AddComponent(new Timer{ GameplayTimer = gameplayTimer });
             }

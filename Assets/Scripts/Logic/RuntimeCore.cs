@@ -165,8 +165,7 @@ namespace Logic
             deltaTimeCounter.Reset();
             
             _systems.Run(_world);
-            _world.RemoveEmptyEntities();
-            
+
             timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
 

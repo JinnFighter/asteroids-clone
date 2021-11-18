@@ -13,7 +13,7 @@ namespace Ecs
             Entities = new List<EcsEntity>(entities);
         }
 
-        public void UpdateFilter(EcsWorld world)
+        internal void UpdateFilter(EcsWorld world)
         {
             RemoveEntitiesWithoutComponents();
             foreach (var newEntity in GetNewEntities(world).Except(Entities))
@@ -39,7 +39,7 @@ namespace Ecs
     
     public class EcsFilter<C> : EcsFilter where C : struct
     {
-        public EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
+        internal EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
         {
         }
 
@@ -67,7 +67,7 @@ namespace Ecs
         where C : struct
         where C1 : struct
     {
-        public EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
+        internal EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
         {
         }
 
@@ -97,7 +97,7 @@ namespace Ecs
         where C1 : struct
         where C2 : struct
     {
-        public EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
+        internal EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
         {
         }
 
@@ -129,7 +129,7 @@ namespace Ecs
         where C2 : struct
         where C3 : struct
     {
-        public EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
+        internal EcsFilter(IEnumerable<EcsEntity> entities) : base(entities)
         {
         }
 

@@ -41,16 +41,6 @@ namespace Ecs
             }
         }
 
-        public T TryGetComponent<T>(Func<T> defaultFunc) where T : struct
-        {
-            if (HasComponent<T>())
-                return GetComponent<T>();
-
-            var component = defaultFunc();
-            AddComponent(component);
-            return component;
-        }
-
         public int GetComponentsCount() => _componentIndexes.Count;
     }
 }

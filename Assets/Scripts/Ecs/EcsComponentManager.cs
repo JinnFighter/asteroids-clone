@@ -7,7 +7,7 @@ namespace Ecs
     {
         private readonly Dictionary<Type, object> _componentContainers;
 
-        public EcsComponentManager()
+        internal EcsComponentManager()
         {
             _componentContainers = new Dictionary<Type, object>();
         }

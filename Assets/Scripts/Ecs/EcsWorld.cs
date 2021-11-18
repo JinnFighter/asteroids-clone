@@ -94,21 +94,21 @@ namespace Ecs
             return res;
         }
 
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T>() where T : struct 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T>() where T : struct 
             => _entities.Where(entity => entity.HasComponent<T>());
         
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1>() 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1>() 
             where T : struct
             where T1 : struct
             => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>());
         
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2>() 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2>() 
             where T : struct
             where T1 : struct
             where T2 : struct
             => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>() && entity.HasComponent<T2>());
         
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2, T3>() 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2, T3>() 
             where T : struct
             where T1 : struct
             where T2 : struct
@@ -119,7 +119,7 @@ namespace Ecs
                                          && entity.HasComponent<T3>());
         
 
-        public void RemoveEmptyEntities()
+        internal void RemoveEmptyEntities()
         {
             var emptyEntities = _entities.Where(entity => entity.GetComponentsCount() == 0).ToList();
 

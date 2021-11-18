@@ -43,9 +43,7 @@ namespace Ecs
             return this;
         }
 
-        public EcsSystems AddService<T>(in T obj) => UpdateServicesContainer(obj);
-
-        private EcsSystems UpdateServicesContainer<T>(in T obj)
+        public EcsSystems AddService<T>(in T obj)
         {
             _services[typeof(T)] = obj;
             return this;
@@ -90,6 +88,8 @@ namespace Ecs
 
             foreach (var removeOneFrameSystem in _removeOneFrameSystems)
                 removeOneFrameSystem.Run(world);
+            
+            world.RemoveEmptyEntities();
         }
 
         public EcsSystems OneFrame<T>() where T : struct

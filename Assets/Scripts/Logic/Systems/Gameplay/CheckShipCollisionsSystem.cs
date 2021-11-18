@@ -26,6 +26,7 @@ namespace Logic.Systems.Gameplay
                     && collisionInfos.Any())
                 {
                     var entity = filter.GetEntity(index);
+                    entity.AddComponent(new DestroyEvent());
                     entity.AddComponent(new GameOverEvent());
                 }
             }

@@ -50,7 +50,7 @@ namespace Logic
                 .AddService(new AsteroidConfig{ DefaultMass = 10f, MinRespawnTime = 3, MaxRespawnTime = 5, 
                     MinAngle = 15, MaxAngle = 165, MinStage = 1, MaxStage = 4, VelocityCoefficient = 3f })
                 .AddService(new SaucerConfig())
-                .AddService(new LaserConfig{ ReloadTime = 7f, LaserLifeTime = 0.2f })
+                .AddService(new LaserConfig{ ReloadTime = 5f, LaserLifeTime = 0.2f })
                 .AddService(new BulletConfig{ LifeTime = 4f })
                 .AddService(new ScoreConfig{ AsteroidScore = 10, SaucerScore = 50 })
                 .AddService(new CollisionLayersConfig{ AsteroidsLayer = "Asteroids", ShipsLayer = "Ships", 

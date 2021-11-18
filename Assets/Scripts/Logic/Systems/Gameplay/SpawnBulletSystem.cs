@@ -12,12 +12,14 @@ namespace Logic.Systems.Gameplay
 {
     public class SpawnBulletSystem : IEcsRunSystem
     {
+        private readonly CollisionLayersConfig _collisionLayersConfig;
         private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
         private readonly IColliderFactory _colliderFactory;
         private readonly BulletConfig _bulletConfig;
 
-        public SpawnBulletSystem(IPhysicsBodyBuilder physicsBodyBuilder, IColliderFactory colliderFactory, BulletConfig bulletConfig)
+        public SpawnBulletSystem(CollisionLayersConfig collisionLayersConfig, IPhysicsBodyBuilder physicsBodyBuilder, IColliderFactory colliderFactory, BulletConfig bulletConfig)
         {
+            _collisionLayersConfig = collisionLayersConfig;
             _physicsBodyBuilder = physicsBodyBuilder;
             _colliderFactory = colliderFactory;
             _bulletConfig = bulletConfig;
@@ -41,9 +43,9 @@ namespace Logic.Systems.Gameplay
                 
                 _physicsBodyBuilder.AddRigidBody<Bullet>(new PhysicsRigidBody { Mass = 1f, Velocity = createBulletEvent.Velocity, UseGravity = false });
                 _physicsBodyBuilder.AddCollider(_colliderFactory.CreateCollider(position));
-                _physicsBodyBuilder.AddTargetCollisionLayer("asteroids");
-                _physicsBodyBuilder.AddTargetCollisionLayer("ships");
-                _physicsBodyBuilder.AddTargetCollisionLayer("saucers");
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.AsteroidsLayer);
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.ShipsLayer);
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.SaucersLayer);
 
                 entity.AddComponent(_physicsBodyBuilder.GetResult());
             

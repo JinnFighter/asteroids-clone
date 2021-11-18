@@ -3,6 +3,7 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
+using Logic.Config;
 using Logic.Factories;
 using Physics;
 
@@ -10,11 +11,14 @@ namespace Logic.Systems.Gameplay
 {
     public class SpawnSaucerSystem : IEcsRunSystem
     {
+        private readonly CollisionLayersConfig _collisionLayersConfig;
         private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
         private readonly IColliderFactory _colliderFactory;
 
-        public SpawnSaucerSystem(IPhysicsBodyBuilder physicsBodyBuilder, IColliderFactory colliderFactory)
+        public SpawnSaucerSystem(CollisionLayersConfig collisionLayersConfig, IPhysicsBodyBuilder physicsBodyBuilder, 
+            IColliderFactory colliderFactory)
         {
+            _collisionLayersConfig = collisionLayersConfig;
             _physicsBodyBuilder = physicsBodyBuilder;
             _colliderFactory = colliderFactory;
         }
@@ -36,8 +40,8 @@ namespace Logic.Systems.Gameplay
                     { Position = createSaucerEvent.Position, Rotation = 0f, Direction = Vector2.Zero });
                 _physicsBodyBuilder.AddRigidBody<Saucer>(new PhysicsRigidBody { Mass = 1f, UseGravity = false });
                 _physicsBodyBuilder.AddCollider(_colliderFactory.CreateCollider(position));
-                _physicsBodyBuilder.AddCollisionLayer("saucers");
-                _physicsBodyBuilder.AddTargetCollisionLayer("ships");
+                _physicsBodyBuilder.AddCollisionLayer(_collisionLayersConfig.SaucersLayer);
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.ShipsLayer);
                 
                 entity.AddComponent(_physicsBodyBuilder.GetResult());
 

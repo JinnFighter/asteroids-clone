@@ -88,6 +88,7 @@ namespace Logic
 
             var saucerConfig = _systems.GetService<SaucerConfig>();
             var laserConfig = _systems.GetService<LaserConfig>();
+            var bulletConfig = _systems.GetService<BulletConfig>();
             
             var transformHandlerKeeper = _systems.GetService<TransformHandlerKeeper>();
             var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
@@ -143,7 +144,7 @@ namespace Logic
                 .AddRunSystem(new SpawnSaucerSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Saucer>()))
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer.GetFactory<Asteroid>(),
                     _systems.GetService<ComponentEventHandlerContainer>(), physicsBodyBuilder))
-                .AddRunSystem(new SpawnBulletSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Bullet>()))
+                .AddRunSystem(new SpawnBulletSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Bullet>(), bulletConfig))
                 .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder, laserConfig))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
                 .OneFrame<LookInputAction>()

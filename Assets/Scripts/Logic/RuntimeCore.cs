@@ -91,6 +91,7 @@ namespace Logic
             var saucerConfig = _systems.GetService<SaucerConfig>();
             var laserConfig = _systems.GetService<LaserConfig>();
             var bulletConfig = _systems.GetService<BulletConfig>();
+            var scoreConfig = _systems.GetService<ScoreConfig>();
             
             var transformHandlerKeeper = _systems.GetService<TransformHandlerKeeper>();
             var rigidBodyHandlerKeeper = _systems.GetService<RigidBodyHandlerKeeper>();
@@ -136,7 +137,7 @@ namespace Logic
                 .AddRunSystem(new CreateDestroyBulletEventSystem())
                 .AddRunSystem(new DestroyBulletsSystem())
                 .AddRunSystem(new DestroyLaserSystem())
-                .AddRunSystem(new DestroyAsteroidsSystem(asteroidConfig, randomizer))
+                .AddRunSystem(new DestroyAsteroidsSystem(scoreConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroySaucerSystem())
                 .AddRunSystem(new DestroyPhysicsBodySystem())

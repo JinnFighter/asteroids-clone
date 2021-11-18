@@ -9,11 +9,13 @@ namespace Logic.Systems.Gameplay
 {
     public class DestroyAsteroidsSystem : IEcsRunSystem
     {
+        private readonly ScoreConfig _scoreConfig;
         private readonly AsteroidConfig _asteroidConfig;
         private readonly IRandomizer _randomizer;
 
-        public DestroyAsteroidsSystem(AsteroidConfig asteroidConfig, IRandomizer randomizer)
+        public DestroyAsteroidsSystem(ScoreConfig scoreConfig, AsteroidConfig asteroidConfig, IRandomizer randomizer)
         {
+            _scoreConfig = scoreConfig;
             _asteroidConfig = asteroidConfig;
             _randomizer = randomizer;
         }
@@ -43,7 +45,7 @@ namespace Logic.Systems.Gameplay
                 
                 entity.RemoveComponent<Asteroid>();
                 
-                entity.AddComponent(new UpdateScoreEvent{ Score = 10 * asteroid.Stage });
+                entity.AddComponent(new UpdateScoreEvent{ Score = _scoreConfig.AsteroidScore * asteroid.Stage });
             }
         }
     }

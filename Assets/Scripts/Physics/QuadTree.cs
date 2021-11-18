@@ -144,5 +144,20 @@ namespace Physics
                 }
             }
         }
+
+        public IEnumerable<PhysicsCollider> GetPossibleCollisions(PhysicsCollider collider) => GetPossibleCollisionsInternal(collider, 
+            new List<PhysicsCollider>());
+
+        private IEnumerable<PhysicsCollider> GetPossibleCollisionsInternal(PhysicsCollider collider,
+            List<PhysicsCollider> possibleCollisions)
+        {
+            var index = GetIndex(collider);
+            if (index > -1 && _nodes.Any())
+                _nodes[index].GetPossibleCollisionsInternal(collider, possibleCollisions);
+            
+            possibleCollisions.AddRange(_objects);
+
+            return possibleCollisions;
+        }
     }
 }

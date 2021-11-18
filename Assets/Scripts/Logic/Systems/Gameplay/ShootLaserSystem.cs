@@ -22,7 +22,7 @@ namespace Logic.Systems.Gameplay
                     var transform = physicsBody.Transform;
                     magazine.Shoot();
                     var entity = filter.GetEntity(index);
-                    entity.AddComponent(new CreateLaserEvent{ Position = transform.Position + transform.Direction * 0.25f,
+                    entity.AddComponent(new CreateLaserEvent{ Position = transform.Position + transform.Direction * 0.5f,
                         Rotation =  transform.Rotation, Direction = transform.Direction });
                 }
             }

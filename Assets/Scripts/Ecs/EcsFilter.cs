@@ -35,6 +35,15 @@ namespace Ecs
         public bool IsEmpty() => Entities.Count == 0;
 
         public EcsEntity GetEntity(int index) => Entities[index];
+
+        protected abstract void ClearComponents(EcsEntity entity);
+        internal void Clear()
+        {
+            foreach (var entity in Entities)
+                ClearComponents(entity);
+
+            Entities.Clear();
+        }
     }
     
     public class EcsFilter<C> : EcsFilter where C : struct
@@ -51,6 +60,11 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C>();
+        protected override void ClearComponents(EcsEntity entity)
+        {
+            if(entity.HasComponent<C>())
+                entity.RemoveComponent<C>();
+        }
 
         public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
 
@@ -79,7 +93,15 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1>();
-        
+        protected override void ClearComponents(EcsEntity entity)
+        {
+            if(entity.HasComponent<C>())
+                entity.RemoveComponent<C>();
+            
+            if(entity.HasComponent<C1>())
+                entity.RemoveComponent<C1>();
+        }
+
         public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
         public ref C1 Get2(int index) => ref Entities[index].GetComponent<C1>();
 
@@ -109,7 +131,16 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1, C2>();
-        
+        protected override void ClearComponents(EcsEntity entity)
+        {
+            if(entity.HasComponent<C>())
+                entity.RemoveComponent<C>();
+            if(entity.HasComponent<C1>())
+                entity.RemoveComponent<C1>();
+            if(entity.HasComponent<C2>())
+                entity.RemoveComponent<C2>();
+        }
+
         public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
         public ref C1 Get2(int index) => ref Entities[index].GetComponent<C1>();
         public ref C2 Get3(int index) => ref Entities[index].GetComponent<C2>();
@@ -144,7 +175,18 @@ namespace Ecs
         }
 
         protected override IEnumerable<EcsEntity> GetNewEntities(EcsWorld world) => world.GetEntitiesForFilter<C, C1, C2, C3>();
-        
+        protected override void ClearComponents(EcsEntity entity)
+        {
+            if(entity.HasComponent<C>())
+                entity.RemoveComponent<C>();
+            if(entity.HasComponent<C1>())
+                entity.RemoveComponent<C1>();
+            if(entity.HasComponent<C2>())
+                entity.RemoveComponent<C2>();
+            if(entity.HasComponent<C3>())
+                entity.RemoveComponent<C3>();
+        }
+
         public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
         public ref C1 Get2(int index) => ref Entities[index].GetComponent<C1>();
         public ref C2 Get3(int index) => ref Entities[index].GetComponent<C2>();

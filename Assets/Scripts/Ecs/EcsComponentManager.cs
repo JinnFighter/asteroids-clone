@@ -61,5 +61,7 @@ namespace Ecs
 
             componentContainer.RemoveItem(index);
         }
+
+        public void Destroy() => _componentContainers.Clear();
     }
 }

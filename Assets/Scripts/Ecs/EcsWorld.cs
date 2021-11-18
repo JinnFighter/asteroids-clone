@@ -130,6 +130,15 @@ namespace Ecs
             }
         }
 
-        public void Destroy() => _entities.Clear();
+        public void Destroy()
+        {
+            _entities.Clear();
+            foreach (var filter in _filters)
+                filter.Clear();
+            
+            _filters.Clear();
+            _entityPool.Clear();
+            _componentManager.Destroy();
+        }
     }
 }

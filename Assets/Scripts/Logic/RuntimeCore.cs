@@ -91,6 +91,7 @@ namespace Logic
 
             var targetTransformContainer = _systems.GetService<TargetTransformContainer>();
 
+            var shipConfig = _systems.GetService<ShipConfig>();
             var saucerConfig = _systems.GetService<SaucerConfig>();
             var laserConfig = _systems.GetService<LaserConfig>();
             var bulletConfig = _systems.GetService<BulletConfig>();
@@ -121,8 +122,8 @@ namespace Logic
                 .AddRunSystem(new MoveShipsSystem())
                 .AddRunSystem(new RotatePlayerShipSystem())
                 .AddRunSystem(new CheckSaucerDirectionSystem())
-                .AddRunSystem(new CheckBulletFireActionSystem())
-                .AddRunSystem(new ShootLaserSystem())
+                .AddRunSystem(new CheckBulletFireActionSystem(shipConfig))
+                .AddRunSystem(new ShootLaserSystem(shipConfig))
                 .AddRunSystem(new StartReloadingLaserSystem(laserConfig))
                 .AddRunSystem(new UpdatePhysicsBodiesSystem(timeContainer,
                     _systems.GetService<PhysicsConfiguration>()), disableOnGameOverTag)

@@ -79,6 +79,12 @@ namespace Physics
             return index;
         }
 
+        public int GetRayIndex(RayPhysicsCollider rayCollider)
+        {
+            var index = -1;
+            return index;
+        }
+
         public void Insert(PhysicsCollider collider)
         {
             if (_nodes.Any())

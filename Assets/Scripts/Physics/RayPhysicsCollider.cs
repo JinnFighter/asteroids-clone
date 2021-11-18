@@ -37,7 +37,7 @@ namespace Physics
             return false;
         }
 
-        public override int GetQuadTreeIndex(QuadTree quadTree) => -1;
+        public override int GetQuadTreeIndex(QuadTree quadTree) => quadTree.GetRayIndex(this);
 
         public bool HasCollisionRayAndBox(Vector2 position, BoxPhysicsCollider other, Vector2 otherPosition)
         {

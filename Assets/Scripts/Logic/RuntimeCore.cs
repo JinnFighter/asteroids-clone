@@ -146,6 +146,7 @@ namespace Logic
                 .AddRunSystem(new DestroyShipsSystem())
                 .AddRunSystem(new DestroySaucerSystem(scoreConfig))
                 .AddRunSystem(new DestroyPhysicsBodySystem())
+                .AddRunSystem(new DestroyTimersSystem())
                 .AddRunSystem(new UpdateScoreSystem(_systems.GetService<ScoreContainer>()))
                 .AddRunSystem(new CreateAsteroidEventSystem(gameFieldConfig, asteroidConfig, randomizer))
                 .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))

@@ -5,7 +5,7 @@ using Logic.Components.Time;
 
 namespace Logic.Systems.Gameplay
 {
-    public class DestroyTimerSystem : IEcsRunSystem
+    public class DestroyTimersSystem : IEcsRunSystem
     {
         public void Run(EcsWorld ecsWorld)
         {

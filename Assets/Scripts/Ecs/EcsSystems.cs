@@ -86,12 +86,10 @@ namespace Ecs
             {
                 var system = runSystemContainer.System;
                 system.Run(world);
-                world.UpdateFilters();
             }
 
             foreach (var removeOneFrameSystem in _removeOneFrameSystems)
                 removeOneFrameSystem.Run(world);
-            world.UpdateFilters();
         }
 
         public EcsSystems OneFrame<T>() where T : struct

@@ -25,18 +25,16 @@ namespace Ecs
             return entity;
         }
 
-        public void UpdateFilters()
-        {
-            foreach (var filter in _filters)
-                filter.UpdateFilter(this);
-        }
-        
         public EcsFilter<T> GetFilter<T>() where T: struct
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T>)).Cast<EcsFilter<T>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
-            
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
+
             var res = new EcsFilter<T>(GetEntitiesForFilter<T>());
             _filters.Add(res);
             return res;
@@ -48,7 +46,11 @@ namespace Ecs
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1>)).Cast<EcsFilter<T, T1>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
             
             var res = new EcsFilter<T, T1>(GetEntitiesForFilter<T, T1>());
             _filters.Add(res);
@@ -62,7 +64,11 @@ namespace Ecs
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1, T2>)).Cast<EcsFilter<T, T1, T2>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
             
             var res = new EcsFilter<T, T1, T2>(GetEntitiesForFilter<T, T1, T2>());
             _filters.Add(res);
@@ -77,7 +83,11 @@ namespace Ecs
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1, T2, T3>)).Cast<EcsFilter<T, T1, T2, T3>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
             
             var res = new EcsFilter<T, T1, T2, T3>(GetEntitiesForFilter<T, T1, T2, T3>());
             _filters.Add(res);

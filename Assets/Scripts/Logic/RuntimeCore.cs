@@ -1,3 +1,4 @@
+using Common;
 using Ecs;
 using Ecs.Interfaces;
 using Helpers;
@@ -40,15 +41,18 @@ namespace Logic
             colliderFactoryContainer.AddColliderFactory<Asteroid>(new DefaultAsteroidColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Saucer>(new DefaultShipColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Laser>(new DefaultLaserColliderFactory());
-            
+
+            var gameFieldConfig = new GameFieldConfig(18, 10);
             _systems
-                .AddService(new GameFieldConfig(18, 10))
+                .AddService(gameFieldConfig)
                 .AddService(physicsConfiguration)
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new SaucerConfig())
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())
+                .AddService(new QuadTree(0, new Rectangle(Vector2.Zero, gameFieldConfig.Width,
+                    gameFieldConfig.Height)))
                 .AddService(new TransformHandlerKeeper())
                 .AddService(new RigidBodyHandlerKeeper())
                 .AddService(new PlayerInputHandlerKeeper())

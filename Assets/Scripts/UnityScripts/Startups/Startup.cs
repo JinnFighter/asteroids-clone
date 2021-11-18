@@ -72,7 +72,7 @@ namespace UnityScripts.Startups
                 _runtimeCore.GetService<PlayerInputHandlerKeeper>(), gameObjectHandlerKeeper))
                 .AddInitSystem(new InitTransformHandlersSystem<Ship>(gameObjectHandlerKeeper, transformHandlerKeeper, 
                     new PrefabObjectFactory(_prefabsContainer.ShipPrefab), transformPresenterFactory, shipColliderFactory))
-                .AddInitSystem(new InitShipTransformUiHandlersSystem( transformHandlerKeeper, transformPresenterFactory,
+                .AddInitSystem(new InitShipTransformUiHandlersSystem(transformHandlerKeeper, new UiTransformPresenterFactory(),
                     ShipUiView.GetComponent<UiTransformBodyView>()))
                 .AddInitSystem(new InitShipRigidBodyHandlersSystem(rigidBodyHandlerKeeper, 
                     ShipUiView.GetComponent<UiPhysicsRigidBodyView>()))

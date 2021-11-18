@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Physics;
@@ -9,33 +10,34 @@ namespace Logic.Systems.Physics
     public sealed class CheckCollisionsSystem : IEcsRunSystem
     {
         private readonly CollisionsContainer _collisionsContainer;
+        private readonly QuadTree _quadTree;
 
-        public CheckCollisionsSystem(CollisionsContainer collisionsContainer)
+        public CheckCollisionsSystem(CollisionsContainer collisionsContainer, QuadTree quadTree)
         {
             _collisionsContainer = collisionsContainer;
+            _quadTree = quadTree;
         }
         
         public void Run(EcsWorld ecsWorld)
         {
             var filter = ecsWorld.GetFilter<PhysicsBody>();
 
-            foreach (var i in filter)
+            _quadTree.Clear();
+
+            foreach (var index in filter)
             {
-                foreach (var j in filter)
+                var physicsBody = filter.Get1(index);
+                _quadTree.Insert(physicsBody.Collider);
+            }
+            foreach (var index in filter)
+            {
+                var physicsBody = filter.Get1(index);
+                var collider = physicsBody.Collider;
+                var possibleCollisions = _quadTree.GetPossibleCollisions(collider);
+                foreach (var otherCollider in possibleCollisions.Where(otherCollider => collider.HasCollision(otherCollider)))
                 {
-                    if (i != j)
-                    {
-                        ref var firstBody = ref filter.Get1(i);
-                        ref var secondBody = ref filter.Get1(j);
-                        var firstCollider = firstBody.Collider;
-                        var secondCollider = secondBody.Collider;
-                        if (firstBody.Collider.HasCollision(firstBody.Transform.Position, secondCollider,
-                            secondBody.Transform.Position))
-                        {
-                            CreateCollisionInfo(firstCollider, secondCollider);
-                            CreateCollisionInfo(secondCollider, firstCollider);
-                        }
-                    }
+                    CreateCollisionInfo(collider, otherCollider);
+                    CreateCollisionInfo(otherCollider, collider);
                 }
             }
         }

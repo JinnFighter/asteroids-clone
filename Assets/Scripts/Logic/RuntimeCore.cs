@@ -115,7 +115,7 @@ namespace Logic
                     _systems.GetService<PhysicsConfiguration>()), disableOnGameOverTag)
                 .AddRunSystem(new RotatePhysicsBodiesSystem(), disableOnGameOverTag)
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig), disableOnGameOverTag)
-                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer), disableOnGameOverTag)
+                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer, _systems.GetService<QuadTree>()), disableOnGameOverTag)
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckBulletCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckAsteroidCollisionsSystem(collisionsContainer))

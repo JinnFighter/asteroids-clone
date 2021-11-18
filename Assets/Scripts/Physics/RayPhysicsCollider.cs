@@ -25,21 +25,20 @@ namespace Physics
             Position = new Vector2(x, y);
         }
 
-        protected override bool HasCollisionInternal(Vector2 position, PhysicsCollider other, Vector2 otherPosition)
-            => other.HasCollisionWithRay(otherPosition, this, position);
+        protected override bool HasCollisionInternal(PhysicsCollider other)
+            => other.HasCollisionWithRay(this);
 
-        protected internal override bool HasCollisionWithBox(Vector2 position, BoxPhysicsCollider other,
-            Vector2 otherPosition)
-            => HasCollisionRayAndBox(position, other, otherPosition);
+        protected internal override bool HasCollisionWithBox(BoxPhysicsCollider other)
+            => HasCollisionRayAndBox(other);
 
-        protected internal override bool HasCollisionWithRay(Vector2 position, RayPhysicsCollider other, Vector2 otherPosition)
+        protected internal override bool HasCollisionWithRay(RayPhysicsCollider other)
         {
             return false;
         }
 
         public override int GetQuadTreeIndex(QuadTree quadTree) => quadTree.GetRayIndex(this);
 
-        public bool HasCollisionRayAndBox(Vector2 position, BoxPhysicsCollider other, Vector2 otherPosition)
+        public bool HasCollisionRayAndBox(BoxPhysicsCollider other)
         {
             var point1 = other.TopLeft - Direction;
             var point2 = other.DownRight - Direction;

@@ -11,7 +11,7 @@ namespace Logic.Events
             _eventHandlers = new List<IEventHandler<T>>();
         }
 
-        public void OnCreateEvent(T context)
+        public void HandleEvent(T context)
         {
             foreach (var handler in _eventHandlers)
                 handler.Handle(context);

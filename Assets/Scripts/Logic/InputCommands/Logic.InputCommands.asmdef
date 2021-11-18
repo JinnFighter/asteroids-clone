@@ -1,0 +1,17 @@
+{
+    "name": "Logic.InputCommands",
+    "rootNamespace": "",
+    "references": [
+        "GUID:de3377322b570d04e87f644ca662fd02",
+        "GUID:800389fe4e8e19e4184d37a58c1d1966"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

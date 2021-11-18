@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aa89dd25f57dbc41a910dee1e60940e, type: 3}
+  m_Name: PrefabsContainerScriptable
+  m_EditorClassIdentifier: 
+  ShipPrefab: {fileID: 7198773435553656848, guid: 41a39b6a1da4a684aa2b76513f2f4bd2, type: 3}
+  BigAsteroidPrefab: {fileID: 5209058113071072385, guid: 19c2f243f3e9dbb42b370f0e6d15f643, type: 3}
+  MediumAsteroidsPrefabs:
+  - {fileID: 8463467870775141527, guid: cd1b90a02b8821a4cba2684d73e55135, type: 3}
+  - {fileID: 2932468951150079694, guid: 2dcfd28d8f2a0c643ac36bda65af800d, type: 3}
+  - {fileID: 4707339369621394302, guid: c493512e844f1564e99015785b41e935, type: 3}
+  - {fileID: 6779477922637479848, guid: 004c26a740c8c474d8d0edd56f3a587c, type: 3}
+  SmallAsteroidsPrefabs:
+  - {fileID: 4848678286475517779, guid: 650d7692778e1b14192d12a3e35f8673, type: 3}
+  - {fileID: 4139062968670352948, guid: fc2098b734b91904eabf996eae330e2e, type: 3}
+  - {fileID: 8331448637192160725, guid: 3496f8eea3b5ce54086a91219673e5d8, type: 3}
+  - {fileID: 6104130393657859919, guid: 40cfbc12af32151409c3b87baf921493, type: 3}
+  BulletPrefab: {fileID: 8713258604528657353, guid: b4c9b22f2dfbebc41aba088d29ba015c, type: 3}
+  LaserPrefab: {fileID: 7960288843875725088, guid: c6c66eb033ae0244d949e91e049ad67c, type: 3}
+  SaucerPrefab: {fileID: 2029620524765104477, guid: f908dffc68c620b44a1280bbaa1ee8aa, type: 3}

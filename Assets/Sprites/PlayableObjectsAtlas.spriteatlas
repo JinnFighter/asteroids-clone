@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PlayableObjectsAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 00ee64db0c096d346a80ebb10b78eafa, type: 3}
+    - {fileID: 102900000, guid: ffe02fb006b4b994e84d5b4dea44b597, type: 3}
+    - {fileID: 102900000, guid: fa1d2ca1a2afb4f44965ec0ac87980b4, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: f39af881da6e20e4887292948f4510bd, type: 3}
+  - {fileID: 21300000, guid: fce0b6826ee28ec45a73ce3cdf76a375, type: 3}
+  - {fileID: 21300000, guid: 25b733d3c5fe8b04684ab81429b64cac, type: 3}
+  - {fileID: 21300000, guid: a91e9b16d8ae7d24c86424a86cdcf52c, type: 3}
+  - {fileID: 21300000, guid: 9f39c26668b5f954f94356c596bee657, type: 3}
+  - {fileID: 21300000, guid: cfa165f819a14084ca47118fcca38e36, type: 3}
+  - {fileID: 21300000, guid: f4d50f3ad9b03b14e98bb88914258568, type: 3}
+  - {fileID: 21300000, guid: ddc5f74a4b2260a44bf80711f305fe5a, type: 3}
+  - {fileID: 21300000, guid: 6585b58a13ed3904893510f26cec75a9, type: 3}
+  - {fileID: 21300000, guid: 6626303b7ca3cee4e9caf0e87e154769, type: 3}
+  - {fileID: 21300000, guid: 7836501d23c7d794597efa865ddaf70b, type: 3}
+  - {fileID: 21300000, guid: 1a48032d32a389f478cfe3056436ec5c, type: 3}
+  - {fileID: 21300000, guid: 779d03de0a6a777478be7a08b639de4c, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - small_asteroid_2
+  - small_asteroid
+  - ship
+  - big_asteroid
+  - medium_asteroid_1
+  - small_asteroid_3
+  - laser
+  - medium_asteroid_2
+  - small_asteroid_1
+  - medium_asteroid_3
+  - bullet
+  - medium_asteroid
+  - saucer
+  m_RenderDataMap: {}
+  m_Tag: PlayableObjectsAtlas
+  m_IsVariant: 0

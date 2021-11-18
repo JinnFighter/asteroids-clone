@@ -1,0 +1,16 @@
+{
+    "name": "DataContainers",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c7aebff86f7bbba42a82795a075b3e7d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

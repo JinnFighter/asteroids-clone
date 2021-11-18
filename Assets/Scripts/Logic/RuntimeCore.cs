@@ -53,7 +53,7 @@ namespace Logic
                 .AddService(new BulletConfig{ LifeTime = 4f })
                 .AddService(new ScoreConfig{ AsteroidScore = 10, SaucerScore = 50 })
                 .AddService(new CollisionLayersConfig{ AsteroidsLayer = "Asteroids", ShipsLayer = "Ships", 
-                    SaucersLayer = "Saucers" })
+                    SaucersLayer = "Saucers", BulletsLayer = "Bullets" })
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())

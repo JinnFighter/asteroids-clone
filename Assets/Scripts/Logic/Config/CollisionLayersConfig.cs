@@ -5,5 +5,6 @@ namespace Logic.Config
         public string ShipsLayer { get; set; }
         public string AsteroidsLayer { get; set; }
         public string SaucersLayer { get; set; }
+        public string BulletsLayer { get; set; }
     }
 }

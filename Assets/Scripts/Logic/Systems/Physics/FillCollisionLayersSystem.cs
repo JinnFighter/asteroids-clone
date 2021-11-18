@@ -21,6 +21,7 @@ namespace Logic.Systems.Physics
             _collisionLayersContainer.AddData(_collisionLayersConfig.ShipsLayer, 0);
             _collisionLayersContainer.AddData(_collisionLayersConfig.AsteroidsLayer, 1);
             _collisionLayersContainer.AddData(_collisionLayersConfig.SaucersLayer, 2);
+            _collisionLayersContainer.AddData(_collisionLayersConfig.BulletsLayer, 3);
         }
     }
 }

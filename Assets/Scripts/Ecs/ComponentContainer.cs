@@ -48,5 +48,11 @@ namespace Ecs
         public int GetComponentsCount() => _components.Length - _freeIds.Count;
 
         public bool IsAvailable(int index) => index >= 0 && index < _components.Length && !_freeIds.Contains(index);
+
+        void Clear()
+        {
+            _components = null;
+            _freeIds.Clear();
+        }
     }
 }

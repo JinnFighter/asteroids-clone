@@ -5,5 +5,6 @@ namespace Ecs.Interfaces
         int Count();
         T GetItem();
         void AddItem(T item);
+        void Clear();
     }
 }

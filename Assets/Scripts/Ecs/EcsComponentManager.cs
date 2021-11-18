@@ -7,7 +7,7 @@ namespace Ecs
     {
         private readonly Dictionary<Type, object> _componentContainers;
 
-        public EcsComponentManager()
+        internal EcsComponentManager()
         {
             _componentContainers = new Dictionary<Type, object>();
         }
@@ -61,5 +61,7 @@ namespace Ecs
 
             componentContainer.RemoveItem(index);
         }
+
+        public void Destroy() => _componentContainers.Clear();
     }
 }

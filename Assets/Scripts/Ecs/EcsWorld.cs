@@ -25,18 +25,16 @@ namespace Ecs
             return entity;
         }
 
-        public void UpdateFilters()
-        {
-            foreach (var filter in _filters)
-                filter.UpdateFilter(this);
-        }
-        
         public EcsFilter<T> GetFilter<T>() where T: struct
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T>)).Cast<EcsFilter<T>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
-            
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
+
             var res = new EcsFilter<T>(GetEntitiesForFilter<T>());
             _filters.Add(res);
             return res;
@@ -48,7 +46,11 @@ namespace Ecs
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1>)).Cast<EcsFilter<T, T1>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
             
             var res = new EcsFilter<T, T1>(GetEntitiesForFilter<T, T1>());
             _filters.Add(res);
@@ -62,7 +64,11 @@ namespace Ecs
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1, T2>)).Cast<EcsFilter<T, T1, T2>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
             
             var res = new EcsFilter<T, T1, T2>(GetEntitiesForFilter<T, T1, T2>());
             _filters.Add(res);
@@ -77,28 +83,32 @@ namespace Ecs
         {
             var neededFilters = _filters.Where(filter => filter.GetType() == typeof(EcsFilter<T, T1, T2, T3>)).Cast<EcsFilter<T, T1, T2, T3>>().ToList();
             if (neededFilters.Any())
-                return neededFilters.First();
+            {
+                var filter = neededFilters.First();
+                filter.UpdateFilter(this);
+                return filter;
+            }
             
             var res = new EcsFilter<T, T1, T2, T3>(GetEntitiesForFilter<T, T1, T2, T3>());
             _filters.Add(res);
             return res;
         }
 
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T>() where T : struct 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T>() where T : struct 
             => _entities.Where(entity => entity.HasComponent<T>());
         
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1>() 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1>() 
             where T : struct
             where T1 : struct
             => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>());
         
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2>() 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2>() 
             where T : struct
             where T1 : struct
             where T2 : struct
             => _entities.Where(entity => entity.HasComponent<T>() && entity.HasComponent<T1>() && entity.HasComponent<T2>());
         
-        public IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2, T3>() 
+        internal IEnumerable<EcsEntity> GetEntitiesForFilter<T, T1, T2, T3>() 
             where T : struct
             where T1 : struct
             where T2 : struct
@@ -109,7 +119,7 @@ namespace Ecs
                                          && entity.HasComponent<T3>());
         
 
-        public void RemoveEmptyEntities()
+        internal void RemoveEmptyEntities()
         {
             var emptyEntities = _entities.Where(entity => entity.GetComponentsCount() == 0).ToList();
 
@@ -120,6 +130,15 @@ namespace Ecs
             }
         }
 
-        public void Destroy() => _entities.Clear();
+        public void Destroy()
+        {
+            _entities.Clear();
+            foreach (var filter in _filters)
+                filter.Clear();
+            
+            _filters.Clear();
+            _entityPool.Clear();
+            _componentManager.Destroy();
+        }
     }
 }

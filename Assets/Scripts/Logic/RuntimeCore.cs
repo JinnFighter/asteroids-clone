@@ -1,3 +1,4 @@
+using Common;
 using Ecs;
 using Ecs.Interfaces;
 using Helpers;
@@ -40,15 +41,18 @@ namespace Logic
             colliderFactoryContainer.AddColliderFactory<Asteroid>(new DefaultAsteroidColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Saucer>(new DefaultShipColliderFactory());
             colliderFactoryContainer.AddColliderFactory<Laser>(new DefaultLaserColliderFactory());
-            
+
+            var gameFieldConfig = new GameFieldConfig(18, 10);
             _systems
-                .AddService(new GameFieldConfig(18, 10))
+                .AddService(gameFieldConfig)
                 .AddService(physicsConfiguration)
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new SaucerConfig())
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())
+                .AddService(new QuadTree(0, new Rectangle(Vector2.Zero, gameFieldConfig.Width,
+                    gameFieldConfig.Height)))
                 .AddService(new TransformHandlerKeeper())
                 .AddService(new RigidBodyHandlerKeeper())
                 .AddService(new PlayerInputHandlerKeeper())
@@ -89,6 +93,8 @@ namespace Logic
 
             var physicsBodyBuilder =
                 new PhysicsBodyBuilder(transformHandlerKeeper, rigidBodyHandlerKeeper, collisionLayersContainer);
+
+            var quadTree = _systems.GetService<QuadTree>();
             
             _systems
                 .AddInitSystem(new FillCollisionLayersSystem(collisionLayersContainer))
@@ -111,7 +117,8 @@ namespace Logic
                     _systems.GetService<PhysicsConfiguration>()), disableOnGameOverTag)
                 .AddRunSystem(new RotatePhysicsBodiesSystem(), disableOnGameOverTag)
                 .AddRunSystem(new WrapOffScreenObjectsSystem(gameFieldConfig), disableOnGameOverTag)
-                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer), disableOnGameOverTag)
+                .AddRunSystem(new FillQuadTreeSystem(quadTree), disableOnGameOverTag)
+                .AddRunSystem(new CheckCollisionsSystem(collisionsContainer, quadTree), disableOnGameOverTag)
                 .AddRunSystem(new CheckShipCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckBulletCollisionsSystem(collisionsContainer))
                 .AddRunSystem(new CheckAsteroidCollisionsSystem(collisionsContainer))
@@ -158,8 +165,7 @@ namespace Logic
             deltaTimeCounter.Reset();
             
             _systems.Run(_world);
-            _world.RemoveEmptyEntities();
-            
+
             timeContainer.DeltaTime = deltaTimeCounter.GetDeltaTime();
         }
 
@@ -179,7 +185,7 @@ namespace Logic
 
         public void Destroy()
         {
-            _systems.Destroy(_world);
+            _systems.Destroy();
             _world.Destroy();
         }
     }

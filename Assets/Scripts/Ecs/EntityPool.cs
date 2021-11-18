@@ -17,5 +17,7 @@ namespace Ecs
         public EcsEntity GetItem() => _entities.Pop();
 
         public void AddItem(EcsEntity item) => _entities.Push(item);
+        
+        public void Clear() => _entities.Clear();
     }
 }

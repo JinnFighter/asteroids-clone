@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ecs
 {
-    public class EcsFilterEnumerator : IEnumerator<int>
+    internal class EcsFilterEnumerator : IEnumerator<int>
     {
         private readonly int _count;
         private int _position;

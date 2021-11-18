@@ -19,18 +19,17 @@ namespace Physics
 
         public override void UpdatePosition(float x, float y)
         {
+            Position = new Vector2(x, y);
             var halfWidth = Width / 2;
             var halfHeight = Height / 2;
             TopLeft = new Vector2(x - halfWidth, y - halfHeight);
             DownRight = new Vector2(x + halfWidth, y + halfHeight);
         }
 
-        protected override bool HasCollisionInternal(Vector2 position, PhysicsCollider other,
-            Vector2 otherPosition)
-            => other.HasCollisionWithBox(otherPosition, this, position);
+        protected override bool HasCollisionInternal(PhysicsCollider other)
+            => other.HasCollisionWithBox(this);
 
-        protected internal override bool HasCollisionWithBox(Vector2 position, BoxPhysicsCollider other,
-            Vector2 otherPosition)
+        protected internal override bool HasCollisionWithBox(BoxPhysicsCollider other)
         {
             var d1 = other.TopLeft - DownRight;
             var d2 = TopLeft - other.DownRight;
@@ -38,8 +37,9 @@ namespace Physics
             return !(d1.X > 0 || d1.Y > 0 || d2.X > 0 || d2.Y > 0);
         }
 
-        protected internal override bool HasCollisionWithRay(Vector2 position, RayPhysicsCollider other,
-            Vector2 otherPosition)
-            => other.HasCollisionRayAndBox(otherPosition, this, position);
+        protected internal override bool HasCollisionWithRay(RayPhysicsCollider other)
+            => other.HasCollisionRayAndBox(this);
+
+        public override int GetQuadTreeIndex(QuadTree quadTree) => quadTree.GetBoxIndex(this);
     }
 }

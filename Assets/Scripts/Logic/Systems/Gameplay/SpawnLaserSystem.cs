@@ -40,7 +40,6 @@ namespace Logic.Systems.Gameplay
                 _physicsBodyBuilder.AddRigidBody<Laser>(new PhysicsRigidBody { Mass = 1f, UseGravity = false });
                 _physicsBodyBuilder.AddCollider(new RayPhysicsCollider(laserEvent.Position, laserEvent.Direction));
                 _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.AsteroidsLayer);
-                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.ShipsLayer);
                 _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.SaucersLayer);
                 _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.BulletsLayer);
 

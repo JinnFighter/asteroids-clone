@@ -21,16 +21,11 @@ namespace Physics
         protected override bool HasCollisionInternal(PhysicsCollider other)
             => other.HasCollisionWithBox(this);
 
-        protected internal override bool HasCollisionWithBox(BoxPhysicsCollider other)
-        {
-            var d1 = other.Rectangle.Min - Rectangle.Max;
-            var d2 = Rectangle.Min - other.Rectangle.Max;
-
-            return !(d1.X > 0 || d1.Y > 0 || d2.X > 0 || d2.Y > 0);
-        }
+        protected internal override bool HasCollisionWithBox(BoxPhysicsCollider other) =>
+            Geometry.HasIntersectionRectangleAndRectangle(Rectangle, other.Rectangle);
 
         protected internal override bool HasCollisionWithRay(RayPhysicsCollider other)
-            => other.HasCollisionRayAndBox(this);
+            => Geometry.HasIntersectionRayAndRectangle(other.Ray.Direction, Rectangle.Min, Rectangle.Max);
 
         public override int GetQuadTreeIndex(QuadTree quadTree) => quadTree.GetBoxIndex(this);
     }

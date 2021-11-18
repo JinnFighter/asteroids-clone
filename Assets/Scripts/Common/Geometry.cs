@@ -4,11 +4,10 @@ namespace Common
 {
     public class Geometry
     {
-        public static bool HasIntersectionRayAndRectangle(Ray ray, Rectangle rectangle)
+        public static bool HasIntersectionRayAndRectangle(Vector2 direction, Vector2 min, Vector2 max)
         {
-            var direction = ray.Direction;
-            var point1 = rectangle.Min - direction;
-            var point2 = rectangle.Max - direction;
+            var point1 = min - direction;
+            var point2 = max - direction;
 
             var t1 = new Vector2(point1.X * direction.X, point1.Y * direction.Y);
             var t2 = new Vector2(point2.X * direction.X, point2.Y * direction.Y);
@@ -22,7 +21,7 @@ namespace Common
             return tmax >= tmin;
         }
         
-        public static bool HasCollisionRectangleAndRectangle(Rectangle first, Rectangle second)
+        public static bool HasIntersectionRectangleAndRectangle(Rectangle first, Rectangle second)
         {
             var d1 = second.Min - first.Max;
             var d2 = first.Min - second.Max;

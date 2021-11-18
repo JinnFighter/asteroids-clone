@@ -42,6 +42,13 @@ namespace Ecs
                 entity.RemoveComponent<T>();
         }
 
+        protected IEnumerable<EcsEntity> ExcludeInternal<C>() where C : struct =>
+            Entities.Where(entity => !entity.HasComponent<C>());
+
+        protected IEnumerable<EcsEntity> ExcludeInternal<C, C1>() where C : struct
+            where C1 : struct =>
+            Entities.Where(entity => !(entity.HasComponent<C>() || entity.HasComponent<C1>()));
+
         protected abstract void ClearComponents(EcsEntity entity);
         internal void Clear()
         {
@@ -71,12 +78,12 @@ namespace Ecs
         public ref C Get1(int index) => ref Entities[index].GetComponent<C>();
 
         public EcsFilter<C> Exclude<T>() where T : struct =>
-            new EcsFilter<C>(Entities.Where(entity => !entity.HasComponent<T>()));
+            new EcsFilter<C>(ExcludeInternal<T>());
         
         public EcsFilter<C> Exclude<T1, T2>() 
             where T1 : struct 
             where T2 : struct
-            => new EcsFilter<C>(Entities.Where(entity => !(entity.HasComponent<T1>() || entity.HasComponent<T2>())));
+            => new EcsFilter<C>(ExcludeInternal<T1, T2>());
     }
     
     public class EcsFilter<C, C1> : EcsFilter 
@@ -105,12 +112,12 @@ namespace Ecs
         public ref C1 Get2(int index) => ref Entities[index].GetComponent<C1>();
 
         public EcsFilter<C, C1> Exclude<T>() where T : struct =>
-            new EcsFilter<C, C1>(Entities.Where(entity => !entity.HasComponent<T>()));
+            new EcsFilter<C, C1>(ExcludeInternal<T>());
         
-        public EcsFilter<C, C1> Exclude<T, T1>() 
-            where T : struct 
-            where T1 : struct
-            => new EcsFilter<C, C1>(Entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
+        public EcsFilter<C, C1> Exclude<T1, T2>() 
+            where T1 : struct 
+            where T2 : struct
+            => new EcsFilter<C, C1>(ExcludeInternal<T1, T2>());
     }
     
     public class EcsFilter<C, C1, C2> : EcsFilter 
@@ -142,12 +149,12 @@ namespace Ecs
         public ref C2 Get3(int index) => ref Entities[index].GetComponent<C2>();
 
         public EcsFilter<C, C1, C2> Exclude<T>() where T : struct =>
-            new EcsFilter<C, C1, C2>(Entities.Where(entity => !entity.HasComponent<T>()));
+            new EcsFilter<C, C1, C2>(ExcludeInternal<T>());
         
-        public EcsFilter<C, C1, C2> Exclude<T, T1>() 
-            where T : struct 
-            where T1 : struct
-            => new EcsFilter<C, C1, C2>(Entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
+        public EcsFilter<C, C1, C2> Exclude<T1, T2>() 
+            where T1 : struct 
+            where T2 : struct
+            => new EcsFilter<C, C1, C2>(ExcludeInternal<T1, T2>());
     }
     
     public class EcsFilter<C, C1, C2, C3> : EcsFilter 
@@ -185,11 +192,11 @@ namespace Ecs
         public ref C3 Get4(int index) => ref Entities[index].GetComponent<C3>();
 
         public EcsFilter<C, C1, C2, C3> Exclude<T>() where T : struct =>
-            new EcsFilter<C, C1, C2, C3>(Entities.Where(entity => !entity.HasComponent<T>()));
+            new EcsFilter<C, C1, C2, C3>(ExcludeInternal<T>());
         
-        public EcsFilter<C, C1, C2, C3> Exclude<T, T1>() 
-            where T : struct 
-            where T1 : struct
-            => new EcsFilter<C, C1, C2, C3>(Entities.Where(entity => !(entity.HasComponent<T>() || entity.HasComponent<T1>())));
+        public EcsFilter<C, C1, C2, C3> Exclude<T1, T2>() 
+            where T1 : struct 
+            where T2 : struct
+            => new EcsFilter<C, C1, C2, C3>(ExcludeInternal<T1, T2>());
     }
 }

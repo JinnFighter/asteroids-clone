@@ -42,5 +42,7 @@ namespace Physics
         protected internal override bool HasCollisionWithRay(Vector2 position, RayPhysicsCollider other,
             Vector2 otherPosition)
             => other.HasCollisionRayAndBox(otherPosition, this, position);
+
+        public override int GetQuadTreeIndex(QuadTree quadTree) => -1;
     }
 }

@@ -28,5 +28,7 @@ namespace Physics
 
         protected internal abstract bool HasCollisionWithRay(Vector2 position, RayPhysicsCollider other,
             Vector2 otherPosition);
+
+        public abstract int GetQuadTreeIndex(QuadTree quadTree);
     }
 }

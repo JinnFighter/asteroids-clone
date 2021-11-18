@@ -2,7 +2,6 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Time;
-using Logic.Events;
 
 namespace Logic.Systems.Gameplay
 {

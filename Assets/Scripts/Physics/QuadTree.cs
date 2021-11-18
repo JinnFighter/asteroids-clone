@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common;
@@ -52,9 +51,10 @@ namespace Physics
         public int GetBoxIndex(BoxPhysicsCollider boxCollider)
         {
             var index = -1;
-            
-            var colliderMin = boxCollider.TopLeft;
-            var colliderMax = boxCollider.DownRight;
+
+            var rectangle = boxCollider.Rectangle;
+            var colliderMin = rectangle.Min;
+            var colliderMax = rectangle.Max;
             
             var isInTop = colliderMin.Y >= _bounds.Min.Y && colliderMax.Y <= _bounds.Position.Y;
             var isInBottom = colliderMin.Y > _bounds.Position.Y && colliderMax.Y <= _bounds.Max.Y;
@@ -82,31 +82,17 @@ namespace Physics
 
         public int GetRayIndex(RayPhysicsCollider rayCollider)
         {
-            bool HasIntersection(Vector2 direction, Vector2 min, Vector2 max)
-            {
-                var point1 = min - direction;
-                var point2 = max - direction;
-
-                var t1 = new Vector2(point1.X * direction.X, point1.Y * direction.Y);
-                var t2 = new Vector2(point2.X * direction.X, point2.Y * direction.Y);
-
-                var tmin = Math.Min(t1.X, t2.X);
-                var tmax = Math.Max(t1.X, t2.X);
-
-                tmin = Math.Max(tmin, Math.Min(t1.Y, t2.Y));
-                tmax = Math.Min(tmax, Math.Max(t1.Y, t2.Y));
-
-                return tmax >= tmin;
-            }
+            var ray = rayCollider.Ray;
+            var direction = ray.Direction;
             
             var intersections = new List<bool>
             {
-                HasIntersection(rayCollider.Direction, new Vector2(_bounds.Position.X, _bounds.Min.Y),
+                Geometry.HasIntersectionRayAndRectangle(direction, new Vector2(_bounds.Position.X, _bounds.Min.Y),
                     new Vector2(_bounds.Max.X, _bounds.Position.Y)),
-                HasIntersection(rayCollider.Direction, _bounds.Min, _bounds.Position),
-                HasIntersection(rayCollider.Direction, new Vector2(_bounds.Min.X, _bounds.Position.Y),
+                Geometry.HasIntersectionRayAndRectangle(direction, _bounds.Min, _bounds.Position),
+                Geometry.HasIntersectionRayAndRectangle(direction, new Vector2(_bounds.Min.X, _bounds.Position.Y),
                     new Vector2(_bounds.Position.X, _bounds.Max.Y)),
-                HasIntersection(rayCollider.Direction, _bounds.Position, _bounds.Max)
+                Geometry.HasIntersectionRayAndRectangle(direction, _bounds.Position, _bounds.Max)
 
             }.Where(intersection => intersection).ToList();
 

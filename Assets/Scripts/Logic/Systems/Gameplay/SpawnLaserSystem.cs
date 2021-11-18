@@ -3,6 +3,7 @@ using Ecs.Interfaces;
 using Helpers;
 using Logic.Components.Gameplay;
 using Logic.Components.Time;
+using Logic.Config;
 using Logic.Factories;
 using Physics;
 
@@ -10,11 +11,16 @@ namespace Logic.Systems.Gameplay
 {
     public class SpawnLaserSystem : IEcsRunSystem
     {
+        private readonly CollisionLayersConfig _collisionLayersConfig;
         private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
+        private readonly LaserConfig _laserConfig;
 
-        public SpawnLaserSystem(IPhysicsBodyBuilder physicsBodyBuilder)
+        public SpawnLaserSystem(CollisionLayersConfig collisionLayersConfig, IPhysicsBodyBuilder physicsBodyBuilder, 
+            LaserConfig laserConfig)
         {
+            _collisionLayersConfig = collisionLayersConfig;
             _physicsBodyBuilder = physicsBodyBuilder;
+            _laserConfig = laserConfig;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -33,13 +39,14 @@ namespace Logic.Systems.Gameplay
                 _physicsBodyBuilder.AddTransform<Laser>(transform);
                 _physicsBodyBuilder.AddRigidBody<Laser>(new PhysicsRigidBody { Mass = 1f, UseGravity = false });
                 _physicsBodyBuilder.AddCollider(new RayPhysicsCollider(laserEvent.Position, laserEvent.Direction));
-                _physicsBodyBuilder.AddTargetCollisionLayer("asteroids");
-                _physicsBodyBuilder.AddTargetCollisionLayer("ships");
-                _physicsBodyBuilder.AddTargetCollisionLayer("saucers");
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.AsteroidsLayer);
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.SaucersLayer);
+                _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.BulletsLayer);
 
                 entity.AddComponent(_physicsBodyBuilder.GetResult());
                 
-                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = 0.2f, CurrentTime = 0.2f } });
+                entity.AddComponent(new Timer{ GameplayTimer = new GameplayTimer{ StartTime = _laserConfig.LaserLifeTime, 
+                    CurrentTime = _laserConfig.LaserLifeTime } });
                 entity.AddComponent(new Counting());
             }
         }

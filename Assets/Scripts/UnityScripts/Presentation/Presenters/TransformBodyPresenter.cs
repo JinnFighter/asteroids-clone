@@ -13,7 +13,6 @@ namespace UnityScripts.Presentation.Presenters
             _transformBodyModel = transformBodyModel;
             _transformBodyModel.PositionChangedEvent += UpdatePosition;
             _transformBodyModel.RotationChangedEvent += UpdateRotation;
-            _transformBodyModel.DestroyEvent += Destroy;
 
             _transformBodyView = transformBodyView;
             UpdatePosition(transformBodyModel.X, transformBodyModel.Y);
@@ -25,7 +24,7 @@ namespace UnityScripts.Presentation.Presenters
 
         private void UpdateRotation(float rotationAngle) => _transformBodyView.UpdateRotation(rotationAngle);
 
-        private void Destroy()
+        public void Destroy()
         {
             _transformBodyModel.PositionChangedEvent -= UpdatePosition;
             _transformBodyModel.RotationChangedEvent -= UpdateRotation;

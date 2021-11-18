@@ -2,11 +2,19 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.Gameplay;
 using Logic.Components.Time;
+using Logic.Config;
 
 namespace Logic.Systems.Gameplay
 {
     public class StartReloadingLaserSystem : IEcsRunSystem
     {
+        private readonly LaserConfig _laserConfig;
+
+        public StartReloadingLaserSystem(LaserConfig laserConfig)
+        {
+            _laserConfig = laserConfig;
+        }
+        
         public void Run(EcsWorld ecsWorld)
         {
             var filter = ecsWorld.GetFilter<LaserGun, Timer>().Exclude<Counting>();
@@ -19,9 +27,9 @@ namespace Logic.Systems.Gameplay
                 {
                     var timer = filter.Get2(index);
                     var gameplayTimer = timer.GameplayTimer;
-                    var time = 7f;
-                    gameplayTimer.StartTime = time;
-                    gameplayTimer.CurrentTime = time;
+                    var reloadTime = _laserConfig.ReloadTime;
+                    gameplayTimer.StartTime = reloadTime;
+                    gameplayTimer.CurrentTime = reloadTime;
                     var entity = filter.GetEntity(index);
                     entity.AddComponent(new Counting());
                 }

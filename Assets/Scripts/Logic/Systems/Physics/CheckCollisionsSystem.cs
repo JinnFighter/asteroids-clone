@@ -27,7 +27,8 @@ namespace Logic.Systems.Physics
                 var physicsBody = filter.Get1(index);
                 var collider = physicsBody.Collider;
                 var possibleCollisions = _quadTree.GetPossibleCollisions(collider);
-                foreach (var otherCollider in possibleCollisions.Where(otherCollider => collider.HasCollision(otherCollider)))
+                foreach (var otherCollider in possibleCollisions.Where(otherCollider => !collider.Equals(otherCollider) 
+                    && collider.HasCollision(otherCollider)))
                 {
                     CreateCollisionInfo(collider, otherCollider);
                     CreateCollisionInfo(otherCollider, collider);

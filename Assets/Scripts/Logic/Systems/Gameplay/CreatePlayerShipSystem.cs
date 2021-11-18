@@ -3,6 +3,7 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
+using Logic.Config;
 using Logic.Containers;
 using Logic.Factories;
 using Physics;
@@ -11,11 +12,14 @@ namespace Logic.Systems.Gameplay
 {
     public class CreatePlayerShipSystem : IEcsInitSystem
     {
+        private readonly CollisionLayersConfig _collisionLayersConfig;
         private readonly ColliderFactoryContainer _colliderFactoryContainer;
         private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
 
-        public CreatePlayerShipSystem(ColliderFactoryContainer colliderFactoryContainer, IPhysicsBodyBuilder physicsBodyBuilder)
+        public CreatePlayerShipSystem(CollisionLayersConfig collisionLayersConfig, 
+            ColliderFactoryContainer colliderFactoryContainer, IPhysicsBodyBuilder physicsBodyBuilder)
         {
+            _collisionLayersConfig = collisionLayersConfig;
             _colliderFactoryContainer = colliderFactoryContainer;
             _physicsBodyBuilder = physicsBodyBuilder;
         }
@@ -33,8 +37,8 @@ namespace Logic.Systems.Gameplay
             var colliderFactory = _colliderFactoryContainer.GetFactory<Ship>();
             var collider = colliderFactory.CreateCollider(transform.Position);
             _physicsBodyBuilder.AddCollider(collider);
-            _physicsBodyBuilder.AddCollisionLayer("ships");
-            _physicsBodyBuilder.AddTargetCollisionLayer("asteroids");
+            _physicsBodyBuilder.AddCollisionLayer(_collisionLayersConfig.ShipsLayer);
+            _physicsBodyBuilder.AddTargetCollisionLayer(_collisionLayersConfig.AsteroidsLayer);
 
             entity.AddComponent(_physicsBodyBuilder.GetResult());
             

@@ -5,7 +5,7 @@ using UnityScripts.Presentation.Views;
 
 namespace UnityScripts.Factories
 {
-    public class TransformPresenterFactory : ITransformPresenterFactory
+    public class UiTransformPresenterFactory : ITransformPresenterFactory
     {
         public TransformBodyPresenter CreatePresenter(TransformBody transform, ITransformBodyView view)
         {
@@ -13,9 +13,7 @@ namespace UnityScripts.Factories
             transform.PositionChangedEvent += transformBodyModel.UpdatePosition;
             transform.RotationChangedEvent += transformBodyModel.UpdateRotation;
             transform.DestroyEvent += transformBodyModel.Destroy;
-            var presenter = new TransformBodyPresenter(transformBodyModel, view);
-            transformBodyModel.DestroyEvent += presenter.Destroy;
-            return presenter;
+            return new TransformBodyPresenter(transformBodyModel, view);
         }
     }
 }

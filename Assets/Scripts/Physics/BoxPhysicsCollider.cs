@@ -43,6 +43,6 @@ namespace Physics
             Vector2 otherPosition)
             => other.HasCollisionRayAndBox(otherPosition, this, position);
 
-        public override int GetQuadTreeIndex(QuadTree quadTree) => -1;
+        public override int GetQuadTreeIndex(QuadTree quadTree) => quadTree.GetBoxIndex(this);
     }
 }

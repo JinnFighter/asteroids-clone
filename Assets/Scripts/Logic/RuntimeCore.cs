@@ -48,6 +48,7 @@ namespace Logic
                 .AddService(physicsConfiguration)
                 .AddService(new AsteroidConfig(10f))
                 .AddService(new SaucerConfig())
+                .AddService(new LaserConfig())
                 .AddService(new CollisionsContainer())
                 .AddService(new CollisionLayersContainer())
                 .AddService(new ColliderFactoryContainer())

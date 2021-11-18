@@ -10,14 +10,14 @@ namespace Physics
         private int _maxLevels = 5;
 
         private readonly int _level;
-        private readonly List<BoxPhysicsCollider> _objects;
+        private readonly List<PhysicsCollider> _objects;
         private readonly Rectangle _bounds;
         private readonly List<QuadTree> _nodes;
 
         public QuadTree(int level, Rectangle bounds)
         {
             _level = level;
-            _objects = new List<BoxPhysicsCollider>();
+            _objects = new List<PhysicsCollider>();
             _bounds = bounds;
             _nodes = new List<QuadTree>(4);
         }
@@ -46,7 +46,9 @@ namespace Physics
                 halfSize.X, halfSize.Y)));
         }
         
-        private int GetIndex(BoxPhysicsCollider boxCollider)
+        private int GetIndex(PhysicsCollider collider) => collider.GetQuadTreeIndex(this);
+
+        public int GetBoxIndex(BoxPhysicsCollider boxCollider)
         {
             var index = -1;
             
@@ -77,7 +79,7 @@ namespace Physics
             return index;
         }
 
-        public void Insert(BoxPhysicsCollider collider)
+        public void Insert(PhysicsCollider collider)
         {
             if (_nodes.Any())
             {

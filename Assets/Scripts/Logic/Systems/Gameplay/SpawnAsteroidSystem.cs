@@ -2,6 +2,7 @@ using Ecs;
 using Ecs.Interfaces;
 using Logic.Components.GameField;
 using Logic.Components.Gameplay;
+using Logic.Config;
 using Logic.Events;
 using Logic.Factories;
 using Physics;
@@ -13,13 +14,16 @@ namespace Logic.Systems.Gameplay
         private readonly IColliderFactory _colliderFactory;
         private readonly ComponentEventHandlerContainer _componentEventHandlerContainer;
         private readonly IPhysicsBodyBuilder _physicsBodyBuilder;
+        private readonly AsteroidConfig _asteroidConfig;
 
         public SpawnAsteroidSystem(IColliderFactory colliderFactory,
-            ComponentEventHandlerContainer componentComponentEventHandlerContainer, IPhysicsBodyBuilder physicsBodyBuilder)
+            ComponentEventHandlerContainer componentComponentEventHandlerContainer, IPhysicsBodyBuilder physicsBodyBuilder,
+            AsteroidConfig asteroidConfig)
         {
             _colliderFactory = colliderFactory;
             _componentEventHandlerContainer = componentComponentEventHandlerContainer;
             _physicsBodyBuilder = physicsBodyBuilder;
+            _asteroidConfig = asteroidConfig;
         }
         
         public void Run(EcsWorld ecsWorld)
@@ -36,7 +40,8 @@ namespace Logic.Systems.Gameplay
                 
                 _physicsBodyBuilder.Reset();
                 var position = createAsteroidEvent.Position;
-                var velocity = createAsteroidEvent.Direction.Normalized * (createAsteroidEvent.Mass - 3 * createAsteroidEvent.Stage);
+                var velocity = createAsteroidEvent.Direction.Normalized * 
+                               (createAsteroidEvent.Mass - _asteroidConfig.VelocityCoefficient * createAsteroidEvent.Stage);
                 _physicsBodyBuilder.AddTransform<Asteroid>(new TransformBody
                     { Position = position, Rotation = 0f, Direction = velocity });
                 _physicsBodyBuilder.AddRigidBody<Asteroid>(new PhysicsRigidBody { Mass = createAsteroidEvent.Mass, 

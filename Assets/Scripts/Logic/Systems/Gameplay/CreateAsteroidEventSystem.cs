@@ -29,7 +29,7 @@ namespace Logic.Systems.Gameplay
             foreach (var index in filter)
             {
                 var entity = filter.GetEntity(index);
-                var stage = _randomizer.Range(1, 4);
+                var stage = _randomizer.Range(_asteroidConfig.MinStage, _asteroidConfig.MaxStage);
 
                 var topLeft = _gameFieldConfig.TopLeft;
                 var downRight = _gameFieldConfig.DownRight;
@@ -54,11 +54,10 @@ namespace Logic.Systems.Gameplay
 
                 entity.AddComponent(new CreateAsteroidEvent
                     { Direction = direction, Mass = _asteroidConfig.DefaultMass, Position = position, Stage = stage });
-
-                ref var asteroidConfig = ref filter.Get1(index);
+                
                 var timer = filter.Get2(index);
 
-                var time = _randomizer.Range(asteroidConfig.MinTime, asteroidConfig.MaxTime);
+                var time = _randomizer.Range(_asteroidConfig.MinRespawnTime, _asteroidConfig.MaxRespawnTime);
                 var gameplayTimer = timer.GameplayTimer;
                 gameplayTimer.StartTime = time;
                 gameplayTimer.CurrentTime = time;

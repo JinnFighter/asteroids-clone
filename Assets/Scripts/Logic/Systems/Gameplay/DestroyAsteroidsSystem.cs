@@ -33,7 +33,8 @@ namespace Logic.Systems.Gameplay
                 {
                     entity.AddComponent(new CreateAsteroidEvent
                     {
-                        Direction = transform.Position.Rotate(_randomizer.Range(15, 165)), 
+                        Direction = transform.Position.Rotate(_randomizer.Range(_asteroidConfig.MinAngle, 
+                            _asteroidConfig.MaxAngle)), 
                         Mass = _asteroidConfig.DefaultMass, 
                         Position = transform.Position, 
                         Stage = nextStage

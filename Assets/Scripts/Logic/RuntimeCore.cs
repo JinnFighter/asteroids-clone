@@ -46,7 +46,8 @@ namespace Logic
             _systems
                 .AddService(gameFieldConfig)
                 .AddService(physicsConfiguration)
-                .AddService(new AsteroidConfig(10f))
+                .AddService(new AsteroidConfig{ DefaultMass = 10f, MinRespawnTime = 3, MaxRespawnTime = 5, 
+                    MinAngle = 15, MaxAngle = 165, MinStage = 1, MaxStage = 4, VelocityCoefficient = 3f })
                 .AddService(new SaucerConfig())
                 .AddService(new LaserConfig{ ReloadTime = 7f, LaserLifeTime = 0.2f })
                 .AddService(new BulletConfig{ LifeTime = 4f })
@@ -106,7 +107,7 @@ namespace Logic
                 .AddInitSystem(new CreatePlayerInputReceiverSystem(_systems.GetService<PlayerInputHandlerKeeper>()))
                 .AddInitSystem(new InitTargetTransformContainer(targetTransformContainer))
                 .AddInitSystem(new CreateLaserGunSystem(laserConfig, ammoMagazineHandlerKeeper, timerHandlerKeeper))
-                .AddInitSystem(new CreateAsteroidCreatorSystem(randomizer))
+                .AddInitSystem(new CreateAsteroidSpawnerSystem(randomizer, asteroidConfig))
                 .AddInitSystem(new InitSaucerSpawnerSystem(saucerConfig, randomizer))
                 .AddInitSystem(new InitScoreSystem(_systems.GetService<ScoreContainer>(), 
                     _systems.GetService<ScoreEventHandlerContainer>()))
@@ -143,7 +144,8 @@ namespace Logic
                 .AddRunSystem(new CreateSpawnSaucerEventSystem(gameFieldConfig, randomizer, targetTransformContainer))
                 .AddRunSystem(new SpawnSaucerSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Saucer>()))
                 .AddRunSystem(new SpawnAsteroidSystem(colliderFactoryContainer.GetFactory<Asteroid>(),
-                    _systems.GetService<ComponentEventHandlerContainer>(), physicsBodyBuilder))
+                    _systems.GetService<ComponentEventHandlerContainer>(), physicsBodyBuilder,
+                    asteroidConfig))
                 .AddRunSystem(new SpawnBulletSystem(physicsBodyBuilder, colliderFactoryContainer.GetFactory<Bullet>(), bulletConfig))
                 .AddRunSystem(new SpawnLaserSystem(physicsBodyBuilder, laserConfig))
                 .AddRunSystem(new GameOverSystem(_systems.GetService<ComponentEventHandlerContainer>()))
